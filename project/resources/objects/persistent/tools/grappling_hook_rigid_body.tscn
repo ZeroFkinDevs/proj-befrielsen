@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://60xauw3jusii"]
+
+[ext_resource type="PackedScene" uid="uid://c8mj7nanixclf" path="res://resources/objects/persistent/tools/grappling_hook.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/grappling_hook_phy_collision_shape.tscn" id="2"]
+
+[node name="grappling_hook_rigid_body" type="RigidBody3D"]
+
+[node name="grappling_hook" parent="." instance=ExtResource("1")]
+
+[node name="grappling_hook_phy_collision_shape" parent="." instance=ExtResource("2")]

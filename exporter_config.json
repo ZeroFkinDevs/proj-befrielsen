@@ -1,0 +1,10 @@
+{
+  "verbose": true,
+  "image_magic_cmd": "magick",
+  "raw_folder": "resources",
+  "output_folder": "project/resources",
+  "game_root": "project",
+  "plugins": [
+    "warming-place"
+  ]
+}

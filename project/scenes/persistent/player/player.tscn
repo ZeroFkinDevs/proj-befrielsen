@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvjwwppbx8r6r"]
+
+[ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
+[ext_resource type="PackedScene" uid="uid://c8mj7nanixclf" path="res://resources/objects/persistent/tools/grappling_hook.tscn" id="2_q0087"]
+[ext_resource type="Script" path="res://src/player/tools/GrapplingHookTool.cs" id="2_yjass"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
+custom_solver_bias = 0.093
+margin = 0.414
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Camera")]
+floor_max_angle = 1.48353
+script = ExtResource("1_h8rfx")
+Gravity = 25.0
+Speed = 0.1
+Camera = NodePath("Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_wsvr5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.785112, 0)
+current = true
+fov = 90.0
+
+[node name="grappling_hook_tool" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("player", "Skeleton")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.760486, -0.477305, -0.943479)
+script = ExtResource("2_yjass")
+player = NodePath("../..")
+Skeleton = NodePath("grappling_hook/Armature/Skeleton3D")
+
+[node name="grappling_hook" parent="Camera3D/grappling_hook_tool" instance=ExtResource("2_q0087")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+
+[editable path="Camera3D/grappling_hook_tool/grappling_hook"]
