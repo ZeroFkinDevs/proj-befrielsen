@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8k5dvbyre3dk"]
+
+[ext_resource type="PackedScene" uid="uid://dg6lhuych0r2h" path="res://resources/locations/swamp/model_static_body.tscn" id="1_tgps6"]
+[ext_resource type="Material" uid="uid://chtrmuedk5h68" path="res://shaders/ground_shader.tres" id="2_qe4pd"]
+
+[node name="swamp_geometry" instance=ExtResource("1_tgps6")]
+
+[node name="Plane" parent="model" index="0"]
+material_override = ExtResource("2_qe4pd")
+
+[editable path="model"]

@@ -25,6 +25,7 @@ fov = 90.0
 
 [node name="grappling_hook_tool" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("player", "Skeleton")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.760486, -0.477305, -0.943479)
+visible = false
 script = ExtResource("2_yjass")
 player = NodePath("../..")
 Skeleton = NodePath("grappling_hook/Armature/Skeleton3D")
@@ -32,5 +33,7 @@ Skeleton = NodePath("grappling_hook/Armature/Skeleton3D")
 [node name="grappling_hook" parent="Camera3D/grappling_hook_tool" instance=ExtResource("2_q0087")]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_energy = 1.457
+omni_range = 12.313
 
 [editable path="Camera3D/grappling_hook_tool/grappling_hook"]
