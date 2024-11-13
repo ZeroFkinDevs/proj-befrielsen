@@ -26,6 +26,7 @@ namespace Game
         {
             var idx = Skeleton.FindBone(boneName);
         }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
         public void Grab()
         {
             var space = GetWorld3D().DirectSpaceState;
@@ -37,22 +38,42 @@ namespace Game
                 GrabNormal = result.Get<Vector3>("normal");
                 GrabUpVector = GlobalTransform.Basis.Y;
                 Grabbed = true;
+                Rpc(MethodName.RecieveGrab, result.Get<Vector3>("position"), result.Get<Vector3>("normal"), GlobalTransform.Basis.Y);
             }
         }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+        public void RecieveGrab(Vector3 grabPoint, Vector3 grabNormal, Vector3 grabUpVector)
+        {
+            GrabPoint = grabPoint;
+            GrabNormal = grabNormal;
+            GrabUpVector = grabUpVector;
+            Grabbed = true;
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
         public void UnGrab()
+        {
+            Rpc(MethodName.RecieveUnGrab);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+        public void RecieveUnGrab()
         {
             Grabbed = false;
         }
+
         public override void _Process(double delta)
         {
-            if (Input.IsActionJustPressed("fire"))
+            if (player.Controllable)
             {
-                Grab();
+                if (Input.IsActionJustPressed("fire"))
+                {
+                    RpcId(1, MethodName.Grab);
+                }
+                if (Input.IsActionJustPressed("alt_fire"))
+                {
+                    RpcId(1, MethodName.UnGrab);
+                }
             }
-            if (Input.IsActionJustPressed("alt_fire"))
-            {
-                UnGrab();
-            }
+
 
             if (Grabbed)
             {

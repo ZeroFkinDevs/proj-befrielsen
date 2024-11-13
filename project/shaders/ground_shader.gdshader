@@ -31,7 +31,8 @@ void fragment() {
 	vec2 base_uv = UV;
 	vec4 albedo_tex = texture(texture_albedo,base_uv);
 	vec4 albedo_walls_tex = texture(texture_albedo_walls,base_uv);
-	ALBEDO = mix(albedo_walls_tex.rgb, albedo_tex.rgb, clamp(NORMAL.y*2.0 - 1.0, 0.0, 1.0));
+	vec3 normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
+	ALBEDO = mix(albedo_walls_tex.rgb, albedo_tex.rgb, clamp(normal.y*2.0 - 1.0, 0.0, 1.0));
 	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
 	METALLIC = metallic_tex * metallic;
 	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);

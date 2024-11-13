@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=7 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="PackedScene" uid="uid://c8mj7nanixclf" path="res://resources/objects/persistent/tools/grappling_hook.tscn" id="2_q0087"]
@@ -8,11 +8,27 @@
 custom_solver_bias = 0.093
 margin = 0.414
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Camera")]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_askpe"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gc80f"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Puppet", "Camera")]
+collision_layer = 2
 floor_max_angle = 1.48353
 script = ExtResource("1_h8rfx")
+Controllable = false
+Puppet = NodePath("puppet")
 Gravity = 25.0
-Speed = 0.1
+Speed = 0.2
 Camera = NodePath("Camera3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -25,7 +41,6 @@ fov = 90.0
 
 [node name="grappling_hook_tool" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("player", "Skeleton")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.760486, -0.477305, -0.943479)
-visible = false
 script = ExtResource("2_yjass")
 player = NodePath("../..")
 Skeleton = NodePath("grappling_hook/Armature/Skeleton3D")
@@ -35,5 +50,12 @@ Skeleton = NodePath("grappling_hook/Armature/Skeleton3D")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_energy = 1.457
 omni_range = 12.313
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_askpe")
+
+[node name="puppet" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_gc80f")
 
 [editable path="Camera3D/grappling_hook_tool/grappling_hook"]

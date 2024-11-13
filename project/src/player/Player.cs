@@ -6,6 +6,10 @@ namespace Game
 	public partial class Player : CharacterBody3D
 	{
 		[Export]
+		public bool Controllable = true;
+		[Export]
+		public Node3D Puppet;
+		[Export]
 		public float Gravity = 10.0f;
 		[Export]
 		public float Speed = 5.0f;
@@ -17,13 +21,29 @@ namespace Game
 		public Vector2 CameraRotationTarget;
 
 		// Called when the node enters the scene tree for the first time.
+		public override void _EnterTree()
+		{
+			SetMultiplayerAuthority(int.Parse(Name));
+		}
 		public override void _Ready()
 		{
+			if (IsMultiplayerAuthority())
+			{
+				Controllable = true;
+				Puppet.Visible = false;
+			}
+			else
+			{
+				Puppet.Visible = true;
+			}
+			Camera.Current = Controllable;
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(double delta)
 		{
+			if (!Controllable) return;
+
 			Movement.X += Input.GetAxis("move_left", "move_right");
 			Movement.Y += Input.GetAxis("move_backward", "move_forward");
 			Movement = Movement.Lerp(Vector2.Zero, (float)delta * 10.0f);
@@ -48,6 +68,7 @@ namespace Game
 
 		public override void _Input(InputEvent @event)
 		{
+			if (!Controllable) return;
 			if (@event is InputEventMouseMotion motion)
 			{
 				if (Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -68,6 +89,7 @@ namespace Game
 
 		public override void _PhysicsProcess(double delta)
 		{
+			if (!Controllable) return;
 			Vector3 newVelocity = Velocity;
 			newVelocity.Y -= Gravity * (float)delta;
 

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqsthinj6nshq"]
+
+[ext_resource type="PackedScene" uid="uid://bvjwwppbx8r6r" path="res://scenes/persistent/player/player.tscn" id="1_wobpp"]
+
+[node name="Player" instance=ExtResource("1_wobpp")]
+
+[editable path="Camera3D/grappling_hook_tool/grappling_hook"]

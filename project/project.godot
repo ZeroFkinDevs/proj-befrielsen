@@ -14,6 +14,10 @@ config/name="ProjBefrielsen"
 config/features=PackedStringArray("4.2", "C#")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Lobby="*res://src/multiplayer/Lobby.cs"
+
 [dotnet]
 
 project/assembly_name="ProjBefrielsen"
