@@ -1,5 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg2xs2micmw21"]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource type="PackedScene" uid="uid://b6r7b55gno6ma" path="res://resources/locations/swamp/tree_p/tree_p.glb" id="1"]
+[ext_resource path="res://resources/locations/swamp/tree_p/tree_p.glb" type="PackedScene" id=1]
 
-[node name="tree_p" instance=ExtResource("1")]
+[ext_resource path="res://resources/locations/swamp/tree_p/mat_tree_p.tres" type="Material" id=2]
+
+[ext_resource path="res://resources/locations/swamp/tree_p/mat_tree_p.tres" type="Material" id=3]
+
+[ext_resource path="res://resources/locations/swamp/tree_p/mat_tree_p_alpha.tres" type="Material" id=4]
+
+[ext_resource path="res://src/utils/AnimWithEvents.cs" type="Script" id=5]
+
+[node name="tree_p" instance=ExtResource( 1 )]
+
+[node name="tree_p" parent="." index="0"]
+material/0 = ExtResource( 2 )
+
+[node name="tree_p001" parent="." index="1"]
+material/0 = ExtResource( 3 )
+material/1 = ExtResource( 4 )
+
+[node name="AnimationPlayer" parent="."]
+script = ExtResource( 5 )
+AnimationEvents = {
+
+}
