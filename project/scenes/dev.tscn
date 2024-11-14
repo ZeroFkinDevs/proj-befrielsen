@@ -85,7 +85,8 @@ layout_mode = 2
 layout_mode = 2
 script = ExtResource("5_13d81")
 Bindings = {
-"Key1": NodePath("../ServerPanel2/VBoxContainer/ServerButton_One")
+"Key1": NodePath("../ServerPanel2/VBoxContainer/ServerButton_One"),
+"Key2": NodePath("../ClientPanel/VBoxContainer/HBoxContainer/ClientButton_Two")
 }
 
 [node name="InfoPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm"]
@@ -145,7 +146,7 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "localhost"
 
-[node name="Button" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer"]
+[node name="ClientButton_Two" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "[2] клиент"
 
@@ -153,4 +154,4 @@ text = "[2] клиент"
 layout_mode = 2
 
 [connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer/ServerButton_One" to="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2" method="_on_button_pressed"]
-[connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer/Button" to="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer/ClientButton_Two" to="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel" method="_on_button_pressed"]

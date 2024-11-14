@@ -4,6 +4,8 @@ namespace Game
 {
 	public partial class Server : Node
 	{
+		public bool Started = false;
+
 		[Export]
 		public Node3D LocationContainer;
 
@@ -27,12 +29,15 @@ namespace Game
 
 		public bool Host()
 		{
+			if (Started) return false;
+
 			var peer = new ENetMultiplayerPeer();
 			var check = peer.CreateServer(Constants.MULTIPLAYER_PORT);
 			if (check == Error.Ok)
 			{
 				Multiplayer.MultiplayerPeer = peer;
 				SpawnLocation();
+				Started = true;
 			}
 			else
 			{
