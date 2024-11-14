@@ -16,7 +16,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Lobby="*res://src/multiplayer/Lobby.cs"
+Global="*res://scenes/Global.tscn"
 
 [dotnet]
 

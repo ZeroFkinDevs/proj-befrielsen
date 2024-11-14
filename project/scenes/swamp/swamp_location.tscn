@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=11 format=3 uid="uid://di36115wfkt1b"]
 
+[ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://60xauw3jusii" path="res://resources/objects/persistent/tools/grappling_hook_rigid_body.tscn" id="2_8ox6m"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_1/tree_1.tscn" id="4_s2v2g"]
@@ -42,7 +43,9 @@ size = Vector3(16, 1, 16)
 [sub_resource type="BoxMesh" id="BoxMesh_cfbmw"]
 size = Vector3(16, 1, 16)
 
-[node name="swamp_location" type="Node3D"]
+[node name="swamp_location" type="Node3D" node_paths=PackedStringArray("PlayerSpawners")]
+script = ExtResource("1_rvnvd")
+PlayerSpawners = [NodePath("PlayerSpawner")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qpcki")
@@ -215,3 +218,6 @@ transform = Transform3D(-0.52412, 0, 0.851645, 0, 1, 0, -0.851645, 0, -0.52412, 
 
 [node name="tree_p9" parent="." instance=ExtResource("7_87pgw")]
 transform = Transform3D(0.618738, 0, -0.785598, 0, 1, 0, 0.785598, 0, 0.618738, -3.10633, 0.164944, 6.69466)
+
+[node name="PlayerSpawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.91792, 0.830229)

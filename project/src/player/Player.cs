@@ -113,5 +113,11 @@ namespace Game
 			Velocity = newVelocity;
 			MoveAndSlide();
 		}
+
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+		public void RecievePosition(Vector3 pos)
+		{
+			GlobalPosition = pos;
+		}
 	}
 }
