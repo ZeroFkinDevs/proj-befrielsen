@@ -49,50 +49,62 @@ environment = SubResource("Environment_qpcki")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7781, 15.6534, -8.37991)
+light_specular = 0.0
 omni_range = 13.9776
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.10046, 5.00072, -9.78437)
+light_specular = 0.0
 omni_range = 12.2401
 
 [node name="OmniLight3D4" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29614, -5.43439, 0.878274)
+light_specular = 0.0
 omni_range = 15.2627
 
 [node name="OmniLight3D3" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.41311, 4.967, -9.78437)
+light_specular = 0.0
 omni_range = 11.4307
 
 [node name="OmniLight3D5" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.41311, 4.79797, -0.329332)
+light_specular = 0.0
 omni_range = 8.73292
 
 [node name="OmniLight3D6" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.854785, 0.518982, 0, -0.518982, 0.854785, 3.74066, 1.70639, -3.47162)
+light_specular = 0.0
 omni_range = 8.73292
 
 [node name="OmniLight3D7" type="OmniLight3D" parent="."]
 transform = Transform3D(-0.999159, -4.70864e-09, -0.0410038, 0.0212803, 0.854785, -0.518546, 0.0350495, -0.518982, -0.854066, 0.0735908, 23.2884, 8.09697)
+light_specular = 0.0
 omni_range = 13.9776
 
 [node name="OmniLight3D8" type="OmniLight3D" parent="."]
 transform = Transform3D(-0.999159, -4.70864e-09, -0.0410038, 0.0212803, 0.854785, -0.518546, 0.0350495, -0.518982, -0.854066, -6.18586, 15.0455, 15.0466)
+light_specular = 0.0
 omni_range = 12.2401
 
 [node name="OmniLight3D9" type="OmniLight3D" parent="."]
 transform = Transform3D(-0.999159, -4.70864e-09, -0.0410038, 0.0212803, 0.854785, -0.518546, 0.0350495, -0.518982, -0.854066, 1.17468, 0.430558, 11.0821)
+light_specular = 0.0
 omni_range = 15.2627
 
 [node name="OmniLight3D10" type="OmniLight3D" parent="."]
 transform = Transform3D(-0.999159, -4.70864e-09, -0.0410038, 0.0212803, 0.854785, -0.518546, 0.0350495, -0.518982, -0.854066, 7.31634, 14.7291, 14.5905)
+light_specular = 0.0
 omni_range = 11.4307
 
 [node name="OmniLight3D11" type="OmniLight3D" parent="."]
 transform = Transform3D(-0.999159, -4.70864e-09, -0.0410038, 0.0212803, 0.854785, -0.518546, 0.0350495, -0.518982, -0.854066, 6.92865, 9.68174, 6.60297)
+light_specular = 0.0
 omni_range = 8.73292
 
 [node name="OmniLight3D12" type="OmniLight3D" parent="."]
 transform = Transform3D(-0.999159, -4.70864e-09, -0.0410038, 0.0212803, 0.854785, -0.518546, 0.0350495, -0.518982, -0.854066, -1.21826, 9.85525, 6.88876)
+light_specular = 0.0
 omni_range = 8.73292
 
 [node name="grappling_hook_rigid_body" parent="." instance=ExtResource("2_8ox6m")]
