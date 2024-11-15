@@ -3,7 +3,7 @@ using Godot;
 
 namespace Game
 {
-	public partial class Player : CharacterBody3D
+	public partial class Player : CharacterBody3D, IUser
 	{
 		[Export]
 		public bool Controllable = true;
@@ -112,6 +112,24 @@ namespace Game
 
 			Velocity = newVelocity;
 			MoveAndSlide();
+			for (int i = 0; i < GetSlideCollisionCount(); i++)
+			{
+				var collision = GetSlideCollision(i);
+				// ProcessCollision(collision, newVelocity);
+			}
+		}
+		public void ProcessCollision(KinematicCollision3D collision, Vector3 velocity)
+		{
+			var collider = collision.GetCollider();
+			if (collider is Prop prop)
+			{
+				var point = collision.GetPosition();
+				var normal = collision.GetNormal();
+				// var objVel = ((-normal * velocity.Length()) + velocity) / 2.0f;
+				var objVel = -normal / 2.0f;
+				// var objVel = velocity;
+				// prop.ClientImpulse(objVel, point);
+			}
 		}
 
 		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]

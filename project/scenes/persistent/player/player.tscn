@@ -1,8 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=12 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="PackedScene" uid="uid://c8mj7nanixclf" path="res://resources/objects/persistent/tools/grappling_hook.tscn" id="2_q0087"]
 [ext_resource type="Script" path="res://src/player/tools/GrapplingHookTool.cs" id="2_yjass"]
+[ext_resource type="Script" path="res://src/player/PropPusher.cs" id="4_em3n5"]
+[ext_resource type="Script" path="res://src/player/RayInteractor.cs" id="4_ftn5o"]
+[ext_resource type="Script" path="res://src/player/ObjectGrabber.cs" id="5_101rh"]
+[ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="6_gdb6h"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
@@ -21,9 +25,14 @@ properties/2/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_gc80f"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x1dyq"]
+custom_solver_bias = 0.093
+margin = 0.414
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Puppet", "Camera")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
+floor_constant_speed = true
 floor_max_angle = 0.787143
 script = ExtResource("1_h8rfx")
 Controllable = false
@@ -44,9 +53,33 @@ fov = 90.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.760486, -0.477305, -0.943479)
 script = ExtResource("2_yjass")
 player = NodePath("../..")
+Active = false
 Skeleton = NodePath("grappling_hook/Armature/Skeleton3D")
 
 [node name="grappling_hook" parent="Camera3D/grappling_hook_tool" instance=ExtResource("2_q0087")]
+transform = Transform3D(0.605568, 0, 0, 0, 0.605568, 0, 0, 0, 0.605568, 0, 0, 0)
+
+[node name="RayInteractor" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("UseRaycast", "player", "grabber")]
+script = ExtResource("4_ftn5o")
+UseRaycast = NodePath("RayCast3D")
+player = NodePath("../..")
+grabber = NodePath("../ObjectGrabber")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D/RayInteractor"]
+target_position = Vector3(0, 0, -2)
+collision_mask = 9
+
+[node name="ObjectGrabber" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("connector", "player")]
+script = ExtResource("5_101rh")
+connector = NodePath("HookesConnector")
+player = NodePath("../..")
+
+[node name="HookesConnector" type="Node3D" parent="Camera3D/ObjectGrabber" node_paths=PackedStringArray("Target")]
+script = ExtResource("6_gdb6h")
+Target = NodePath("../Target")
+
+[node name="Target" type="Node3D" parent="Camera3D/ObjectGrabber"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.975235)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_energy = 1.457
@@ -59,5 +92,14 @@ replication_config = SubResource("SceneReplicationConfig_askpe")
 [node name="puppet" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource("CapsuleMesh_gc80f")
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("4_em3n5")
+player = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CapsuleShape3D_x1dyq")
 
 [editable path="Camera3D/grappling_hook_tool/grappling_hook"]

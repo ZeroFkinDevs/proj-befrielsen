@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cin7ir3gukrxr"]
+
+[ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="1_monlx"]
+[ext_resource type="Script" path="res://src/objects/Prop.cs" id="2_k27pj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_146by"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xwf35"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="PropInstance" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.18955, 2.81869, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." node_paths=PackedStringArray("Target")]
+mesh = SubResource("BoxMesh_146by")
+skeleton = NodePath("../RigidBody3D")
+script = ExtResource("1_monlx")
+Target = NodePath("../RigidBody3D")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("2_k27pj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_xwf35")

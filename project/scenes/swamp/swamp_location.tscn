@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=12 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://60xauw3jusii" path="res://resources/objects/persistent/tools/grappling_hook_rigid_body.tscn" id="2_8ox6m"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_2/tree_2_static_body.tscn" id="5_114nx"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_3/tree_3_static_body.tscn" id="6_75fxr"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_p/tree_p_static_body.tscn" id="7_2s7wk"]
+[ext_resource type="PackedScene" uid="uid://cin7ir3gukrxr" path="res://scenes/test/test_prop.tscn" id="8_5jn6m"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
 background_mode = 1
@@ -221,3 +222,11 @@ transform = Transform3D(0.618738, 0, -0.785598, 0, 1, 0, 0.785598, 0, 0.618738, 
 
 [node name="PlayerSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.91792, 0.830229)
+
+[node name="PropInstance" parent="." instance=ExtResource("8_5jn6m")]
+
+[node name="PropInstance2" parent="." instance=ExtResource("8_5jn6m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.37942, 2.81869, 0)
+
+[node name="PropInstance3" parent="." instance=ExtResource("8_5jn6m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.751899, 2.81869, 0)

@@ -9,6 +9,8 @@ namespace Game
         [Export]
         public Player player;
         [Export]
+        public bool Active = true;
+        [Export]
         public Skeleton3D Skeleton;
         public bool Grabbed = false;
         public Vector3 GrabPoint;
@@ -62,7 +64,7 @@ namespace Game
 
         public override void _Process(double delta)
         {
-            if (player.Controllable)
+            if (player.Controllable && Active)
             {
                 if (Input.IsActionJustPressed("fire"))
                 {
