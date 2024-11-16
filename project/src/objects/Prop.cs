@@ -21,7 +21,17 @@ namespace Game
         private int shouldSharePhysics = 0;
         public bool CanRequestImpulses = true;
 
-        public InteractionTypeEnum InteractionType => InteractionTypeEnum.GRAB;
+        public InteractionTypeEnum _interactionType = InteractionTypeEnum.GRAB;
+        public InteractionTypeEnum InteractionType => _interactionType;
+
+        public void GrabStart()
+        {
+            _interactionType = InteractionTypeEnum.NONE;
+        }
+        public void GrabEnd()
+        {
+            _interactionType = InteractionTypeEnum.GRAB;
+        }
 
         public void RequestImpulse(Vector3 velocity, Transform3D? transform)
         {

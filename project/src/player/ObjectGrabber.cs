@@ -19,31 +19,65 @@ namespace Game
 
             if (interactable is Prop prop)
             {
-                GrabProp(prop);
+                RequestGrabProp(prop);
             }
         }
-
-        public void GrabProp(Prop prop)
+        #region GrabProp
+        public void RequestGrabProp(Prop prop)
         {
+            RpcId(1, MethodName.ServerGrabProp, prop.GlobalTransform, prop.GetPath());
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void ServerGrabProp(Transform3D transform, NodePath propPath)
+        {
+            Rpc(MethodName.RecieveGrabProp, transform, propPath);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RecieveGrabProp(Transform3D transform, NodePath propPath)
+        {
+            var prop = GetNode<Prop>(propPath);
+            prop.GlobalTransform = transform;
             GrabbingProp = prop;
 
             connector.Target.GlobalTransform = prop.GlobalTransform;
             connector.Body = prop;
             prop.CanRequestImpulses = false;
+            GrabbingProp.GrabStart();
 
             IsGrabbing = true;
         }
-        public void UngrabProp(float force)
+        #endregion
+        #region UngrabProp
+        public void RequestUngrabProp(float force)
         {
-            if (GrabbingProp == null) return;
+            RpcId(1, MethodName.ServerUngrabProp, force);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void ServerUngrabProp(float force)
+        {
+            Rpc(MethodName.RecieveUngrabProp, force);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RecieveUngrabProp(float force)
+        {
             IsGrabbing = false;
             connector.Body = null;
+
+            if (GrabbingProp == null) return;
+            GrabbingProp.GrabEnd();
             GrabbingProp.CanRequestImpulses = true;
-            Vector3 velocity = -GlobalTransform.Basis.Z * force;
-            velocity += GrabbingProp.LinearVelocity;
-            GrabbingProp.RequestImpulse(velocity, GrabbingProp.GlobalTransform);
+
+            if (player.Controllable)
+            {
+                Vector3 velocity = -GlobalTransform.Basis.Z * force;
+                velocity += GrabbingProp.LinearVelocity;
+                GrabbingProp.RequestImpulse(velocity, GrabbingProp.GlobalTransform);
+            }
+
             GrabbingProp = null;
         }
+
+        #endregion
 
         public override void _Process(double delta)
         {
@@ -55,11 +89,11 @@ namespace Game
                 {
                     if (Input.IsActionJustPressed("alt_fire"))
                     {
-                        UngrabProp(0.0f);
+                        RequestUngrabProp(0.0f);
                     }
                     else if (Input.IsActionJustPressed("fire"))
                     {
-                        UngrabProp(10.0f);
+                        RequestUngrabProp(10.0f);
                     }
                 }
             }
