@@ -27,13 +27,22 @@ namespace Game
         public InteractionTypeEnum _interactionType = InteractionTypeEnum.GRAB;
         public InteractionTypeEnum InteractionType => _interactionType;
 
+        [Export]
+        public SmoothConnectTransform ModelSmoothConnector;
+
         public void GrabStart()
         {
             _interactionType = InteractionTypeEnum.NONE;
+            ModelSmoothConnector.NoSmooth = true;
+            SetCollisionLayerValue(4, false);
+            SetCollisionMaskValue(4, false);
         }
         public void GrabEnd()
         {
             _interactionType = InteractionTypeEnum.GRAB;
+            ModelSmoothConnector.NoSmooth = false;
+            SetCollisionLayerValue(4, true);
+            SetCollisionMaskValue(4, true);
         }
 
         public void RequestImpulse(Vector3 velocity, Transform3D? transform)
