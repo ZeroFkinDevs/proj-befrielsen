@@ -93,9 +93,6 @@ namespace Game
 			Vector3 newVelocity = Velocity;
 			newVelocity.Y -= Gravity * (float)delta;
 
-			// newVelocity.X = 0;
-			// newVelocity.Z = 0;
-
 			Vector3 movementApplied = Vector3.Zero;
 			movementApplied -= GlobalTransform.Basis.Z * Movement.Y;
 			movementApplied += GlobalTransform.Basis.X * Movement.X;
@@ -115,21 +112,12 @@ namespace Game
 			for (int i = 0; i < GetSlideCollisionCount(); i++)
 			{
 				var collision = GetSlideCollision(i);
-				// ProcessCollision(collision, newVelocity);
+				ProcessCollision(collision, newVelocity);
 			}
 		}
 		public void ProcessCollision(KinematicCollision3D collision, Vector3 velocity)
 		{
-			var collider = collision.GetCollider();
-			if (collider is Prop prop)
-			{
-				var point = collision.GetPosition();
-				var normal = collision.GetNormal();
-				// var objVel = ((-normal * velocity.Length()) + velocity) / 2.0f;
-				var objVel = -normal / 2.0f;
-				// var objVel = velocity;
-				// prop.ClientImpulse(objVel, point);
-			}
+			
 		}
 
 		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]

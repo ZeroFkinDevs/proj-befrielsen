@@ -3,6 +3,9 @@ using Godot.Collections;
 
 namespace Game
 {
+    // наверное важно не использовать для пропов MultiplayerSpawner,
+    // как минимум потому что они при создании будут синхронизировать позицию для всех клиентов
+    // не проблема, но все же
     public partial class Prop : RigidBody3D, IInteractable
     {
         class PhysicsPackStruct
@@ -41,6 +44,11 @@ namespace Game
                 RpcId(1, MethodName.ServerPositionedImpulse, velocity, transform.Value);
             else
                 RpcId(1, MethodName.ServerImpulse, velocity);
+        }
+        public override void _Ready()
+        {
+            // чтобы синхронизировать позицию когда игрок подключается и спавнятся пропы
+            RequestImpulse(Vector3.Zero, null);
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerImpulse(Vector3 velocity)
