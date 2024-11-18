@@ -10,18 +10,21 @@ size = Vector3(0.5, 0.5, 0.5)
 size = Vector3(0.5, 0.5, 0.5)
 
 [node name="PropInstance" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.18955, 2.81869, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." node_paths=PackedStringArray("Target")]
-mesh = SubResource("BoxMesh_146by")
-skeleton = NodePath("../RigidBody3D")
+[node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]
 script = ExtResource("1_monlx")
-Target = NodePath("../RigidBody3D")
+Object = NodePath("../PropMesh")
+Target = NodePath("../PropBody")
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
+[node name="PropMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_146by")
+skeleton = NodePath("../PropBody")
+
+[node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
 collision_layer = 8
 collision_mask = 9
 script = ExtResource("2_k27pj")
+ModelSmoothConnector = NodePath("../SmoothConnector")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PropBody"]
 shape = SubResource("BoxShape3D_xwf35")

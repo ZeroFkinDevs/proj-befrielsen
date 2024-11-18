@@ -41,12 +41,18 @@ namespace Game
             if (!IsInstanceValid(Target)) return;
             if (!IsInstanceValid(Body)) return;
 
+            if (Body.GlobalTransform.Origin.DistanceTo(Target.GlobalTransform.Origin) > 3.0f)
+            {
+                Transform3D trans = Body.GlobalTransform;
+                trans.Origin = Target.GlobalTransform.Origin + ((Body.GlobalTransform.Origin - Target.GlobalTransform.Origin).Normalized() * 3.0f);
+                Body.GlobalTransform = trans;
+            }
+
             Transform3D targetTransform = Target.GlobalTransform;
             Transform3D currentTransform = Body.GlobalTransform;
             Basis rotationDifference = targetTransform.Basis * currentTransform.Basis.Inverse();
 
             Vector3 positionDifference = targetTransform.Origin - currentTransform.Origin;
-
             Vector3 force = HookesLaw(positionDifference, Body.LinearVelocity, linearSpringStiffness, linearSpringDamping);
             force = force.LimitLength(maxLinearForce);
             Body.LinearVelocity += force * (float)delta;

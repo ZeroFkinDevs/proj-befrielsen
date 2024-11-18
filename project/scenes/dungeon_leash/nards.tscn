@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwvwa1jr52ig7"]
+
+[ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/nards/nards.tscn" id="1_43eyc"]
+[ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="1_j2gq3"]
+[ext_resource type="Script" path="res://src/objects/Prop.cs" id="2_crs4v"]
+[ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/nards/nards_phy_collision_shape.tscn" id="4_4gswu"]
+
+[node name="NardsPropInstance" type="Node3D"]
+
+[node name="PropMesh" parent="." instance=ExtResource("1_43eyc")]
+
+[node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]
+script = ExtResource("1_j2gq3")
+Object = NodePath("../PropMesh")
+Target = NodePath("../PropBody")
+
+[node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("2_crs4v")
+ModelSmoothConnector = NodePath("../SmoothConnector")
+
+[node name="nards_phy_collision_shape" parent="PropBody" instance=ExtResource("4_4gswu")]
