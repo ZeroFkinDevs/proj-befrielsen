@@ -69,7 +69,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.63248, 1.88348, -2.11995)
 transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
 
 [node name="tree_1_static_body" parent="." instance=ExtResource("4_wpwhh")]
-transform = Transform3D(0.575981, 0, -1.21121, 0, 1.34119, 0, 1.21121, 0, 0.575981, -6.34743, -2.69572, -1.24624)
+transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.514906, 1.08627, 0.225359, 0.753673, -6.76312, -3.42062, 1.23841)
 
 [node name="PlayerSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.91792, 0.830229)
