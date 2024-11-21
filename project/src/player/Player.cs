@@ -6,6 +6,9 @@ namespace Game
 	public partial class Player : CharacterBody3D, IUser
 	{
 		[Export]
+		CharacterModel model;
+
+		[Export]
 		public bool Controllable = true;
 		[Export]
 		public Node3D Puppet;
@@ -15,10 +18,13 @@ namespace Game
 		public float Speed = 5.0f;
 		[Export]
 		public Camera3D Camera;
+		[Export]
+		public SmoothConnectTransform ModelSmoothConnector;
 
 		public Vector2 Movement;
 		public Vector2 CameraRotation;
 		public Vector2 CameraRotationTarget;
+		private Vector3 LastGlobalPosition;
 
 		// Called when the node enters the scene tree for the first time.
 		public override void _EnterTree()
@@ -29,19 +35,33 @@ namespace Game
 		{
 			if (IsMultiplayerAuthority())
 			{
+				ModelSmoothConnector.NoSmooth = true;
 				Controllable = true;
-				Puppet.Visible = false;
+				if (Puppet != null)
+				{
+					Puppet.Visible = false;
+				}
 			}
 			else
 			{
-				Puppet.Visible = true;
+				if (Puppet != null)
+				{
+					Puppet.Visible = true;
+				}
 			}
+			SetupCamera();
+			LastGlobalPosition = GlobalPosition;
+		}
+
+		public void SetupCamera()
+		{
 			Camera.Current = Controllable;
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(double delta)
 		{
+			// CommonProcess((float)delta);
 			if (!Controllable) return;
 
 			Movement.X += Input.GetAxis("move_left", "move_right");
@@ -64,6 +84,24 @@ namespace Game
 			deg = Camera.GlobalRotation;
 			deg.X = CameraRotation.X;
 			Camera.GlobalRotation = deg;
+		}
+
+		void CommonProcess(float delta)
+		{
+			Camera.GlobalPosition = Camera.GlobalPosition.Lerp(
+				model.GetBoneGlobalPose(model.NeckBoneID).Origin - GlobalTransform.Basis.Z * 0.3f,
+				delta * 20.0f);
+
+
+			if (Controllable)
+			{
+				var modelMovement = (GlobalPosition - LastGlobalPosition) / delta;
+				modelMovement = ToLocal(GlobalPosition + modelMovement);
+				GD.Print(modelMovement);
+
+				model.MovementTarget = modelMovement;
+				LastGlobalPosition = GlobalPosition;
+			}
 		}
 
 		public override void _Input(InputEvent @event)
@@ -89,6 +127,8 @@ namespace Game
 
 		public override void _PhysicsProcess(double delta)
 		{
+			CommonProcess((float)delta);
+
 			if (!Controllable) return;
 			Vector3 newVelocity = Velocity;
 			newVelocity.Y -= Gravity * (float)delta;
@@ -117,7 +157,7 @@ namespace Game
 		}
 		public void ProcessCollision(KinematicCollision3D collision, Vector3 velocity)
 		{
-			
+
 		}
 
 		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]

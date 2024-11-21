@@ -33,14 +33,12 @@ namespace Game
         public void GrabStart()
         {
             _interactionType = InteractionTypeEnum.NONE;
-            ModelSmoothConnector.NoSmooth = true;
             SetCollisionLayerValue(4, false);
             SetCollisionMaskValue(4, false);
         }
         public void GrabEnd()
         {
             _interactionType = InteractionTypeEnum.GRAB;
-            ModelSmoothConnector.NoSmooth = false;
             SetCollisionLayerValue(4, true);
             SetCollisionMaskValue(4, true);
         }

@@ -72,19 +72,19 @@ transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
 transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.514906, 1.08627, 0.225359, 0.753673, -6.76312, -3.42062, 1.23841)
 
 [node name="PlayerSpawner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.91792, 0.830229)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.06317, 0.484081, 2.07066)
 
 [node name="PropInstance" parent="." instance=ExtResource("8_5jn6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95603, 2.93735, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.64765, -0.622208, 4.20247)
 
 [node name="PropInstance2" parent="." instance=ExtResource("8_5jn6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.37942, 2.81869, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.22426, -0.740868, 4.20247)
 
 [node name="PropInstance3" parent="." instance=ExtResource("8_5jn6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.751899, 2.81869, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.85178, -0.740868, 4.20247)
 
 [node name="NardsPropInstance" parent="." instance=ExtResource("9_gmmah")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35947, 1.94113, -0.938905)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.244205, -1.61843, 3.26356)
 
 [node name="vines_1" parent="." instance=ExtResource("10_m0jkx")]
 transform = Transform3D(0.582273, 0, 0.331449, 0, 0.67, 0, -0.331449, 0, 0.582273, -3.74239, 4.98322, 2.20406)
