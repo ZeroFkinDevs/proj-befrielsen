@@ -81,6 +81,12 @@ material/0 = ExtResource( 15 )
 [node name="AnimationPlayer" parent="."]
 script = ExtResource( 16 )
 AnimationEvents = {
+"air": [  ],
+"grounded": [  ],
+"hands_idle": [  ],
+"hands_look": [  ],
+"hands_walk": [  ],
+"hands_walk_side": [  ],
 "idle": [  ],
 "walk": [  ],
 "walk_side": [  ]

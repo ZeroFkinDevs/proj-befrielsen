@@ -49,6 +49,10 @@ namespace Game
 		{
 			AnimTree.Set("parameters/" + blendName + "/blend_position", value);
 		}
+		public Vector2 GetBlend2D(string blendName)
+		{
+			return (Vector2)AnimTree.Get("parameters/" + blendName + "/blend_position");
+		}
 		public string GetState(string transitionNodeName)
 		{
 			return (string)AnimTree.Get("parameters/" + transitionNodeName + "/current_state");

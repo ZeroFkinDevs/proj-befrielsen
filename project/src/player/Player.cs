@@ -61,7 +61,7 @@ namespace Game
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(double delta)
 		{
-			// CommonProcess((float)delta);
+			CommonProcess((float)delta);
 			if (!Controllable) return;
 
 			Movement.X += Input.GetAxis("move_left", "move_right");
@@ -71,6 +71,11 @@ namespace Game
 			{
 				Velocity = Velocity + Vector3.Up * 10.0f;
 			}
+			if (Input.IsActionJustPressed("exit"))
+			{
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
+
 			if (Input.IsActionJustPressed("exit"))
 			{
 				Input.MouseMode = Input.MouseModeEnum.Visible;
@@ -88,20 +93,10 @@ namespace Game
 
 		void CommonProcess(float delta)
 		{
+			var boneTrans = model.GetBoneGlobalPose(model.NeckBoneID);
 			Camera.GlobalPosition = Camera.GlobalPosition.Lerp(
-				model.GetBoneGlobalPose(model.NeckBoneID).Origin - GlobalTransform.Basis.Z * 0.3f,
+				boneTrans.Origin - GlobalTransform.Basis.Z * 0.3f,
 				delta * 20.0f);
-
-
-			if (Controllable)
-			{
-				var modelMovement = (GlobalPosition - LastGlobalPosition) / delta;
-				modelMovement = ToLocal(GlobalPosition + modelMovement);
-				GD.Print(modelMovement);
-
-				model.MovementTarget = modelMovement;
-				LastGlobalPosition = GlobalPosition;
-			}
 		}
 
 		public override void _Input(InputEvent @event)

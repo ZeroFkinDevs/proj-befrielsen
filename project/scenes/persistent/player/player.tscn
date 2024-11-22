@@ -86,8 +86,9 @@ replication_config = SubResource("SceneReplicationConfig_askpe")
 [node name="ModelContainer" type="Node3D" parent="puppet"]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, -0.989736, 0)
 
-[node name="dude_model" parent="puppet/ModelContainer" instance=ExtResource("5_kgqkn")]
+[node name="dude_model" parent="puppet/ModelContainer" node_paths=PackedStringArray("player") instance=ExtResource("5_kgqkn")]
 transform = Transform3D(0.152473, 0, 9.69318e-09, 0, 0.152473, 0, -9.69318e-09, 0, 0.152473, 0, 0, 0)
+player = NodePath("../../..")
 
 [node name="Target" type="Node3D" parent="puppet"]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, -0.989736, 0)
