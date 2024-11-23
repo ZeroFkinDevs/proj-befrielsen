@@ -81,6 +81,15 @@ namespace Game
 				Input.MouseMode = Input.MouseModeEnum.Visible;
 			}
 
+			if (Input.IsActionJustPressed("inventory"))
+			{
+				RpcId(1, MethodName.OpenInventory);
+			}
+			if (Input.IsActionJustReleased("inventory"))
+			{
+				RpcId(1, MethodName.CloseInventory);
+			}
+
 			CameraRotation = CameraRotation.Lerp(CameraRotationTarget, (float)delta * 15.0f);
 			var deg = GlobalRotation;
 			deg.Y = CameraRotation.Y;
@@ -89,6 +98,28 @@ namespace Game
 			deg = Camera.GlobalRotation;
 			deg.X = CameraRotation.X;
 			Camera.GlobalRotation = deg;
+		}
+
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+		public void OpenInventory()
+		{
+			Rpc(MethodName.RecieveOpenInventory);
+		}
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+		public void RecieveOpenInventory()
+		{
+			model.LockToCamera = true;
+			model.SetHandsContinousState("look");
+		}
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+		public void CloseInventory()
+		{
+			Rpc(MethodName.RecieveCloseInventory);
+		}
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+		public void RecieveCloseInventory()
+		{
+			model.LockToCamera = false;
 		}
 
 		void CommonProcess(float delta)
