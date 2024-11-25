@@ -6,7 +6,10 @@ namespace Game
 	public partial class Player : CharacterBody3D, IUser
 	{
 		[Export]
-		CharacterModel model;
+		public CharacterModel model;
+
+		[Export]
+		public InventoryManager inventoryManager;
 
 		[Export]
 		public bool Controllable = true;
@@ -76,18 +79,13 @@ namespace Game
 				Input.MouseMode = Input.MouseModeEnum.Visible;
 			}
 
-			if (Input.IsActionJustPressed("exit"))
-			{
-				Input.MouseMode = Input.MouseModeEnum.Visible;
-			}
-
 			if (Input.IsActionJustPressed("inventory"))
 			{
-				RpcId(1, MethodName.OpenInventory);
+				inventoryManager.OpenInventory();
 			}
 			if (Input.IsActionJustReleased("inventory"))
 			{
-				RpcId(1, MethodName.CloseInventory);
+				inventoryManager.CloseInventory();
 			}
 
 			CameraRotation = CameraRotation.Lerp(CameraRotationTarget, (float)delta * 15.0f);
@@ -98,28 +96,6 @@ namespace Game
 			deg = Camera.GlobalRotation;
 			deg.X = CameraRotation.X;
 			Camera.GlobalRotation = deg;
-		}
-
-		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-		public void OpenInventory()
-		{
-			Rpc(MethodName.RecieveOpenInventory);
-		}
-		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-		public void RecieveOpenInventory()
-		{
-			model.LockToCamera = true;
-			model.SetHandsContinousState("look");
-		}
-		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-		public void CloseInventory()
-		{
-			Rpc(MethodName.RecieveCloseInventory);
-		}
-		[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-		public void RecieveCloseInventory()
-		{
-			model.LockToCamera = false;
 		}
 
 		void CommonProcess(float delta)
@@ -133,6 +109,7 @@ namespace Game
 		public override void _Input(InputEvent @event)
 		{
 			if (!Controllable) return;
+			if (Input.IsActionPressed("inventory")) return;
 			if (@event is InputEventMouseMotion motion)
 			{
 				if (Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -165,11 +142,8 @@ namespace Game
 			movementApplied.Y = 0;
 
 			newVelocity += movementApplied * Speed;
-			var stopForce = 4.0f;
-			if (IsOnFloor())
-			{
-				stopForce = 10.0f;
-			}
+			var stopForce = 10.0f;
+
 			newVelocity.X = Mathf.Lerp(newVelocity.X, 0.0f, (float)delta * stopForce);
 			newVelocity.Z = Mathf.Lerp(newVelocity.Z, 0.0f, (float)delta * stopForce);
 

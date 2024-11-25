@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=13 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/player/PropPusher.cs" id="4_em3n5"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cm0f138qnggxl" path="res://scenes/persistent/player/dude_model.tscn" id="5_kgqkn"]
 [ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="6_gdb6h"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
+[ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="8_8afli"]
+[ext_resource type="Script" path="res://src/player/InventoryManager.cs" id="9_i7djo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
@@ -30,16 +32,17 @@ properties/3/replication_mode = 1
 custom_solver_bias = 0.093
 margin = 0.414
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "Camera", "ModelSmoothConnector")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "ModelSmoothConnector")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
 floor_constant_speed = true
 floor_max_angle = 0.787143
 script = ExtResource("1_h8rfx")
 model = NodePath("puppet/ModelContainer/dude_model")
+inventoryManager = NodePath("InventoryManager")
 Controllable = false
 Gravity = 25.0
-Speed = 0.1
+Speed = 0.15
 Camera = NodePath("Camera3D")
 ModelSmoothConnector = NodePath("puppet/SmoothTranslator")
 
@@ -87,7 +90,7 @@ replication_config = SubResource("SceneReplicationConfig_askpe")
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, -0.989736, 0)
 
 [node name="dude_model" parent="puppet/ModelContainer" node_paths=PackedStringArray("player") instance=ExtResource("5_kgqkn")]
-transform = Transform3D(0.152473, 0, 9.69318e-09, 0, 0.152473, 0, -9.69318e-09, 0, 0.152473, 0, 0, 0)
+transform = Transform3D(1, 0, 6.35731e-08, 0, 1, 0, -6.35731e-08, 0, 1, 0, 0.0245691, 0)
 player = NodePath("../../..")
 
 [node name="Target" type="Node3D" parent="puppet"]
@@ -107,3 +110,35 @@ player = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("CapsuleShape3D_x1dyq")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="UI/CenterContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CenterContainer/Control"]
+layout_mode = 1
+offset_left = -30.0
+offset_top = -28.0
+offset_right = 97.0
+offset_bottom = 99.0
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("8_8afli")
+
+[node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("9_i7djo")
+player = NodePath("..")

@@ -20,12 +20,12 @@ namespace Game
 		public Vector3 HandsState;
 		private Vector3 LastGlobalPosition;
 
-		public bool LockToCamera = true;
+		public bool LockToCamera = false;
 
 		public int NeckBoneID = 0;
 		public int HeadBoneID = 0;
 		public int ArmsRotatorBoneID = 0;
-		public Vector3 ArmsRotatorBoneInitPose;
+		public float ArmsLockFactor = 0.0f;
 
 		public override void _Ready()
 		{
@@ -33,8 +33,6 @@ namespace Game
 			NeckBoneID = skeleton3D.FindBone("neck");
 			HeadBoneID = skeleton3D.FindBone("head");
 			ArmsRotatorBoneID = skeleton3D.FindBone("arms_rotator");
-			ArmsRotatorBoneInitPose = skeleton3D.GetBoneRest(ArmsRotatorBoneID).Origin;
-			GD.Print(ArmsRotatorBoneInitPose);
 		}
 
 		public void SetHandsContinousState(string state)
@@ -85,17 +83,19 @@ namespace Game
 
 		public void ListenPlayer(float delta)
 		{
+			var trans = skeleton3D.GlobalTransform.AffineInverse() * (player.Camera.GlobalTransform.TranslatedLocal(new Vector3(0, 0, 0.1f)));
+			trans = trans
+					.ScaledLocal(new Vector3(0.155f, 0.155f, 0.155f))
+					.RotatedLocal(Vector3.Up, Mathf.Pi);
 			if (player.Controllable && LockToCamera)
 			{
-				var trans = skeleton3D.GlobalTransform.AffineInverse() * player.Camera.GlobalTransform;
-				skeleton3D.SetBoneGlobalPoseOverride(ArmsRotatorBoneID, trans
-					.ScaledLocal(new Vector3(0.152f, 0.152f, 0.152f))
-					.RotatedLocal(Vector3.Up, Mathf.Pi), 1.0f, true);
+				ArmsLockFactor = Mathf.Lerp(ArmsLockFactor, 1.0f, delta * 3.0f);
 			}
 			else
 			{
-				skeleton3D.ClearBonesGlobalPoseOverride();
+				ArmsLockFactor = Mathf.Lerp(ArmsLockFactor, 0.0f, delta);
 			}
+			skeleton3D.SetBoneGlobalPoseOverride(ArmsRotatorBoneID, trans, ArmsLockFactor, true);
 
 			skeleton3D.SetBonePoseRotation(HeadBoneID, Quaternion.FromEuler(new Vector3(-player.Camera.Rotation.X / 2.0f, 0, 0)));
 			skeleton3D.SetBonePoseRotation(NeckBoneID, Quaternion.FromEuler(new Vector3(-player.Camera.Rotation.X / 3.0f, 0, 0)));
