@@ -5,7 +5,8 @@ namespace Game
     public enum InteractionTypeEnum
     {
         NONE,
-        GRAB
+        GRAB,
+        PICKUP
     }
     public interface IInteractable
     {

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dmy4brdd68xhf"]
+
+[ext_resource type="Resource" uid="uid://cqbfs5b8hayq7" path="res://scenes/dungeon_leash/nards/nards_item.tres" id="1_xun2b"]
+[ext_resource type="Script" path="res://src/objects/item/ItemStack.cs" id="2_tbs01"]
+
+[resource]
+script = ExtResource("2_tbs01")
+ItemRes = ExtResource("1_xun2b")
+Quantity = 1

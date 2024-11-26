@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://bn2t7oen1bjav"]
+
+[ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="1_q6li3"]
+[ext_resource type="Texture2D" uid="uid://b5qlcnb6kwiis" path="res://resources/ui/icons/grab.png" id="2_upoqi"]
+[ext_resource type="Texture2D" uid="uid://c27eelwwkf7gs" path="res://resources/ui/icons/pickup.png" id="3_awd4u"]
+[ext_resource type="Script" path="res://src/player/ui/CursorIconsBank.cs" id="3_ym7rq"]
+
+[resource]
+script = ExtResource("3_ym7rq")
+Default = ExtResource("1_q6li3")
+Grab = ExtResource("2_upoqi")
+PICKUP = ExtResource("3_awd4u")

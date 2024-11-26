@@ -6,7 +6,15 @@ namespace Game
     public partial class InventoryManager : Node3D
     {
         [Export]
-        Player player;
+        public Player player;
+
+        [Export]
+        public ItemsStorage storage;
+
+        public override void _Ready()
+        {
+            storage = new ItemsStorage();
+        }
 
         public void OpenInventory()
         {

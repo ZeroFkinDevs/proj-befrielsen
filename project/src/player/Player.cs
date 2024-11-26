@@ -22,6 +22,8 @@ namespace Game
 		[Export]
 		public Camera3D Camera;
 		[Export]
+		public PlayerUI playerUI;
+		[Export]
 		public SmoothConnectTransform ModelSmoothConnector;
 
 		public Vector2 Movement;
@@ -51,6 +53,7 @@ namespace Game
 				{
 					Puppet.Visible = true;
 				}
+				playerUI.QueueFree();
 			}
 			SetupCamera();
 			LastGlobalPosition = GlobalPosition;

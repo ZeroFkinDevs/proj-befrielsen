@@ -6,7 +6,7 @@ namespace Game
     // наверное важно не использовать для пропов MultiplayerSpawner,
     // как минимум потому что они при создании будут синхронизировать позицию для всех клиентов
     // не проблема, но все же
-    public partial class Prop : RigidBody3D, IInteractable
+    public partial class Prop : RigidBody3D, IInteractable, IItemsStoring
     {
         class PhysicsPackStruct
         {
@@ -30,11 +30,21 @@ namespace Game
         [Export]
         public SmoothConnectTransform ModelSmoothConnector;
 
+        [Export]
+        public ItemsStorage itemsStorage;
+
+        public ItemsStorage ItemsStorageRes { get { return itemsStorage; } }
+
         public void GrabStart()
         {
             _interactionType = InteractionTypeEnum.NONE;
             SetCollisionLayerValue(4, false);
             SetCollisionMaskValue(4, false);
+            if (itemsStorage != null)
+            {
+                SetCollisionLayerValue(4, true);
+                _interactionType = InteractionTypeEnum.PICKUP;
+            }
         }
         public void GrabEnd()
         {
@@ -106,7 +116,14 @@ namespace Game
 
         public void Interact(IUser user)
         {
-
+            if (InteractionType == InteractionTypeEnum.PICKUP && itemsStorage != null)
+            {
+                if (user is Player player)
+                {
+                    player.inventoryManager.storage.AddItemStacks(itemsStorage.ItemsStacks);
+                    GetParent().QueueFree();
+                }
+            }
         }
     }
 }

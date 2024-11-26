@@ -11,6 +11,8 @@ namespace Game
 		public Player player;
 		[Export]
 		public ObjectGrabber grabber;
+		[Export]
+		public InventoryManager inventoryManager;
 		public bool Enabled = true;
 		public IInteractable Interactable = null;
 
@@ -21,13 +23,15 @@ namespace Game
 			Interactable = null;
 
 			if (!Enabled) return;
-			if (grabber.IsGrabbing) return;
 
 			if (UseRaycast.IsColliding())
 			{
 				if (UseRaycast.GetCollider() is IInteractable usable)
 				{
-					Interactable = usable;
+					if (usable.InteractionType != InteractionTypeEnum.NONE)
+					{
+						Interactable = usable;
+					}
 				}
 			}
 
@@ -36,6 +40,10 @@ namespace Game
 				if (Interactable.InteractionType == InteractionTypeEnum.GRAB)
 				{
 					grabber.Grab(Interactable);
+				}
+				else if (Interactable.InteractionType == InteractionTypeEnum.PICKUP)
+				{
+					Interactable.Interact(player);
 				}
 			}
 		}

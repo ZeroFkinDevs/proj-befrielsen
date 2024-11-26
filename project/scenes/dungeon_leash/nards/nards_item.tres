@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cqbfs5b8hayq7"]
+
+[ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/nards/nards.tscn" id="1_fr411"]
+[ext_resource type="Script" path="res://src/objects/item/ItemResource.cs" id="2_vyamr"]
+
+[resource]
+script = ExtResource("2_vyamr")
+MeshScene = ExtResource("1_fr411")
+Name = "Нарды"

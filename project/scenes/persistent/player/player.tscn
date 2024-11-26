@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=16 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/player/PropPusher.cs" id="4_em3n5"]
@@ -8,7 +8,10 @@
 [ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="6_gdb6h"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
 [ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="8_8afli"]
+[ext_resource type="Script" path="res://src/player/ui/PlayerUI.cs" id="8_v0c8m"]
+[ext_resource type="Script" path="res://src/player/ui/Cursor.cs" id="9_bqwsj"]
 [ext_resource type="Script" path="res://src/player/InventoryManager.cs" id="9_i7djo"]
+[ext_resource type="Resource" uid="uid://bn2t7oen1bjav" path="res://scenes/persistent/player/cursor_icons_bank.tres" id="10_hrgru"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
@@ -32,7 +35,7 @@ properties/3/replication_mode = 1
 custom_solver_bias = 0.093
 margin = 0.414
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "ModelSmoothConnector")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
 floor_constant_speed = true
@@ -44,6 +47,7 @@ Controllable = false
 Gravity = 25.0
 Speed = 0.15
 Camera = NodePath("Camera3D")
+playerUI = NodePath("UI")
 ModelSmoothConnector = NodePath("puppet/SmoothTranslator")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -111,13 +115,37 @@ player = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("CapsuleShape3D_x1dyq")
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("8_v0c8m")
+player = NodePath("..")
+
+[node name="Cursor" type="Control" parent="UI" node_paths=PackedStringArray("playerUI", "rayInteractor", "textureRect")]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 576.0
+offset_top = 324.0
+offset_right = 576.0
+offset_bottom = 324.0
+script = ExtResource("9_bqwsj")
+playerUI = NodePath("..")
+cursorIconsBank = ExtResource("10_hrgru")
+rayInteractor = NodePath("../../Camera3D/RayInteractor")
+textureRect = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Cursor"]
+layout_mode = 1
+offset_left = -30.0
+offset_top = -28.0
+offset_right = 97.0
+offset_bottom = 99.0
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("8_8afli")
 
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
 layout_mode = 1
@@ -126,18 +154,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Control" type="Control" parent="UI/CenterContainer"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="UI/CenterContainer/Control"]
-layout_mode = 1
-offset_left = -30.0
-offset_top = -28.0
-offset_right = 97.0
-offset_bottom = 99.0
-scale = Vector2(0.44, 0.44)
-texture = ExtResource("8_8afli")
 
 [node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("9_i7djo")

@@ -85,6 +85,10 @@ namespace Game
 
             if (IsGrabbing)
             {
+                if (!IsInstanceValid(GrabbingProp))
+                {
+                    RequestUngrabProp(0.0f);
+                }
                 if (GrabbingProp != null)
                 {
                     if (Input.IsActionJustPressed("alt_fire"))
