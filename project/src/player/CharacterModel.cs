@@ -24,6 +24,8 @@ namespace Game
 
 		public int NeckBoneID = 0;
 		public int HeadBoneID = 0;
+		public int LeftHandBoneID = 0;
+		public int RightHandBoneID = 0;
 		public int ArmsRotatorBoneID = 0;
 		public float ArmsLockFactor = 0.0f;
 
@@ -32,6 +34,8 @@ namespace Game
 			base._Ready();
 			NeckBoneID = skeleton3D.FindBone("neck");
 			HeadBoneID = skeleton3D.FindBone("head");
+			LeftHandBoneID = skeleton3D.FindBone("arm_l_3");
+			RightHandBoneID = skeleton3D.FindBone("arm_r_3");
 			ArmsRotatorBoneID = skeleton3D.FindBone("arms_rotator");
 		}
 

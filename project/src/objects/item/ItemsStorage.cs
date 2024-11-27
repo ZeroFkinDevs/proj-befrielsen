@@ -14,6 +14,7 @@ namespace Game
 
         public event Action OnUpdate;
 
+
         public void AddItemStack(ItemStack stack)
         {
             ItemStack foundStack = null;
@@ -45,6 +46,11 @@ namespace Game
             {
                 AddItemStack(stack);
             }
+        }
+        public void SetItemsStacks(Godot.Collections.Array<ItemStack> stacks)
+        {
+            ItemsStacks = stacks;
+            OnUpdate?.Invoke();
         }
     }
 }

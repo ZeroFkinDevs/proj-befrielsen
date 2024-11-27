@@ -25,6 +25,8 @@ namespace Game
 		public PlayerUI playerUI;
 		[Export]
 		public SmoothConnectTransform ModelSmoothConnector;
+		[Export]
+		public TmpStorage tmpStorage;
 
 		public Vector2 Movement;
 		public Vector2 CameraRotation;
@@ -34,7 +36,9 @@ namespace Game
 		// Called when the node enters the scene tree for the first time.
 		public override void _EnterTree()
 		{
-			SetMultiplayerAuthority(int.Parse(Name));
+			var id = int.Parse(Name);
+			SetMultiplayerAuthority(id);
+			tmpStorage.SetMultiplayerAuthority(id);
 		}
 		public override void _Ready()
 		{

@@ -11,11 +11,38 @@ namespace Game
         [Export]
         public ItemsStorage storage;
 
-        public override void _Ready()
+        [Export]
+        public Node3D InventoryContainer;
+
+        public const string TmpItemResPath = "user://tmp/stack.tres";
+
+        public override void _EnterTree()
         {
             storage = new ItemsStorage();
         }
+        public override void _Ready()
+        {
 
+        }
+
+        public override void _Process(double delta)
+        {
+            var trans = player.model.GetBoneGlobalPose(player.model.LeftHandBoneID);
+            trans.Basis = trans.Basis.Scaled(Vector3.One / new Vector3(0.155f, 0.155f, 0.155f));
+            InventoryContainer.GlobalTransform = trans;
+        }
+
+        public void AddItemStacks(Godot.Collections.Array<ItemStack> stacks)
+        {
+            storage.AddItemStacks(stacks);
+            player.tmpStorage.BroadcastArrayOfResources(storage.ItemsStacks, "stack", this, MethodName.RecieveItems);
+        }
+        public void RecieveItems(Godot.Collections.Array<ItemStack> stacks)
+        {
+            storage.SetItemsStacks(stacks);
+        }
+
+        #region open-close inventory
         public void OpenInventory()
         {
             Input.MouseMode = Input.MouseModeEnum.Visible;
@@ -37,6 +64,7 @@ namespace Game
         {
             player.model.LockToCamera = true;
             player.model.SetHandsContinousState("look");
+            InventoryContainer.Visible = true;
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
         public void ServerCloseInventory()
@@ -47,6 +75,8 @@ namespace Game
         public void RecieveCloseInventory()
         {
             player.model.LockToCamera = false;
+            InventoryContainer.Visible = false;
         }
+        #endregion
     }
 }

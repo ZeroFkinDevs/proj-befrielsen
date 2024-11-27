@@ -120,10 +120,22 @@ namespace Game
             {
                 if (user is Player player)
                 {
-                    player.inventoryManager.storage.AddItemStacks(itemsStorage.ItemsStacks);
-                    GetParent().QueueFree();
+                    player.inventoryManager.AddItemStacks(itemsStorage.ItemsStacks);
+                    RpcId(1, MethodName.ServerRemove);
                 }
             }
         }
+
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+        public void ServerRemove()
+        {
+            Rpc(MethodName.RecieveRemove);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+        public void RecieveRemove()
+        {
+            GetParent().QueueFree();
+        }
+
     }
 }
