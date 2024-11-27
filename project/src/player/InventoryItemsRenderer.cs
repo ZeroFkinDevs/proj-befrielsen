@@ -7,6 +7,8 @@ namespace Game
     {
         [Export]
         public InventoryManager inventoryManager;
+        [Export]
+        public PackedScene StackRendererScene;
 
         public override void _Ready()
         {
@@ -23,7 +25,7 @@ namespace Game
             int i = 0;
             foreach (var itemStack in inventoryManager.storage.ItemsStacks)
             {
-                var stackInstance = new InventoryItemStackRenderer();
+                var stackInstance = StackRendererScene.Instantiate<InventoryItemStackRenderer>();
                 AddChild(stackInstance);
                 stackInstance.Position = new Vector3(0.0f, 0.0f, i * 0.5f);
                 stackInstance.Setup(itemStack, this);

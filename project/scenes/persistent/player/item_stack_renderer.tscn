@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://fwn7h3jh7fxm"]
+
+[ext_resource type="Script" path="res://src/player/InventoryItemStackRenderer.cs" id="1_0khr0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dkuqe"]
+radius = 0.03
+
+[node name="ItemStackRenderer" type="Area3D"]
+script = ExtResource("1_0khr0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_dkuqe")

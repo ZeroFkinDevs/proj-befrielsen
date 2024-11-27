@@ -11,5 +11,7 @@ namespace Game
         public Texture2D Grab;
         [Export]
         public Texture2D PICKUP;
+        [Export]
+        public Texture2D InventoryDrag;
     }
 }

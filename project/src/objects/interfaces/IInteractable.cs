@@ -6,7 +6,8 @@ namespace Game
     {
         NONE,
         GRAB,
-        PICKUP
+        PICKUP,
+        INVENTORY_DRAG
     }
     public interface IInteractable
     {

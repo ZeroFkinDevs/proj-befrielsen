@@ -23,6 +23,8 @@ namespace Game
 				GlobalPosition = GetViewportRect().Size / 2.0f;
 			}
 
+			rayInteractor.UseRaycast.TargetPosition = rayInteractor.UseRaycast.ToLocal(rayInteractor.player.Camera.ProjectPosition(GlobalPosition, 2.0f));
+
 			textureRect.Texture = cursorIconsBank.Default;
 
 			if (rayInteractor.Interactable != null)
@@ -34,6 +36,10 @@ namespace Game
 				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.PICKUP)
 				{
 					textureRect.Texture = cursorIconsBank.PICKUP;
+				}
+				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.INVENTORY_DRAG)
+				{
+					textureRect.Texture = cursorIconsBank.InventoryDrag;
 				}
 			}
 		}

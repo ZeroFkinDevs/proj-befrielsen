@@ -11,8 +11,6 @@ namespace Game
 		public Player player;
 		[Export]
 		public ObjectGrabber grabber;
-		[Export]
-		public InventoryManager inventoryManager;
 		public bool Enabled = true;
 		public IInteractable Interactable = null;
 
@@ -42,6 +40,13 @@ namespace Game
 					grabber.Grab(Interactable);
 				}
 				else if (Interactable.InteractionType == InteractionTypeEnum.PICKUP)
+				{
+					Interactable.Interact(player);
+				}
+			}
+			if (Interactable != null && Input.IsActionJustPressed("fire"))
+			{
+				if (Interactable.InteractionType == InteractionTypeEnum.INVENTORY_DRAG)
 				{
 					Interactable.Interact(player);
 				}
