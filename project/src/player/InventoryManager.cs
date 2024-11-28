@@ -45,7 +45,7 @@ namespace Game
         #region open-close inventory
         public void OpenInventory()
         {
-            Input.MouseMode = Input.MouseModeEnum.Visible;
+            Input.MouseMode = Input.MouseModeEnum.Hidden;
             RpcId(1, MethodName.ServerOpenInventory);
         }
         public void CloseInventory()

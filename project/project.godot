@@ -79,3 +79,4 @@ inventory={
 [layer_names]
 
 3d_physics/layer_4="props"
+3d_physics/layer_5="inventory"

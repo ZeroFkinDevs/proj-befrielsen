@@ -36,13 +36,13 @@ namespace Game
 
             RpcId(1, MethodName.ServerBroadcastResources, packedStacks, tag, node.GetPath(), nodeRecieveMethod);
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerBroadcastResources(Godot.Collections.Array<string> packedRes, string tag, string nodePath, StringName nodeRecieveMethod)
         {
             Rpc(MethodName.RecieveResources, packedRes, tag, nodePath, nodeRecieveMethod);
         }
 
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void RecieveResources(Godot.Collections.Array<string> packedRes, string tag, string nodePath, StringName nodeRecieveMethod)
         {
             var tmpItemResPath = DirectoryPath + tag + ".tres";

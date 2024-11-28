@@ -6,6 +6,8 @@
 radius = 0.03
 
 [node name="ItemStackRenderer" type="Area3D"]
+collision_layer = 17
+collision_mask = 17
 script = ExtResource("1_0khr0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
