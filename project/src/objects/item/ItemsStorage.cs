@@ -37,7 +37,12 @@ namespace Game
             {
                 foundStack.Quantity += stack.Quantity;
             }
-            GD.Print(foundStack);
+
+            OnUpdate?.Invoke();
+        }
+        public void RemoveItemStack(ItemStack stack)
+        {
+            ItemsStacks.Remove(stack);
             OnUpdate?.Invoke();
         }
         public void AddItemStacks(Godot.Collections.Array<ItemStack> stacks)

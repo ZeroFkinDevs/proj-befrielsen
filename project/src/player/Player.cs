@@ -5,6 +5,13 @@ namespace Game
 {
 	public partial class Player : CharacterBody3D, IUser
 	{
+		public enum ControlGroupEnum
+		{
+			WORLD,
+			HANDS,
+			UI
+		}
+
 		[Export]
 		public CharacterModel model;
 
@@ -13,6 +20,7 @@ namespace Game
 
 		[Export]
 		public bool Controllable = true;
+		public ControlGroupEnum ControlGroup = ControlGroupEnum.WORLD;
 		[Export]
 		public Node3D Puppet;
 		[Export]
@@ -27,6 +35,10 @@ namespace Game
 		public SmoothConnectTransform ModelSmoothConnector;
 		[Export]
 		public TmpStorage tmpStorage;
+		[Export]
+		public ObjectInstantiator objectInstantiator;
+		[Export]
+		public ObjectGrabber grabber;
 
 		public Vector2 Movement;
 		public Vector2 CameraRotation;
@@ -39,6 +51,7 @@ namespace Game
 			var id = int.Parse(Name);
 			SetMultiplayerAuthority(id);
 			tmpStorage.SetMultiplayerAuthority(id);
+			objectInstantiator.SpawnId += id;
 		}
 		public override void _Ready()
 		{
@@ -88,10 +101,12 @@ namespace Game
 
 			if (Input.IsActionJustPressed("inventory"))
 			{
+				ControlGroup = ControlGroupEnum.HANDS;
 				inventoryManager.OpenInventory();
 			}
 			if (Input.IsActionJustReleased("inventory"))
 			{
+				ControlGroup = ControlGroupEnum.WORLD;
 				inventoryManager.CloseInventory();
 			}
 
@@ -116,21 +131,23 @@ namespace Game
 		public override void _Input(InputEvent @event)
 		{
 			if (!Controllable) return;
-			if (Input.IsActionPressed("inventory")) return;
-			if (@event is InputEventMouseMotion motion)
+			if (ControlGroup == ControlGroupEnum.WORLD)
 			{
-				if (Input.MouseMode == Input.MouseModeEnum.Captured)
+				if (@event is InputEventMouseMotion motion)
 				{
-					CameraRotationTarget.Y -= motion.Relative.X * 0.01f;
-					CameraRotationTarget.X -= motion.Relative.Y * 0.01f;
-					CameraRotationTarget.X = Mathf.Clamp(CameraRotationTarget.X, -Mathf.Pi / 2.0f, Mathf.Pi / 2.0f);
+					if (Input.MouseMode == Input.MouseModeEnum.Captured)
+					{
+						CameraRotationTarget.Y -= motion.Relative.X * 0.01f;
+						CameraRotationTarget.X -= motion.Relative.Y * 0.01f;
+						CameraRotationTarget.X = Mathf.Clamp(CameraRotationTarget.X, -Mathf.Pi / 2.0f, Mathf.Pi / 2.0f);
+					}
 				}
-			}
-			if (@event is InputEventMouseButton button)
-			{
-				if (button.ButtonIndex == MouseButton.Left)
+				if (@event is InputEventMouseButton button)
 				{
-					Input.MouseMode = Input.MouseModeEnum.Captured;
+					if (button.ButtonIndex == MouseButton.Left)
+					{
+						Input.MouseMode = Input.MouseModeEnum.Captured;
+					}
 				}
 			}
 		}

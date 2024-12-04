@@ -12,7 +12,7 @@ namespace Game
     public partial class InventoryPlaceRegion : Area3D, IInventoryPlaceRegion
     {
         [Export]
-        public InventoryManager manager;
+        public InventoryContainer inventoryContainer;
 
         public override void _EnterTree()
         {
@@ -31,7 +31,8 @@ namespace Game
 
         public void Interact(InventoryItemStackRenderer stackRenderer)
         {
-            GD.Print("region interact!");
+            stackRenderer.itemsRenderer.inventoryContainer.AddItemStacks(new Godot.Collections.Array<ItemStack> { stackRenderer.itemStack });
+            stackRenderer.QueueFree();
         }
     }
 }

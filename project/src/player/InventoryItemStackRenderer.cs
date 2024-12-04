@@ -12,20 +12,25 @@ namespace Game
         public float cameraDistance = 0.0f;
         public IInventoryPlaceRegion CurrentRegion;
 
+        private Player player { get { return itemsRenderer.inventoryContainer.inventoryManager.player; } }
+
         public InteractionTypeEnum InteractionType
         {
             get
             {
                 if (itemsRenderer == null) return InteractionTypeEnum.NONE;
                 if (isDragging) return InteractionTypeEnum.NONE;
-                if (itemsRenderer.inventoryManager.player.Controllable) return InteractionTypeEnum.INVENTORY_DRAG;
+                if (player.Controllable) return InteractionTypeEnum.INVENTORY_DRAG;
                 return InteractionTypeEnum.NONE;
             }
         }
 
         public void Interact(IUser user)
         {
-            cameraDistance = itemsRenderer.inventoryManager.player.Camera.GlobalPosition.DistanceTo(GlobalPosition) - 0.05f;
+            Reparent(GetParent().GetParent());
+            itemsRenderer.inventoryContainer.RemoveItemStack(itemStack);
+            cameraDistance = player.Camera.GlobalPosition.DistanceTo(GlobalPosition) - 0.05f;
+
             CallDeferred(MethodName.CheckRegions);
             isDragging = true;
         }
@@ -34,15 +39,24 @@ namespace Game
         {
             if (isDragging)
             {
-                var camera = itemsRenderer.inventoryManager.player.Camera;
-                var pos = itemsRenderer.inventoryManager.player.Camera.ProjectPosition(GetViewport().GetMousePosition(), cameraDistance);
+                var camera = player.Camera;
+                var pos = player.Camera.ProjectPosition(GetViewport().GetMousePosition(), cameraDistance);
                 GlobalPosition = pos;
 
-                if (CurrentRegion != null)
+                if (Input.IsActionJustPressed("fire") && player.ControlGroup == Player.ControlGroupEnum.HANDS)
                 {
-                    if (Input.IsActionJustPressed("fire"))
+                    if (CurrentRegion != null)
                     {
                         CurrentRegion.Interact(this);
+                    }
+                    else
+                    {
+                        if (itemStack.ItemRes.PropScenePath != "")
+                        {
+                            var packedScene = GD.Load<PackedScene>(itemStack.ItemRes.PropScenePath);
+                            QueueFree();
+                            player.objectInstantiator.RequestInstantiate(player.tmpStorage, packedScene, player.grabber, ObjectGrabber.MethodName.GrabPropInstance);
+                        }
                     }
                 }
             }

@@ -9,17 +9,10 @@ namespace Game
         public Player player;
 
         [Export]
-        public ItemsStorage storage;
-
-        [Export]
-        public Node3D InventoryContainer;
+        public InventoryContainer InventoryContainer;
 
         public const string TmpItemResPath = "user://tmp/stack.tres";
 
-        public override void _EnterTree()
-        {
-            storage = new ItemsStorage();
-        }
         public override void _Ready()
         {
 
@@ -30,16 +23,6 @@ namespace Game
             var trans = player.model.GetBoneGlobalPose(player.model.LeftHandBoneID);
             trans.Basis = trans.Basis.Scaled(Vector3.One / new Vector3(0.155f, 0.155f, 0.155f));
             InventoryContainer.GlobalTransform = trans;
-        }
-
-        public void AddItemStacks(Godot.Collections.Array<ItemStack> stacks)
-        {
-            storage.AddItemStacks(stacks);
-            player.tmpStorage.BroadcastArrayOfResources(storage.ItemsStacks, "stack", this, MethodName.RecieveItems);
-        }
-        public void RecieveItems(Godot.Collections.Array<ItemStack> stacks)
-        {
-            storage.SetItemsStacks(stacks);
         }
 
         #region open-close inventory

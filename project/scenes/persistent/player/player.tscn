@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=26 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/player/PropPusher.cs" id="4_em3n5"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
 [ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="8_8afli"]
 [ext_resource type="Script" path="res://src/player/ui/PlayerUI.cs" id="8_v0c8m"]
+[ext_resource type="Script" path="res://src/player/InventoryContainer.cs" id="9_2nk6i"]
 [ext_resource type="Script" path="res://src/player/ui/Cursor.cs" id="9_bqwsj"]
 [ext_resource type="Script" path="res://src/player/InventoryItemsRenderer.cs" id="9_f8yeh"]
 [ext_resource type="Script" path="res://src/player/InventoryManager.cs" id="9_i7djo"]
@@ -16,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://bn2t7oen1bjav" path="res://scenes/persistent/player/cursor_icons_bank.tres" id="10_hrgru"]
 [ext_resource type="Script" path="res://src/player/InventoryPlaceRegion.cs" id="11_pp7et"]
 [ext_resource type="Script" path="res://src/player/TmpStorage.cs" id="14_j8e2n"]
+[ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="18_0dw4w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
@@ -54,7 +56,7 @@ albedo_color = Color(0.619608, 0.878431, 0.780392, 0.0392157)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3vocq"]
 size = Vector3(0.08, 0.166753, 0.496616)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector", "tmpStorage")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
 floor_constant_speed = true
@@ -69,6 +71,8 @@ Camera = NodePath("Camera3D")
 playerUI = NodePath("UI")
 ModelSmoothConnector = NodePath("puppet/SmoothTranslator")
 tmpStorage = NodePath("TmpStorage")
+objectInstantiator = NodePath("ObjectInstantiator")
+grabber = NodePath("Camera3D/ObjectGrabber")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
@@ -86,7 +90,7 @@ grabber = NodePath("../ObjectGrabber")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D/RayInteractor"]
 target_position = Vector3(0, 0, -2)
-collision_mask = 9
+collision_mask = 41
 collide_with_areas = true
 
 [node name="ObjectGrabber" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("connector", "player")]
@@ -141,16 +145,18 @@ script = ExtResource("9_i7djo")
 player = NodePath("..")
 InventoryContainer = NodePath("InventoryContainer")
 
-[node name="InventoryContainer" type="Node3D" parent="InventoryManager"]
+[node name="InventoryContainer" type="Node3D" parent="InventoryManager" node_paths=PackedStringArray("inventoryManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.474586, -1.33083)
+script = ExtResource("9_2nk6i")
+inventoryManager = NodePath("..")
 
 [node name="Offset" type="Node3D" parent="InventoryManager/InventoryContainer"]
 transform = Transform3D(0.299823, 0.953995, 1.25101e-07, 0, 1.31134e-07, -1, -0.953995, 0.299823, 3.93171e-08, 0.0245185, 0.0307403, 0.016205)
 
-[node name="Renderer" type="Node3D" parent="InventoryManager/InventoryContainer/Offset" node_paths=PackedStringArray("inventoryManager")]
+[node name="Renderer" type="Node3D" parent="InventoryManager/InventoryContainer/Offset" node_paths=PackedStringArray("inventoryContainer")]
 transform = Transform3D(1, 2.98023e-08, 3.55271e-15, -2.98023e-08, 1, -6.21725e-15, 3.55271e-15, 1.77636e-15, 1, 0, 0, 0)
 script = ExtResource("9_f8yeh")
-inventoryManager = NodePath("../../..")
+inventoryContainer = NodePath("../..")
 StackRendererScene = ExtResource("10_1f563")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
@@ -193,12 +199,12 @@ transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
-[node name="InventoryRegion" type="Area3D" parent="InventoryManager/InventoryContainer/Offset" node_paths=PackedStringArray("manager")]
+[node name="InventoryRegion" type="Area3D" parent="InventoryManager/InventoryContainer/Offset" node_paths=PackedStringArray("inventoryContainer")]
 transform = Transform3D(1, 2.98023e-08, 3.55271e-15, -2.98023e-08, 1, -6.21725e-15, 3.55271e-15, 1.77636e-15, 1, 0, 0, 0)
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("11_pp7et")
-manager = NodePath("../../..")
+inventoryContainer = NodePath("../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/InventoryRegion"]
 transform = Transform3D(1, 1.77636e-15, -8.9407e-08, -8.9407e-08, -4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 0.0140736, 0.135922)
@@ -252,3 +258,8 @@ grow_vertical = 2
 
 [node name="TmpStorage" type="Node3D" parent="."]
 script = ExtResource("14_j8e2n")
+
+[node name="ObjectInstantiator" type="Node3D" parent="." node_paths=PackedStringArray("Parent")]
+script = ExtResource("18_0dw4w")
+Parent = NodePath("..")
+SpawnId = "playerObjectSpawner"

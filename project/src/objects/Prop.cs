@@ -40,9 +40,10 @@ namespace Game
             _interactionType = InteractionTypeEnum.NONE;
             SetCollisionLayerValue(4, false);
             SetCollisionMaskValue(4, false);
+            ModelSmoothConnector.NoSmooth = false;
             if (itemsStorage != null)
             {
-                SetCollisionLayerValue(4, true);
+                SetCollisionLayerValue(6, true);
                 _interactionType = InteractionTypeEnum.PICKUP;
             }
         }
@@ -51,6 +52,7 @@ namespace Game
             _interactionType = InteractionTypeEnum.GRAB;
             SetCollisionLayerValue(4, true);
             SetCollisionMaskValue(4, true);
+            SetCollisionLayerValue(6, false);
         }
 
         public void RequestImpulse(Vector3 velocity, Transform3D? transform)
@@ -120,7 +122,7 @@ namespace Game
             {
                 if (user is Player player)
                 {
-                    player.inventoryManager.AddItemStacks(itemsStorage.ItemsStacks);
+                    player.inventoryManager.InventoryContainer.AddItemStacks(itemsStorage.ItemsStacks);
                     RpcId(1, MethodName.ServerRemove);
                 }
             }

@@ -6,13 +6,13 @@ namespace Game
     public partial class InventoryItemsRenderer : Node3D
     {
         [Export]
-        public InventoryManager inventoryManager;
+        public InventoryContainer inventoryContainer;
         [Export]
         public PackedScene StackRendererScene;
 
         public override void _Ready()
         {
-            inventoryManager.storage.OnUpdate += RenderItems;
+            inventoryContainer.storage.OnUpdate += RenderItems;
         }
 
         public void RenderItems()
@@ -23,7 +23,7 @@ namespace Game
             }
 
             int i = 0;
-            foreach (var itemStack in inventoryManager.storage.ItemsStacks)
+            foreach (var itemStack in inventoryContainer.storage.ItemsStacks)
             {
                 var stackInstance = StackRendererScene.Instantiate<InventoryItemStackRenderer>();
                 AddChild(stackInstance);

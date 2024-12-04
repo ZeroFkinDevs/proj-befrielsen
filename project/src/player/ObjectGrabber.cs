@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using Game.Utils;
 using Godot;
 using Godot.Collections;
 
@@ -22,10 +24,16 @@ namespace Game
                 RequestGrabProp(prop);
             }
         }
+
+        public void InstantiateGrab(PackedScene propScene)
+        {
+
+        }
+
         #region GrabProp
         public void RequestGrabProp(Prop prop)
         {
-            RpcId(1, MethodName.ServerGrabProp, prop.GlobalTransform, prop.GetPath());
+            RpcId(1, MethodName.ServerGrabProp, prop.GlobalTransform, prop.GetMultiplayerPath());
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerGrabProp(Transform3D transform, NodePath propPath)
@@ -35,7 +43,12 @@ namespace Game
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void RecieveGrabProp(Transform3D transform, NodePath propPath)
         {
-            var prop = GetNode<Prop>(propPath);
+            if (GrabbingProp != null && IsGrabbing)
+            {
+                RecieveUngrabProp(0.0f);
+            }
+            var prop = this.GetMultiplayerNode<Prop>(propPath);
+
             prop.GlobalTransform = transform;
             GrabbingProp = prop;
 
@@ -63,15 +76,16 @@ namespace Game
             IsGrabbing = false;
             connector.Body = null;
 
-            if (GrabbingProp == null) return;
-            GrabbingProp.GrabEnd();
-            GrabbingProp.CanRequestImpulses = true;
-
-            if (player.Controllable)
+            if (IsInstanceValid(GrabbingProp))
             {
-                Vector3 velocity = -GlobalTransform.Basis.Z * force;
-                velocity += GrabbingProp.LinearVelocity;
-                GrabbingProp.RequestImpulse(velocity, GrabbingProp.GlobalTransform);
+                GrabbingProp.GrabEnd();
+                GrabbingProp.CanRequestImpulses = true;
+                if (player.Controllable)
+                {
+                    Vector3 velocity = -GlobalTransform.Basis.Z * force;
+                    velocity += GrabbingProp.LinearVelocity;
+                    GrabbingProp.RequestImpulse(velocity, GrabbingProp.GlobalTransform);
+                }
             }
 
             GrabbingProp = null;
@@ -89,7 +103,7 @@ namespace Game
                 {
                     RequestUngrabProp(0.0f);
                 }
-                if (GrabbingProp != null)
+                if (GrabbingProp != null && player.ControlGroup == Player.ControlGroupEnum.WORLD)
                 {
                     if (Input.IsActionJustPressed("alt_fire"))
                     {
@@ -99,6 +113,34 @@ namespace Game
                     {
                         RequestUngrabProp(10.0f);
                     }
+                }
+            }
+        }
+
+        public void GrabPropInstance(Node node)
+        {
+            Prop prop = null;
+            var targetPos = player.Camera.GlobalPosition - player.Camera.GlobalTransform.Basis.Z;
+
+            foreach (var child in node.GetChildren())
+            {
+                if (child is Prop childprop)
+                {
+                    prop = childprop;
+                    break;
+                }
+            }
+            if (prop != null)
+            {
+                if (node is Node3D node3d)
+                {
+                    node3d.GlobalPosition = targetPos;
+                }
+                prop.ModelSmoothConnector.NoSmooth = true;
+                if (player.Controllable)
+                {
+                    prop.RequestImpulse(-player.Camera.GlobalTransform.Basis.Z, prop.GlobalTransform);
+                    RequestGrabProp(prop);
                 }
             }
         }

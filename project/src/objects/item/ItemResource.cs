@@ -8,7 +8,7 @@ namespace Game
         [Export]
         public PackedScene MeshScene;
         [Export]
-        public PackedScene PropScene;
+        public string PropScenePath;
         [Export]
         public string Name;
     }
