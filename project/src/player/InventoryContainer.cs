@@ -17,7 +17,10 @@ namespace Game
         }
         public override void _Ready()
         {
-            BroadcastItemStacks();
+            if (inventoryManager.player.Controllable)
+            {
+                BroadcastItemStacks();
+            }
         }
         public void BroadcastItemStacks()
         {
