@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdaqwrjcqiye1"]
+
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_mmokl"]
+[ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_iuxf4"]
+[ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_gabjc"]
+[ext_resource type="Resource" uid="uid://cebg2l53g1fh6" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_single_storage.tres" id="4_8it2v"]
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool_phy_collision_shape.tscn" id="5_7tnu6"]
+
+[node name="FuckingToolInstance" type="Node3D"]
+
+[node name="fucking_tool" parent="." instance=ExtResource("1_mmokl")]
+
+[node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]
+script = ExtResource("2_iuxf4")
+Object = NodePath("../fucking_tool")
+Target = NodePath("../PropBody")
+
+[node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("3_gabjc")
+ModelSmoothConnector = NodePath("../SmoothConnector")
+itemsStorage = ExtResource("4_8it2v")
+
+[node name="fucking_tool_phy_collision_shape" parent="PropBody" instance=ExtResource("5_7tnu6")]

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://g8vhunjeqdne"]
+
+[ext_resource type="Resource" uid="uid://bieidapcwwcr4" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_item.tres" id="1_ojf75"]
+[ext_resource type="Script" path="res://src/objects/item/ItemStack.cs" id="2_3xwgg"]
+
+[resource]
+script = ExtResource("2_3xwgg")
+ItemRes = ExtResource("1_ojf75")
+Quantity = 1

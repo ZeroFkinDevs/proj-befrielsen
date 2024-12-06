@@ -5,4 +5,4 @@
 
 [resource]
 script = ExtResource("2_e56py")
-ItemsStacks = Array[Resource]([ExtResource("1_acjb3")])
+ItemsStacks = [ExtResource("1_acjb3")]

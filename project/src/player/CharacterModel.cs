@@ -44,6 +44,12 @@ namespace Game
 			SetState("hands_continous_state", state);
 		}
 
+		public void DisableHead()
+		{
+			// var trans = Transform3D.Identity;
+			skeleton3D.SetBonePoseScale(NeckBoneID, Vector3.One * 0.02f);
+		}
+
 		public void UpdateMovement(float delta)
 		{
 			_smoothMovement = _smoothMovement.Lerp(MovementTarget, (float)delta * 20.0f);

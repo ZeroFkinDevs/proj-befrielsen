@@ -30,11 +30,12 @@ namespace Game
             var res = Variant.From(resVariant).AsGodotArray<Resource>();
 
             var packedStacks = new Array<string>();
+            int i = 0;
+            var fileType = ".tres";
             foreach (var stack in res)
             {
-                var fileType = ".tres";
                 if (stack is PackedScene) fileType = ".tscn";
-                var tmpItemResPath = DirectoryPath + tag + fileType;
+                var tmpItemResPath = DirectoryPath + tag + "_" + i + "-outcoming" + fileType;
                 var result = ResourceSaver.Save(stack, tmpItemResPath);
                 if (result == Error.Ok)
                 {
@@ -43,45 +44,48 @@ namespace Game
                     file.Close();
                     packedStacks.Add(text);
                 }
+                i += 1;
             }
 
-            RpcId(1, MethodName.ServerBroadcastResources, packedStacks, tag, node.GetPath(), nodeRecieveMethod, recieveArgs);
+            RpcId(1, MethodName.ServerBroadcastResources, packedStacks, tag, fileType, node.GetPath(), nodeRecieveMethod, recieveArgs);
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-        public void ServerBroadcastResources(Array<string> packedRes, string tag, string nodePath, StringName nodeRecieveMethod, Array<string> recieveArgs)
+        public void ServerBroadcastResources(Array<string> packedRes, string tag, string fileType, string nodePath, StringName nodeRecieveMethod, Array<string> recieveArgs)
         {
-            Rpc(MethodName.RecieveResources, packedRes, tag, nodePath, nodeRecieveMethod, recieveArgs);
+            Rpc(MethodName.RecieveResources, packedRes, tag, fileType, nodePath, nodeRecieveMethod, recieveArgs);
         }
 
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-        public void RecieveResources(Array<string> packedRes, string tag, string nodePath, StringName nodeRecieveMethod, Array<string> recieveArgs)
+        public void RecieveResources(Array<string> packedRes, string tag, string fileType, string nodePath, StringName nodeRecieveMethod, Array<string> recieveArgs)
         {
-            var fileType = ".tres";
-            if (FileAccess.FileExists(DirectoryPath + tag + ".tscn")) fileType = ".tscn";
-            var tmpItemResPath = DirectoryPath + tag + fileType;
+            var tmpFirstItemResPath = DirectoryPath + tag + "_" + 0 + fileType;
 
             var stacks = new Array<Resource>();
+            int i = 0;
             foreach (var packedStack in packedRes)
             {
+                var tmpItemResPath = DirectoryPath + tag + "_" + i + fileType;
                 var text = packedStack;
                 var file = FileAccess.Open(tmpItemResPath, FileAccess.ModeFlags.Write);
                 file.Seek(0);
                 file.StoreString(text);
                 file.Close();
-                var stack = ResourceLoader.Load(tmpItemResPath);
+                var stack = ResourceLoader.Load(tmpItemResPath, cacheMode: ResourceLoader.CacheMode.Ignore);
+                stack.ResourcePath = tmpItemResPath;
                 stacks.Add(stack);
+                i += 1;
             }
 
             var node = this.GetMultiplayerNode<Node3D>(nodePath);
             node.Call(nodeRecieveMethod, stacks, recieveArgs);
 
-            if (LoadedResources.IndexOf(tmpItemResPath) != -1)
+            if (LoadedResources.IndexOf(tmpFirstItemResPath) != -1)
             {
-                InvokeResourceLoaded(tmpItemResPath);
+                InvokeResourceLoaded(tmpFirstItemResPath);
             }
             else
             {
-                RpcId(1, MethodName.ServerRecievePeerResourceState, tmpItemResPath);
+                RpcId(1, MethodName.ServerRecievePeerResourceState, tmpFirstItemResPath);
             }
         }
 

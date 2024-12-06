@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=14 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://60xauw3jusii" path="res://resources/objects/persistent/tools/grappling_hook_rigid_body.tscn" id="2_8ox6m"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cin7ir3gukrxr" path="res://scenes/test/test_prop.tscn" id="8_5jn6m"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/vines_1/vines_1.tscn" id="10_m0jkx"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/vines_2/vines_2.tscn" id="11_3lasp"]
+[ext_resource type="PackedScene" uid="uid://cdaqwrjcqiye1" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_prop.tscn" id="12_s7keh"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
 background_mode = 1
@@ -112,3 +113,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3302, -4.57482, 1.30633)
 
 [node name="NardsPropInstance2" parent="." instance=ExtResource("6_kmpqh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.888105, -0.930413, 2.8754)
+
+[node name="FuckingToolInstance" parent="." instance=ExtResource("12_s7keh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.480878, -0.767021, 3.94624)

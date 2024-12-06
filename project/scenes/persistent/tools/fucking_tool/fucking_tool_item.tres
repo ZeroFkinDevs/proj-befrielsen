@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bieidapcwwcr4"]
+
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_fc5gg"]
+[ext_resource type="Script" path="res://src/objects/item/ItemResource.cs" id="2_5pb3d"]
+
+[resource]
+script = ExtResource("2_5pb3d")
+MeshScene = ExtResource("1_fc5gg")
+PropScenePath = "res://scenes/persistent/tools/fucking_tool/fucking_tool_prop.tscn"
+Name = "Нарды"

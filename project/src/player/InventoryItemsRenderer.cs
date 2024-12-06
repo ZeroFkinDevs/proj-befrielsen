@@ -23,11 +23,12 @@ namespace Game
             }
 
             int i = 0;
+
             foreach (var itemStack in inventoryContainer.storage.ItemsStacks)
             {
                 var stackInstance = StackRendererScene.Instantiate<InventoryItemStackRenderer>();
                 AddChild(stackInstance);
-                stackInstance.Position = new Vector3(0.0f, 0.0f, i * 0.5f);
+                stackInstance.Position = new Vector3(0.0f, 0.0f, i * 0.05f);
                 stackInstance.Setup(itemStack, this);
                 i += 1;
             }

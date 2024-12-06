@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.IO;
 using Game.Utils;
 using Godot;
 
@@ -27,9 +27,10 @@ namespace Game
         public void RequestInstantiate(TmpStorage tmpStorage, PackedScene scene, Node3D cbNode, StringName cbMethod)
         {
             tmpStorage.BroadcastArrayOfResources<PackedScene>(new Godot.Collections.Array<PackedScene> { scene },
-            "instantiate_" + Name + SpawnId + PropsCount,
+            "instantiate_" + Name + SpawnId + "_" + PropsCount,
             this, MethodName.Instantiate,
                 new Godot.Collections.Array<string> { cbNode.GetPath(), cbMethod, tmpStorage.GetPath() });
+            PropsCount += 1;
         }
         public void Instantiate(Godot.Collections.Array<PackedScene> scenes, Godot.Collections.Array<string> recieveArgs)
         {
@@ -46,8 +47,7 @@ namespace Game
                     {
                         tmpStorage.OnResourceLoaded -= handleResLoaded;
                         var newNode = scene.Instantiate<Node3D>();
-                        newNode.Name = "Obj_" + SpawnId + "_" + PropsCount;
-                        PropsCount += 1;
+                        newNode.Name = "Obj_" + Path.GetFileName(scene.ResourcePath);
                         spawner.AddChild(newNode);
                     }
                 };
@@ -55,7 +55,6 @@ namespace Game
             }
             else
             {
-                GD.Print(recieveArgs[0]);
                 var cbNode = this.GetMultiplayerNode<Node3D>(recieveArgs[0]);
                 var cbMethod = recieveArgs[1];
                 MultiplayerSpawner.SpawnedEventHandler spawnedCB = null;

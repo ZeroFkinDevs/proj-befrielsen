@@ -63,6 +63,7 @@ namespace Game
 				{
 					Puppet.Visible = false;
 				}
+				model.DisableHead();
 			}
 			else
 			{
@@ -125,7 +126,7 @@ namespace Game
 			var boneTrans = model.GetBoneGlobalPose(model.NeckBoneID);
 			Camera.GlobalPosition = Camera.GlobalPosition.Lerp(
 				boneTrans.Origin - GlobalTransform.Basis.Z * 0.3f,
-				delta * 20.0f);
+				0.2f);
 		}
 
 		public override void _Input(InputEvent @event)
@@ -166,10 +167,10 @@ namespace Game
 			movementApplied.Y = 0;
 
 			newVelocity += movementApplied * Speed;
-			var stopForce = 10.0f;
+			var stopForce = 0.2f;
 
-			newVelocity.X = Mathf.Lerp(newVelocity.X, 0.0f, (float)delta * stopForce);
-			newVelocity.Z = Mathf.Lerp(newVelocity.Z, 0.0f, (float)delta * stopForce);
+			newVelocity.X = Mathf.Lerp(newVelocity.X, 0.0f, stopForce);
+			newVelocity.Z = Mathf.Lerp(newVelocity.Z, 0.0f, stopForce);
 
 			Velocity = newVelocity;
 			MoveAndSlide();

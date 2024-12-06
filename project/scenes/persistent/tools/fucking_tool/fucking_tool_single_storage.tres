@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cebg2l53g1fh6"]
+
+[ext_resource type="Resource" uid="uid://g8vhunjeqdne" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_single_stack.tres" id="1_q3bwb"]
+[ext_resource type="Script" path="res://src/objects/item/ItemsStorage.cs" id="2_v0cpm"]
+
+[resource]
+script = ExtResource("2_v0cpm")
+ItemsStacks = [ExtResource("1_q3bwb")]
