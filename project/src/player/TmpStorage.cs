@@ -66,10 +66,22 @@ namespace Game
             {
                 var tmpItemResPath = DirectoryPath + tag + "_" + i + fileType;
                 var text = packedStack;
-                var file = FileAccess.Open(tmpItemResPath, FileAccess.ModeFlags.Write);
-                file.Seek(0);
-                file.StoreString(text);
-                file.Close();
+
+                var existText = "";
+                if (FileAccess.FileExists(tmpItemResPath))
+                {
+                    var fileread = FileAccess.Open(tmpItemResPath, FileAccess.ModeFlags.Read);
+                    existText = fileread.GetAsText();
+                    fileread.Close();
+                }
+                if (existText != text)
+                {
+                    var file = FileAccess.Open(tmpItemResPath, FileAccess.ModeFlags.Write);
+                    file.Seek(0);
+                    file.StoreString(text);
+                    file.Close();
+                }
+
                 var stack = ResourceLoader.Load(tmpItemResPath, cacheMode: ResourceLoader.CacheMode.Ignore);
                 stack.ResourcePath = tmpItemResPath;
                 stacks.Add(stack);
