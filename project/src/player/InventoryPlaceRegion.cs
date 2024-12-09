@@ -31,7 +31,7 @@ namespace Game
 
         public void Interact(InventoryItemStackRenderer stackRenderer)
         {
-            stackRenderer.itemsRenderer.inventoryContainer.AddItemStacks(new Godot.Collections.Array<ItemStack> { stackRenderer.itemStack });
+            inventoryContainer.AddItemStacks(new Godot.Collections.Array<ItemStack> { stackRenderer.itemStack });
             stackRenderer.QueueFree();
         }
     }

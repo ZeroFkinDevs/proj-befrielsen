@@ -8,9 +8,9 @@
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_3/tree_3_static_body.tscn" id="6_75fxr"]
 [ext_resource type="PackedScene" uid="uid://cwvwa1jr52ig7" path="res://scenes/dungeon_leash/nards/nards.tscn" id="6_kmpqh"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_p/tree_p_static_body.tscn" id="7_2s7wk"]
-[ext_resource type="PackedScene" uid="uid://cin7ir3gukrxr" path="res://scenes/test/test_prop.tscn" id="8_5jn6m"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/vines_1/vines_1.tscn" id="10_m0jkx"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/vines_2/vines_2.tscn" id="11_3lasp"]
+[ext_resource type="PackedScene" uid="uid://c47ht56frhtwi" path="res://scenes/dungeon_leash/anomaly_cube/anomaly_cube_prop.tscn" id="12_kq5fs"]
 [ext_resource type="PackedScene" uid="uid://cdaqwrjcqiye1" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_prop.tscn" id="12_s7keh"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
@@ -75,15 +75,6 @@ transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.51490
 [node name="PlayerSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.06317, 0.484081, 2.07066)
 
-[node name="PropInstance" parent="." instance=ExtResource("8_5jn6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.64765, -0.622208, 4.20247)
-
-[node name="PropInstance2" parent="." instance=ExtResource("8_5jn6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.22426, -0.740868, 4.20247)
-
-[node name="PropInstance3" parent="." instance=ExtResource("8_5jn6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.85178, -0.740868, 4.20247)
-
 [node name="vines_1" parent="." instance=ExtResource("10_m0jkx")]
 transform = Transform3D(0.582273, 0, 0.331449, 0, 0.67, 0, -0.331449, 0, 0.582273, -3.74239, 4.98322, 2.20406)
 
@@ -116,3 +107,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.888105, -0.930413, 2.8754)
 
 [node name="FuckingToolInstance" parent="." instance=ExtResource("12_s7keh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.480878, -0.767021, 3.94624)
+
+[node name="anomaly_cube_prop" parent="." instance=ExtResource("12_kq5fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.42162, -1.17216, 3.91461)
+
+[node name="anomaly_cube_prop2" parent="." instance=ExtResource("12_kq5fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.956108, -1.10173, 4.12165)
+
+[node name="anomaly_cube_prop3" parent="." instance=ExtResource("12_kq5fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9891, -0.817916, 5.28525)

@@ -26,8 +26,14 @@ namespace Game
 		public int HeadBoneID = 0;
 		public int LeftHandBoneID = 0;
 		public int RightHandBoneID = 0;
+		public int RightToolBoneID = 0;
 		public int ArmsRotatorBoneID = 0;
 		public float ArmsLockFactor = 0.0f;
+
+		public override void _EnterTree()
+		{
+			ModelScale = 0.155f;
+		}
 
 		public override void _Ready()
 		{
@@ -36,6 +42,7 @@ namespace Game
 			HeadBoneID = skeleton3D.FindBone("head");
 			LeftHandBoneID = skeleton3D.FindBone("arm_l_3");
 			RightHandBoneID = skeleton3D.FindBone("arm_r_3");
+			RightToolBoneID = skeleton3D.FindBone("arm_r_tool");
 			ArmsRotatorBoneID = skeleton3D.FindBone("arms_rotator");
 		}
 

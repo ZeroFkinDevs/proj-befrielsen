@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=27 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/player/PropPusher.cs" id="4_em3n5"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
 [ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="8_8afli"]
 [ext_resource type="Script" path="res://src/player/ui/PlayerUI.cs" id="8_v0c8m"]
+[ext_resource type="Script" path="res://src/player/ToolsManager.cs" id="8_yuepf"]
 [ext_resource type="Script" path="res://src/player/InventoryContainer.cs" id="9_2nk6i"]
 [ext_resource type="Script" path="res://src/player/ui/Cursor.cs" id="9_bqwsj"]
 [ext_resource type="Script" path="res://src/player/InventoryItemsRenderer.cs" id="9_f8yeh"]
@@ -119,7 +120,7 @@ replication_config = SubResource("SceneReplicationConfig_askpe")
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, -0.989736, 0)
 
 [node name="dude_model" parent="puppet/ModelContainer" node_paths=PackedStringArray("player") instance=ExtResource("5_kgqkn")]
-transform = Transform3D(1, 0, 6.35731e-08, 0, 1, 0, -6.35731e-08, 0, 1, 0, 0.0245691, 0)
+transform = Transform3D(0.15, 0, 9.53596e-09, 0, 0.15, 0, -9.53596e-09, 0, 0.15, 0, 0.0245691, 0)
 player = NodePath("../../..")
 
 [node name="Target" type="Node3D" parent="puppet"]
@@ -131,19 +132,26 @@ Object = NodePath("../ModelContainer")
 Target = NodePath("../Target")
 Speed = 10.0
 
-[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+[node name="PropsPusher" type="Area3D" parent="." node_paths=PackedStringArray("player")]
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("4_em3n5")
 player = NodePath("..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PropsPusher"]
 shape = SubResource("CapsuleShape3D_x1dyq")
 
-[node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player", "InventoryContainer")]
+[node name="ToolsManager" type="Node3D" parent="." node_paths=PackedStringArray("inventoryContainer")]
+transform = Transform3D(0.462569, -0.886583, 1.25101e-07, 9.27259e-08, -9.27255e-08, -1, 0.886583, 0.462569, 3.93171e-08, 0.0883649, 0.563922, -0.663721)
+script = ExtResource("8_yuepf")
+inventoryContainer = NodePath("../InventoryManager/ToolsInventoryContainer")
+BoneName = "arm_r_tool"
+
+[node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player", "InventoryContainer", "ToolsInventoryContainer")]
 script = ExtResource("9_i7djo")
 player = NodePath("..")
 InventoryContainer = NodePath("InventoryContainer")
+ToolsInventoryContainer = NodePath("ToolsInventoryContainer")
 
 [node name="InventoryContainer" type="Node3D" parent="InventoryManager" node_paths=PackedStringArray("inventoryManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.474586, -1.33083)
@@ -213,6 +221,77 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_xq5le")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InventoryManager/InventoryContainer/Offset/InventoryRegion"]
+transform = Transform3D(1, 1.49012e-07, 4.33431e-13, -1.49012e-07, 1, -4.39648e-13, 3.87246e-13, 1.4877e-12, 1, 0, 0.0258765, 0.140574)
+shape = SubResource("BoxShape3D_3vocq")
+
+[node name="ToolsInventoryContainer" type="Node3D" parent="InventoryManager" node_paths=PackedStringArray("inventoryManager")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3351, 0.474586, -1.33083)
+script = ExtResource("9_2nk6i")
+inventoryManager = NodePath("..")
+
+[node name="Offset" type="Node3D" parent="InventoryManager/ToolsInventoryContainer"]
+transform = Transform3D(0.462569, -0.886583, 1.25101e-07, 9.27259e-08, -9.27255e-08, -1, 0.886583, 0.462569, 3.93171e-08, -0.0342286, 0.0307403, 0.0173078)
+
+[node name="Renderer" type="Node3D" parent="InventoryManager/ToolsInventoryContainer/Offset" node_paths=PackedStringArray("inventoryContainer")]
+transform = Transform3D(1, 2.98023e-08, 3.55271e-15, -2.98023e-08, 1, -6.21725e-15, 3.55271e-15, 1.77636e-15, 1, 0, 0, 0)
+script = ExtResource("9_f8yeh")
+inventoryContainer = NodePath("../..")
+StackRendererScene = ExtResource("10_1f563")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, -9.31323e-10, 9.31323e-10, -1.82354e-09, 0.0417177, -1.11022e-16, -0.0417177, -1.82354e-09, -0.0223876, -2.98023e-08, 0.0874492)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28073e-09, 0.0346577)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28076e-09, -0.013985)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28076e-09, -0.0712356)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, 0.0874492)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, 0.0346577)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, -0.013985)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
+transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28076e-09, -0.0712356)
+mesh = SubResource("PrismMesh_7qklf")
+skeleton = NodePath("../../..")
+
+[node name="InventoryRegion" type="Area3D" parent="InventoryManager/ToolsInventoryContainer/Offset" node_paths=PackedStringArray("inventoryContainer")]
+transform = Transform3D(1, 2.98023e-08, 3.55271e-15, -2.98023e-08, 1, -6.21725e-15, 3.55271e-15, 1.77636e-15, 1, 0, 0, 0)
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("11_pp7et")
+inventoryContainer = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/InventoryRegion"]
+transform = Transform3D(1, 1.77636e-15, -8.9407e-08, -8.9407e-08, -4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 0.0140736, 0.135922)
+mesh = SubResource("QuadMesh_7aa3i")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xq5le")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InventoryManager/ToolsInventoryContainer/Offset/InventoryRegion"]
 transform = Transform3D(1, 1.49012e-07, 4.33431e-13, -1.49012e-07, 1, -4.39648e-13, 3.87246e-13, 1.4877e-12, 1, 0, 0.0258765, 0.140574)
 shape = SubResource("BoxShape3D_3vocq")
 

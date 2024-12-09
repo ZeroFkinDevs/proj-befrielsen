@@ -109,7 +109,10 @@ namespace Game
             if (area is IInventoryPlaceRegion region)
             {
                 region.OnExit();
-                CurrentRegion = null;
+                if (CurrentRegion == region)
+                {
+                    CurrentRegion = null;
+                }
             }
         }
     }

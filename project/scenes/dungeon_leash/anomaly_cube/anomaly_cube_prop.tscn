@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://c47ht56frhtwi"]
+
+[ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/anomaly_cube/anomaly_cube.tscn" id="1_hgavt"]
+[ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_uodha"]
+[ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_qgw1f"]
+[ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/anomaly_cube/anomaly_cube_phy_collision_shape.tscn" id="4_snay1"]
+
+[node name="anomaly_cube_prop" type="Node3D"]
+
+[node name="anomaly_cube" parent="." instance=ExtResource("1_hgavt")]
+
+[node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]
+script = ExtResource("2_uodha")
+Object = NodePath("../anomaly_cube")
+Target = NodePath("../PropBody")
+
+[node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("3_qgw1f")
+ModelSmoothConnector = NodePath("../SmoothConnector")
+
+[node name="anomaly_cube_phy_collision_shape" parent="PropBody" instance=ExtResource("4_snay1")]

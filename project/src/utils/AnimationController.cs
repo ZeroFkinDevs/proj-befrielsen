@@ -8,12 +8,15 @@ namespace Game
 		[Export]
 		public Skeleton3D skeleton3D;
 
+		public float ModelScale = 1.0f;
+
 		private AnimationTree _animationThree;
 		public AnimationTree AnimTree { get { return _animationThree; } }
 
 		public Transform3D GetBoneGlobalPose(int boneId)
 		{
 			var pose = skeleton3D.GlobalTransform * skeleton3D.GetBoneGlobalPose(boneId);
+			pose.Basis = pose.Basis.Scaled(Vector3.One / ModelScale);
 			return pose;
 		}
 

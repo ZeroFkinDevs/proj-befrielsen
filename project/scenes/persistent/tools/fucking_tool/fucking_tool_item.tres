@@ -1,10 +1,12 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bieidapcwwcr4"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://bieidapcwwcr4"]
 
 [ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_fc5gg"]
-[ext_resource type="Script" path="res://src/objects/item/ItemResource.cs" id="2_5pb3d"]
+[ext_resource type="PackedScene" uid="uid://co5kmeoq5w6mw" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_tool.tscn" id="2_opw7c"]
+[ext_resource type="Script" path="res://src/objects/item/ToolItemResource.cs" id="3_hxn1s"]
 
 [resource]
-script = ExtResource("2_5pb3d")
+script = ExtResource("3_hxn1s")
+ToolScene = ExtResource("2_opw7c")
 MeshScene = ExtResource("1_fc5gg")
 PropScenePath = "res://scenes/persistent/tools/fucking_tool/fucking_tool_prop.tscn"
 Name = "Нарды"

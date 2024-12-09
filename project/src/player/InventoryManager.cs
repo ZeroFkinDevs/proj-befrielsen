@@ -11,6 +11,9 @@ namespace Game
         [Export]
         public InventoryContainer InventoryContainer;
 
+        [Export]
+        public InventoryContainer ToolsInventoryContainer;
+
         public const string TmpItemResPath = "user://tmp/stack.tres";
 
         public override void _Ready()
@@ -20,9 +23,17 @@ namespace Game
 
         public override void _Process(double delta)
         {
-            var trans = player.model.GetBoneGlobalPose(player.model.LeftHandBoneID);
-            trans.Basis = trans.Basis.Scaled(Vector3.One / new Vector3(0.155f, 0.155f, 0.155f));
-            InventoryContainer.GlobalTransform = trans;
+            PositionInventory(InventoryContainer, player.model.LeftHandBoneID);
+            PositionInventory(ToolsInventoryContainer, player.model.RightHandBoneID);
+        }
+
+        public void PositionInventory(InventoryContainer container, int boneID)
+        {
+            var trans = player.model.GetBoneGlobalPose(boneID);
+            if (container != null)
+            {
+                container.GlobalTransform = trans;
+            }
         }
 
         #region open-close inventory
@@ -47,7 +58,9 @@ namespace Game
         {
             player.model.LockToCamera = true;
             player.model.SetHandsContinousState("look");
+
             InventoryContainer.Visible = true;
+            ToolsInventoryContainer.Visible = true;
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
         public void ServerCloseInventory()
@@ -58,7 +71,9 @@ namespace Game
         public void RecieveCloseInventory()
         {
             player.model.LockToCamera = false;
+
             InventoryContainer.Visible = false;
+            ToolsInventoryContainer.Visible = false;
         }
         #endregion
     }
