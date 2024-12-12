@@ -21,20 +21,19 @@ namespace Game
 		public Node3D CurrentTool;
 
 		private ItemsStorage storage { get { return inventoryContainer.storage; } }
-		private Player player { get { return inventoryContainer.inventoryManager.player; } }
+		public Player player { get { return inventoryContainer.inventoryManager.player; } }
 
 		public override void _Ready()
 		{
 			boneId = player.model.skeleton3D.FindBone(BoneName);
 
-			inventoryContainer.storage.OnUpdate += SetupCurrentItem;
+			// inventoryContainer.storage.OnUpdate += SetupCurrentItem;
 			SetupCurrentItem();
 		}
 
 		public override void _Process(double delta)
 		{
-			GD.Print(boneId);
-			GlobalTransform = player.model.GetBoneGlobalPose(boneId);
+			GlobalTransform = player.model.GetBoneGlobalPose(boneId).RotatedLocal(Vector3.Up, -Mathf.Pi / 2.0f);
 		}
 
 		public void SetupCurrentItem()
@@ -66,20 +65,22 @@ namespace Game
 		{
 			if (CurrentToolItem == toolItem) return;
 
+			if (CurrentTool != null)
+			{
+				CurrentTool.QueueFree();
+				CurrentTool = null;
+			}
+
 			if (toolItem != null)
 			{
 				CurrentToolItem = toolItem;
 				var newTool = toolItem.ToolScene.Instantiate<Node3D>();
+				if (newTool is ITool tool)
+				{
+					tool.toolsManager = this;
+				}
 				AddChild(newTool);
 				CurrentTool = newTool;
-			}
-			else
-			{
-				if (CurrentTool != null)
-				{
-					CurrentTool.QueueFree();
-					CurrentTool = null;
-				}
 			}
 
 			CurrentToolItem = toolItem;

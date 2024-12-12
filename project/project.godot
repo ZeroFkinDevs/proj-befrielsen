@@ -78,6 +78,8 @@ inventory={
 
 [layer_names]
 
+3d_physics/layer_1="world"
+3d_physics/layer_2="players"
 3d_physics/layer_4="props"
 3d_physics/layer_5="inventory"
 3d_physics/layer_6="interactable"

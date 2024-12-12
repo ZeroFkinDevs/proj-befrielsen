@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=28 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
+[ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
 [ext_resource type="Script" path="res://src/player/PropPusher.cs" id="4_em3n5"]
 [ext_resource type="Script" path="res://src/player/RayInteractor.cs" id="4_ftn5o"]
 [ext_resource type="Script" path="res://src/player/ObjectGrabber.cs" id="5_101rh"]
@@ -57,7 +58,7 @@ albedo_color = Color(0.619608, 0.878431, 0.780392, 0.0392157)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3vocq"]
 size = Vector3(0.08, 0.166753, 0.496616)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber", "livingStateManager")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
 floor_constant_speed = true
@@ -74,9 +75,13 @@ ModelSmoothConnector = NodePath("puppet/SmoothTranslator")
 tmpStorage = NodePath("TmpStorage")
 objectInstantiator = NodePath("ObjectInstantiator")
 grabber = NodePath("Camera3D/ObjectGrabber")
+livingStateManager = NodePath("livingStateManager")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
+
+[node name="livingStateManager" type="Node3D" parent="."]
+script = ExtResource("2_ru2q0")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.671634, -0.165665)
@@ -147,9 +152,10 @@ script = ExtResource("8_yuepf")
 inventoryContainer = NodePath("../InventoryManager/ToolsInventoryContainer")
 BoneName = "arm_r_tool"
 
-[node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player", "InventoryContainer", "ToolsInventoryContainer")]
+[node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player", "toolsManager", "InventoryContainer", "ToolsInventoryContainer")]
 script = ExtResource("9_i7djo")
 player = NodePath("..")
+toolsManager = NodePath("../ToolsManager")
 InventoryContainer = NodePath("InventoryContainer")
 ToolsInventoryContainer = NodePath("ToolsInventoryContainer")
 

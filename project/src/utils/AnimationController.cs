@@ -13,6 +13,9 @@ namespace Game
 		private AnimationTree _animationThree;
 		public AnimationTree AnimTree { get { return _animationThree; } }
 
+		private AnimWithEvents _animWithEvents;
+		public AnimWithEvents animWithEvents { get { return _animWithEvents; } }
+
 		public Transform3D GetBoneGlobalPose(int boneId)
 		{
 			var pose = skeleton3D.GlobalTransform * skeleton3D.GetBoneGlobalPose(boneId);
@@ -24,6 +27,8 @@ namespace Game
 		{
 			_animationThree = GetNode<AnimationTree>("AnimationTree");
 			AnimTree.AnimationFinished += OnAnimationFinished;
+
+			_animWithEvents = GetNode<AnimWithEvents>("AnimationPlayer");
 		}
 
 		public override void _Process(double delta)
@@ -40,6 +45,10 @@ namespace Game
 		{
 			AnimTree.Set("parameters/" + transitionNodeName + "/transition_request", stateName);
 		}
+		public void OneShot(string oneShotNodeName)
+		{
+			AnimTree.Set("parameters/" + oneShotNodeName + "/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+		}
 		public void SetTimeScale(string timeScaleName, float scale)
 		{
 			AnimTree.Set("parameters/" + timeScaleName + "/scale", scale);
@@ -47,6 +56,10 @@ namespace Game
 		public void SetBlend(string blendName, float value)
 		{
 			AnimTree.Set("parameters/" + blendName + "/blend_amount", value);
+		}
+		public float GetBlend(string blendName)
+		{
+			return (float)AnimTree.Get("parameters/" + blendName + "/blend_amount");
 		}
 		public void SetBlend2D(string blendName, Vector2 value)
 		{

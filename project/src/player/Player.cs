@@ -3,7 +3,7 @@ using Godot;
 
 namespace Game
 {
-	public partial class Player : CharacterBody3D, IUser
+	public partial class Player : CharacterBody3D, IUser, ILiving
 	{
 		public enum ControlGroupEnum
 		{
@@ -44,6 +44,9 @@ namespace Game
 		public Vector2 CameraRotation;
 		public Vector2 CameraRotationTarget;
 		private Vector3 LastGlobalPosition;
+
+		[Export]
+		public LivingStateManager livingStateManager { get; set; }
 
 		// Called when the node enters the scene tree for the first time.
 		public override void _EnterTree()

@@ -8,17 +8,27 @@ namespace Game
         [Export]
         public Player player;
 
+
+        [Export]
+        public ToolsManager toolsManager;
         [Export]
         public InventoryContainer InventoryContainer;
 
         [Export]
         public InventoryContainer ToolsInventoryContainer;
 
+        public bool isLookingInventory = false;
+        public bool GetIsLookingInventory() { return isLookingInventory; }
+
         public const string TmpItemResPath = "user://tmp/stack.tres";
 
         public override void _Ready()
         {
-
+            player.model.ObserveLockToCamera += GetIsLookingInventory;
+        }
+        public override void _ExitTree()
+        {
+            player.model.ObserveLockToCamera -= GetIsLookingInventory;
         }
 
         public override void _Process(double delta)
@@ -53,10 +63,12 @@ namespace Game
         {
             Rpc(MethodName.RecieveOpenInventory);
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
         public void RecieveOpenInventory()
         {
-            player.model.LockToCamera = true;
+            toolsManager.SetTool(null);
+            isLookingInventory = true;
+
             player.model.SetHandsContinousState("look");
 
             InventoryContainer.Visible = true;
@@ -67,13 +79,15 @@ namespace Game
         {
             Rpc(MethodName.RecieveCloseInventory);
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
         public void RecieveCloseInventory()
         {
-            player.model.LockToCamera = false;
+            isLookingInventory = false;
 
             InventoryContainer.Visible = false;
             ToolsInventoryContainer.Visible = false;
+
+            toolsManager.SetupCurrentItem();
         }
         #endregion
     }

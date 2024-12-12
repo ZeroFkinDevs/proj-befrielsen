@@ -1,7 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://co5kmeoq5w6mw"]
+[gd_scene load_steps=5 format=3 uid="uid://co5kmeoq5w6mw"]
 
 [ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_ae88k"]
+[ext_resource type="Script" path="res://src/player/tools/FuckingTool.cs" id="1_gwc2q"]
+[ext_resource type="Script" path="res://src/objects/areas/DamageArea.cs" id="2_hlpy3"]
 
-[node name="FuckingToolTool" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_s2css"]
+size = Vector3(0.568481, 0.662109, 0.723663)
+
+[node name="FuckingToolTool" type="Node3D" node_paths=PackedStringArray("damageArea")]
+script = ExtResource("1_gwc2q")
+damageArea = NodePath("DamageArea")
+
+[node name="DamageArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("2_hlpy3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000427246, 0.424613, 0.0147501)
+shape = SubResource("BoxShape3D_s2css")
 
 [node name="fucking_tool" parent="." instance=ExtResource("1_ae88k")]

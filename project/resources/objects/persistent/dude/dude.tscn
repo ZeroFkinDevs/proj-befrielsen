@@ -34,12 +34,28 @@ AnimationEvents = {
 "air": [  ],
 "grounded": [  ],
 "hand_tool_stick": [  ],
-"hand_tool_stick_attack": [  ],
-"hands_idle": [  ],
-"hands_look": [  ],
+"hand_tool_stick_attack": [ {
+"event": "attack",
+"args": [  ],
+"time": 0.41666666666666663
+} ],
+"hands_idle": [ {
+"event": "hands_idle",
+"args": [  ],
+"time": 0.29166666666666663
+} ],
+"hands_look": [ {
+"event": "attack",
+"args": [  ],
+"time": 0.20833333333333331
+} ],
 "hands_walk": [  ],
 "hands_walk_side": [  ],
 "idle": [  ],
-"walk": [  ],
+"walk": [ {
+"event": "walk",
+"args": [  ],
+"time": 0.125
+} ],
 "walk_side": [  ]
 }

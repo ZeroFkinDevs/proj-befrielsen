@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Net.Http;
 using Godot;
 
@@ -20,7 +21,22 @@ namespace Game
 		public Vector3 HandsState;
 		private Vector3 LastGlobalPosition;
 
-		public bool LockToCamera = false;
+		public delegate bool ObserveLockCameraStateDelegate();
+		public ObserveLockCameraStateDelegate ObserveLockToCamera;
+		public bool LockToCamera
+		{
+			get
+			{
+				foreach (var func in ObserveLockToCamera.GetInvocationList())
+				{
+					if ((bool)func.DynamicInvoke())
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
 
 		public int NeckBoneID = 0;
 		public int HeadBoneID = 0;
@@ -29,6 +45,14 @@ namespace Game
 		public int RightToolBoneID = 0;
 		public int ArmsRotatorBoneID = 0;
 		public float ArmsLockFactor = 0.0f;
+
+		public static class HandsActionType
+		{
+			public static string NONE = null;
+			public static string STICK_ATTACK = "stick_attack";
+		}
+
+		public string handsActionType = HandsActionType.NONE;
 
 		public override void _EnterTree()
 		{
@@ -44,6 +68,23 @@ namespace Game
 			RightHandBoneID = skeleton3D.FindBone("arm_r_3");
 			RightToolBoneID = skeleton3D.FindBone("arm_r_tool");
 			ArmsRotatorBoneID = skeleton3D.FindBone("arms_rotator");
+			SetHandsAction(handsActionType);
+		}
+
+		public void SetHandsAction(string action = null)
+		{
+			handsActionType = action;
+			if (action != null)
+			{
+				SetState("action_type", action);
+			}
+		}
+		public void TriggerOneShotAction()
+		{
+			if (handsActionType != null)
+			{
+				OneShot("one_shot_action_" + handsActionType);
+			}
 		}
 
 		public void SetHandsContinousState(string state)
@@ -53,8 +94,19 @@ namespace Game
 
 		public void DisableHead()
 		{
-			// var trans = Transform3D.Identity;
 			skeleton3D.SetBonePoseScale(NeckBoneID, Vector3.One * 0.02f);
+		}
+
+		public void UpdateAction(float delta)
+		{
+			if (handsActionType == null)
+			{
+				SetBlend("blend_hands_action", Mathf.Lerp(GetBlend("blend_hands_action"), 0.0f, delta * 20.0f));
+			}
+			else
+			{
+				SetBlend("blend_hands_action", Mathf.Lerp(GetBlend("blend_hands_action"), 1.0f, delta * 20.0f));
+			}
 		}
 
 		public void UpdateMovement(float delta)
@@ -149,6 +201,7 @@ namespace Game
 		{
 			base._Process(delta);
 			UpdateMovement((float)delta);
+			UpdateAction((float)delta);
 		}
 		public override void _PhysicsProcess(double delta)
 		{
