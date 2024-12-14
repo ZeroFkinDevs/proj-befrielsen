@@ -78,6 +78,14 @@ objectInstantiator = NodePath("ObjectInstantiator")
 grabber = NodePath("Camera3D/ObjectGrabber")
 livingStateManager = NodePath("livingStateManager")
 
+[node name="TmpStorage" type="Node3D" parent="."]
+script = ExtResource("14_j8e2n")
+
+[node name="ObjectInstantiator" type="Node3D" parent="." node_paths=PackedStringArray("Parent")]
+script = ExtResource("18_0dw4w")
+Parent = NodePath("..")
+SpawnId = "playerObjectSpawner"
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
 
@@ -318,7 +326,7 @@ grow_vertical = 2
 script = ExtResource("8_v0c8m")
 player = NodePath("..")
 
-[node name="Cursor" type="Control" parent="UI" node_paths=PackedStringArray("playerUI", "rayInteractor", "textureRect")]
+[node name="Cursor" type="Control" parent="UI" node_paths=PackedStringArray("playerUI", "rayInteractor", "textureRect", "descriptionLabel")]
 layout_mode = 2
 anchors_preset = 0
 offset_left = 576.0
@@ -330,15 +338,28 @@ playerUI = NodePath("..")
 cursorIconsBank = ExtResource("10_hrgru")
 rayInteractor = NodePath("../../Camera3D/RayInteractor")
 textureRect = NodePath("TextureRect")
+descriptionLabel = NodePath("Label")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Cursor"]
 layout_mode = 1
-offset_left = -30.0
-offset_top = -28.0
-offset_right = 97.0
-offset_bottom = 99.0
+offset_left = -28.185
+offset_top = -28.765
+offset_right = 98.815
+offset_bottom = 98.235
 scale = Vector2(0.44, 0.44)
 texture = ExtResource("8_8afli")
+
+[node name="Label" type="Label" parent="UI/Cursor"]
+layout_mode = 1
+offset_left = -72.0
+offset_top = 18.0
+offset_right = 73.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 10
+text = "text"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
 layout_mode = 1
@@ -347,11 +368,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="TmpStorage" type="Node3D" parent="."]
-script = ExtResource("14_j8e2n")
-
-[node name="ObjectInstantiator" type="Node3D" parent="." node_paths=PackedStringArray("Parent")]
-script = ExtResource("18_0dw4w")
-Parent = NodePath("..")
-SpawnId = "playerObjectSpawner"
+metadata/_edit_lock_ = true

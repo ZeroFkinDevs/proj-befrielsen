@@ -15,6 +15,9 @@ namespace Game
 		[Export]
 		public TextureRect textureRect;
 
+		[Export]
+		public Label descriptionLabel;
+
 		public override void _Process(double delta)
 		{
 			GlobalPosition = GetGlobalMousePosition();
@@ -27,8 +30,12 @@ namespace Game
 
 			textureRect.Texture = cursorIconsBank.Default;
 
+			descriptionLabel.Text = "";
+
 			if (rayInteractor.Interactable != null)
 			{
+				descriptionLabel.Text = rayInteractor.Interactable.InteractableDescription;
+
 				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.GRAB)
 				{
 					textureRect.Texture = cursorIconsBank.Grab;

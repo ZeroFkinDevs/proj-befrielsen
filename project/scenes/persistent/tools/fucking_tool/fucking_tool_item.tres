@@ -9,4 +9,4 @@ script = ExtResource("3_hxn1s")
 ToolScene = ExtResource("2_opw7c")
 MeshScene = ExtResource("1_fc5gg")
 PropScenePath = "res://scenes/persistent/tools/fucking_tool/fucking_tool_prop.tscn"
-Name = "Нарды"
+Name = "Отвертка для нарезки бомжей для пиццы"

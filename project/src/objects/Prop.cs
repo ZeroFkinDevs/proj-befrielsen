@@ -35,6 +35,9 @@ namespace Game
 
         public ItemsStorage ItemsStorageRes { get { return itemsStorage; } }
 
+        public string InteractableDescription => "prop";
+
+
         public void GrabStart()
         {
             _interactionType = InteractionTypeEnum.NONE;

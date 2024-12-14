@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://doo6dh3f0esh7"]
+
+[ext_resource type="Resource" uid="uid://nsmcef7iecpd" path="res://scenes/persistent/fingers/finger_item.tres" id="1_jn8xq"]
+[ext_resource type="Script" path="res://src/objects/item/ItemStack.cs" id="2_xxkqj"]
+
+[resource]
+script = ExtResource("2_xxkqj")
+ItemRes = ExtResource("1_jn8xq")
+Quantity = 1

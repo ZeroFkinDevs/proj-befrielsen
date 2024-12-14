@@ -1670,18 +1670,18 @@ MovementSensivity = 0.4
 skeleton3D = NodePath("Armature/Skeleton3D")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(0.0014092, -0.0603873, 0.403919)
-bones/0/rotation = Quaternion(-0.704018, 7.77689e-17, 7.92389e-17, 0.710182)
+bones/0/position = Vector3(0.00128076, -0.0594798, 0.403922)
+bones/0/rotation = Quaternion(-0.70356, 7.88964e-17, 7.81109e-17, 0.710635)
 bones/1/rotation = Quaternion(-0.0155866, 0.0155865, -0.706935, 0.706935)
-bones/2/rotation = Quaternion(-0.650812, -0.0292257, -0.035626, 0.757839)
+bones/2/rotation = Quaternion(-0.650932, -0.0287919, -0.0351552, 0.757775)
 bones/2/scale = Vector3(1, 1, 1)
-bones/3/rotation = Quaternion(-0.0593662, 0.000813368, 0.152053, 0.986588)
+bones/3/rotation = Quaternion(-0.0590736, 0.000819547, 0.15149, 0.986692)
 bones/4/rotation = Quaternion(-0.0174504, -0.00968271, -0.772294, 0.634951)
 bones/5/rotation = Quaternion(-0.0265268, -0.0265268, 0.706609, 0.706609)
 bones/5/scale = Vector3(1, 1, 1)
-bones/6/rotation = Quaternion(-0.636601, 0.0275554, 0.0341404, 0.769945)
+bones/6/rotation = Quaternion(-0.636809, 0.026885, 0.0333868, 0.769829)
 bones/6/scale = Vector3(1, 1, 1)
-bones/7/rotation = Quaternion(-0.0629349, -0.00116747, -0.154912, 0.985921)
+bones/7/rotation = Quaternion(-0.0626433, -0.00117325, -0.154372, 0.986024)
 bones/8/rotation = Quaternion(-0.0083202, 0.0249771, 0.77908, 0.626372)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/rotation = Quaternion(0.707107, -7.85046e-17, -7.85046e-17, 0.707107)
@@ -1750,7 +1750,7 @@ bones/56/position = Vector3(0.942021, -6.6344, 0.00447227)
 bones/56/scale = Vector3(1, 1, 1)
 
 [node name="Circle" parent="Armature/Skeleton3D" index="0"]
-transform = Transform3D(1, -4.07128e-14, -4.9738e-13, 3.9746e-14, 0.999962, -0.00871791, 4.68958e-13, 0.00871791, 0.999962, 0.00087607, 5.75929, 0.890417)
+transform = Transform3D(1, -4.07128e-14, -4.9738e-13, 3.88578e-14, 0.99995, -0.0100054, 4.83169e-13, 0.0100054, 0.99995, 0.00074763, 5.75957, 0.897913)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 libraries = {

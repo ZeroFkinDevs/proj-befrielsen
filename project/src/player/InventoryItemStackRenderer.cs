@@ -25,6 +25,8 @@ namespace Game
             }
         }
 
+        public string InteractableDescription => itemStack.ItemRes.Name + " [" + itemStack.Quantity + "x]";
+
         public void Interact(IUser user)
         {
             Reparent(GetParent().GetParent());
