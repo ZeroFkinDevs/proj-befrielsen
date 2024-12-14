@@ -52,10 +52,6 @@ AnimationEvents = {
 "hands_walk": [  ],
 "hands_walk_side": [  ],
 "idle": [  ],
-"walk": [ {
-"event": "walk",
-"args": [  ],
-"time": 0.125
-} ],
+"walk": [  ],
 "walk_side": [  ]
 }

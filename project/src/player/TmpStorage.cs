@@ -49,7 +49,7 @@ namespace Game
 
             RpcId(1, MethodName.ServerBroadcastResources, packedStacks, tag, fileType, node.GetPath(), nodeRecieveMethod, recieveArgs);
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerBroadcastResources(Array<string> packedRes, string tag, string fileType, string nodePath, StringName nodeRecieveMethod, Array<string> recieveArgs)
         {
             Rpc(MethodName.RecieveResources, packedRes, tag, fileType, nodePath, nodeRecieveMethod, recieveArgs);

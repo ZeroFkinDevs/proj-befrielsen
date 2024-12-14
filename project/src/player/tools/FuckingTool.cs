@@ -26,7 +26,7 @@ namespace Game
 
             damageArea.IgnoreList.Add(toolsManager.player);
 
-            // toolsManager.player.model.animWithEvents.OnEventInvoked += OnAnimationEvent;
+            toolsManager.player.model.animWithEvents.OnEventInvoked += OnAnimationEvent;
         }
 
         public override void _ExitTree()
@@ -34,7 +34,7 @@ namespace Game
             toolsManager.player.model.SetHandsAction(CharacterModel.HandsActionType.NONE);
             toolsManager.player.model.ObserveLockToCamera -= GetHandsLockToCamera;
 
-            // toolsManager.player.model.animWithEvents.OnEventInvoked -= OnAnimationEvent;
+            toolsManager.player.model.animWithEvents.OnEventInvoked -= OnAnimationEvent;
         }
 
         public override void _Process(double delta)

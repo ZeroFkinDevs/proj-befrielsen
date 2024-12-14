@@ -9,14 +9,15 @@ namespace Game
 
         public void Damage()
         {
+            if (!Multiplayer.IsServer()) return;
+
             foreach (var body in GetOverlappingBodies())
             {
                 if (IgnoreList.Contains(body)) continue;
 
                 if (body is ILiving living)
                 {
-                    GD.Print("Damage");
-                    GD.Print(body);
+                    living.livingStateManager.TakeDamage(1);
                 }
             }
         }

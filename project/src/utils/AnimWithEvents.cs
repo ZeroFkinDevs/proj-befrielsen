@@ -22,30 +22,20 @@ namespace Game
         public static event Action<string> OnGlobalEventInvoked;
         public AnimWithEvents()
         {
-            _registeredEvents = new System.Collections.Generic.HashSet<string>();
-            EventsHandlersMap = new System.Collections.Generic.Dictionary<string, AnimEventHandler> {
-                { "attack",  CharacterMethod}
+            if (_registeredEvents == null)
+            {
+                _registeredEvents = new System.Collections.Generic.HashSet<string>();
+            }
+            EventsHandlersMap = new System.Collections.Generic.Dictionary<string, AnimEventHandler>
+            {
+
             };
         }
-
-        public void CharacterMethod(ArrayOfStrings args)
-        {
-            GD.Print("attatatatatck");
-            if (args.Count > 0)
-            {
-                OnGlobalEventInvoked?.Invoke(args[0]);
-            }
-        }
-
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
             SetupEvents();
-            AnimationStarted += void (StringName anim) =>
-            {
-                GD.Print();
-            };
         }
 
         public void SetupEvents()
@@ -53,7 +43,6 @@ namespace Game
             AnimationMixer animMixer = GetParent().GetNode<AnimationTree>("AnimationTree");
             // if (animMixer == null) animMixer = this;
 
-            GD.Print(AnimationEvents.Keys);
             foreach (string animKey in AnimationEvents.Keys)
             {
                 Animation anim = animMixer.GetAnimation(animKey);
@@ -91,7 +80,6 @@ namespace Game
 
         public void HandleEvent(string event_key, ArrayOfStrings args)
         {
-            GD.Print(event_key);
             if (EventsHandlersMap.ContainsKey(event_key))
             {
                 try

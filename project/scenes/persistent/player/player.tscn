@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=29 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cm0f138qnggxl" path="res://scenes/persistent/player/dude_model.tscn" id="5_kgqkn"]
 [ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="6_gdb6h"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
+[ext_resource type="Script" path="res://src/player/FingersManager.cs" id="7_qxsfq"]
 [ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="8_8afli"]
 [ext_resource type="Script" path="res://src/player/ui/PlayerUI.cs" id="8_v0c8m"]
 [ext_resource type="Script" path="res://src/player/ToolsManager.cs" id="8_yuepf"]
@@ -80,8 +81,10 @@ livingStateManager = NodePath("livingStateManager")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
 
-[node name="livingStateManager" type="Node3D" parent="."]
+[node name="livingStateManager" type="Node3D" parent="." node_paths=PackedStringArray("tmpStorage")]
 script = ExtResource("2_ru2q0")
+MaxStatesCount = 10
+tmpStorage = NodePath("../TmpStorage")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.671634, -0.165665)
@@ -126,6 +129,10 @@ transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, -0.
 
 [node name="dude_model" parent="puppet/ModelContainer" node_paths=PackedStringArray("player") instance=ExtResource("5_kgqkn")]
 transform = Transform3D(0.15, 0, 9.53596e-09, 0, 0.15, 0, -9.53596e-09, 0, 0.15, 0, 0.0245691, 0)
+player = NodePath("../../..")
+
+[node name="FingersManager" type="Node3D" parent="puppet/ModelContainer" node_paths=PackedStringArray("player")]
+script = ExtResource("7_qxsfq")
 player = NodePath("../../..")
 
 [node name="Target" type="Node3D" parent="puppet"]
