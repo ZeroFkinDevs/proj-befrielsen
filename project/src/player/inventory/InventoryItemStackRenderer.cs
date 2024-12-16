@@ -20,6 +20,7 @@ namespace Game
             {
                 if (itemsRenderer == null) return InteractionTypeEnum.NONE;
                 if (isDragging) return InteractionTypeEnum.NONE;
+                if (player.Controllable && Input.IsActionPressed("alt_mode")) return InteractionTypeEnum.APPLY;
                 if (player.Controllable) return InteractionTypeEnum.INVENTORY_DRAG;
                 return InteractionTypeEnum.NONE;
             }
@@ -35,6 +36,15 @@ namespace Game
 
             CallDeferred(MethodName.CheckRegions);
             isDragging = true;
+        }
+
+        public void ConsumeOne()
+        {
+            itemStack.Quantity -= 1;
+            if (itemStack.Quantity <= 0)
+            {
+                QueueFree();
+            }
         }
 
         public override void _Process(double delta)
@@ -56,7 +66,7 @@ namespace Game
                         if (itemStack.ItemRes.PropScenePath != "")
                         {
                             var packedScene = GD.Load<PackedScene>(itemStack.ItemRes.PropScenePath);
-                            QueueFree();
+                            ConsumeOne();
                             player.objectInstantiator.RequestInstantiate(player.tmpStorage, packedScene, player.grabber, ObjectGrabber.MethodName.GrabPropInstance);
                         }
                     }
@@ -115,6 +125,7 @@ namespace Game
                 {
                     CurrentRegion = null;
                 }
+                CheckRegions();
             }
         }
     }

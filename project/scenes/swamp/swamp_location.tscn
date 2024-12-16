@@ -107,7 +107,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3302, -4.57482, 1.30633)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.888105, -0.930413, 2.8754)
 
 [node name="FuckingToolInstance" parent="." instance=ExtResource("12_s7keh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.480878, -0.767021, 3.94624)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.225382, -0.767021, 3.49294)
+
+[node name="FuckingToolInstance2" parent="." instance=ExtResource("12_s7keh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.44855, -0.767021, 2.8268)
 
 [node name="anomaly_cube_prop" parent="." instance=ExtResource("12_kq5fs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.42162, -1.17216, 3.91461)

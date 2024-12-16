@@ -9,6 +9,8 @@ namespace Game
     {
         [Export]
         public Player player;
+        [Export]
+        public PackedScene deadFingerScene;
 
         public Array<LivingStateResource> fingersAlive = null;
 
@@ -31,7 +33,36 @@ namespace Game
         {
             fingersAlive[idx] = null;
             UpdateFinger(idx);
+            player.objectInstantiator.RequestInstantiate(player.tmpStorage, deadFingerScene, this, MethodName.DropFingerProp);
         }
+        public void DropFingerProp(Node node)
+        {
+            Prop prop = null;
+            var targetPos = GlobalPosition;
+
+            foreach (var child in node.GetChildren())
+            {
+                if (child is Prop childprop)
+                {
+                    prop = childprop;
+                    break;
+                }
+            }
+            if (prop != null)
+            {
+                prop.GlobalPosition = targetPos;
+                if (player.Controllable)
+                {
+                    prop.RequestImpulse(-player.GlobalTransform.Basis.Z, prop.GlobalTransform);
+                }
+            }
+        }
+        public void HealFinger(int idx)
+        {
+            fingersAlive[idx] = player.livingStateManager.livingStates[idx];
+            UpdateFinger(idx);
+        }
+
         public void UpdateFinger(int idx)
         {
             var stateRes = fingersAlive[idx];
@@ -40,12 +71,20 @@ namespace Game
             {
                 player.model.skeleton3D.SetBonePoseScale(boneId, Vector3.One * -0.01f);
             }
+            else
+            {
+                player.model.skeleton3D.SetBonePoseScale(boneId, Vector3.One);
+            }
         }
 
         public void UpdateAliveFingers()
         {
             for (int i = 0; i < fingersAlive.Count; i++)
             {
+                if (fingersAlive[i] == null && player.livingStateManager.livingStates[i].Health > 0)
+                {
+                    HealFinger(i);
+                }
                 if (fingersAlive[i] != null && player.livingStateManager.livingStates[i].Health == 0)
                 {
                     DropFinger(i);
@@ -55,7 +94,8 @@ namespace Game
                 {
                     if (fingersAlive[i] != player.livingStateManager.livingStates[i])
                     {
-
+                        fingersAlive[i] = player.livingStateManager.livingStates[i];
+                        UpdateFinger(i);
                     }
                 }
             }

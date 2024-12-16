@@ -1,10 +1,10 @@
 [gd_resource type="Resource" load_steps=3 format=3 uid="uid://nsmcef7iecpd"]
 
 [ext_resource type="PackedScene" path="res://resources/objects/persistent/fingers/finger.tscn" id="1_gguvh"]
-[ext_resource type="Script" path="res://src/objects/item/ItemResource.cs" id="2_66w1b"]
+[ext_resource type="Script" path="res://src/objects/item/FingerItemResource.cs" id="2_6a683"]
 
 [resource]
-script = ExtResource("2_66w1b")
+script = ExtResource("2_6a683")
 MeshScene = ExtResource("1_gguvh")
 PropScenePath = "res://scenes/persistent/fingers/finger_prop.tscn"
 Name = "Палец"

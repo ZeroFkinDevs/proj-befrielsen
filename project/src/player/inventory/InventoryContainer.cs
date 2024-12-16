@@ -10,6 +10,9 @@ namespace Game
 
         [Export]
         public ItemsStorage storage;
+        [Export]
+        public string boneName;
+        private int boneId;
 
         public override void _EnterTree()
         {
@@ -21,6 +24,12 @@ namespace Game
             {
                 BroadcastItemStacks();
             }
+            boneId = inventoryManager.player.model.skeleton3D.FindBone(boneName);
+        }
+        public override void _Process(double delta)
+        {
+            var trans = inventoryManager.player.model.GetBoneGlobalPose(boneId);
+            GlobalTransform = trans;
         }
         public void BroadcastItemStacks()
         {

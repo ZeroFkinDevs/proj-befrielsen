@@ -1,5 +1,6 @@
-[gd_resource type="Resource" load_steps=6 format=3 uid="uid://bn2t7oen1bjav"]
+[gd_resource type="Resource" load_steps=7 format=3 uid="uid://bn2t7oen1bjav"]
 
+[ext_resource type="Texture2D" uid="uid://c8ddqs1ixyt7b" path="res://resources/ui/icons/apply.png" id="1_itq7p"]
 [ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="1_q6li3"]
 [ext_resource type="Texture2D" uid="uid://b5qlcnb6kwiis" path="res://resources/ui/icons/grab.png" id="2_upoqi"]
 [ext_resource type="Texture2D" uid="uid://c27eelwwkf7gs" path="res://resources/ui/icons/pickup.png" id="3_awd4u"]
@@ -12,3 +13,4 @@ Default = ExtResource("1_q6li3")
 Grab = ExtResource("2_upoqi")
 PICKUP = ExtResource("3_awd4u")
 InventoryDrag = ExtResource("3_l5pbe")
+Apply = ExtResource("1_itq7p")

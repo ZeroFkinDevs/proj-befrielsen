@@ -31,21 +31,6 @@ namespace Game
             player.model.ObserveLockToCamera -= GetIsLookingInventory;
         }
 
-        public override void _Process(double delta)
-        {
-            PositionInventory(InventoryContainer, player.model.LeftHandBoneID);
-            PositionInventory(ToolsInventoryContainer, player.model.RightHandBoneID);
-        }
-
-        public void PositionInventory(InventoryContainer container, int boneID)
-        {
-            var trans = player.model.GetBoneGlobalPose(boneID);
-            if (container != null)
-            {
-                container.GlobalTransform = trans;
-            }
-        }
-
         #region open-close inventory
         public void OpenInventory()
         {

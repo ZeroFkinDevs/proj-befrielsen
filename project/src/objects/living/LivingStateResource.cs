@@ -21,5 +21,12 @@ namespace Game
             Health = Math.Max(0, Health);
             OnChange?.Invoke(oldState, this);
         }
+        public void Heal(int hp)
+        {
+            var oldState = (LivingStateResource)this.Duplicate();
+            Health += hp;
+            Health = Math.Min(Health, MaxHealth);
+            OnChange?.Invoke(oldState, this);
+        }
     }
 }

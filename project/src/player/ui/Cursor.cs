@@ -48,6 +48,10 @@ namespace Game
 				{
 					textureRect.Texture = cursorIconsBank.InventoryDrag;
 				}
+				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.APPLY)
+				{
+					textureRect.Texture = cursorIconsBank.Apply;
+				}
 			}
 		}
 	}

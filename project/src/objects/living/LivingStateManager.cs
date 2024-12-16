@@ -73,7 +73,27 @@ namespace Game
 
         public void TakeDamage(int hpDamage)
         {
-            livingStates.PickRandom().TakeDamage(hpDamage);
+            var aliveStates = new Array<LivingStateResource>();
+            foreach (var state in livingStates)
+            {
+                if (state.Health > 0) aliveStates.Add(state);
+            }
+            if (aliveStates.Count > 0)
+            {
+                aliveStates.PickRandom().TakeDamage(hpDamage);
+            }
+        }
+        public bool Heal(int hp)
+        {
+            foreach (var state in livingStates)
+            {
+                if (state.Health < state.MaxHealth)
+                {
+                    state.Heal(hp);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
