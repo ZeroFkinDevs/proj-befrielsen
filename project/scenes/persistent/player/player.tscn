@@ -170,7 +170,6 @@ script = ExtResource("6_kfxo3")
 Object = NodePath("../ModelContainer")
 Target = NodePath("../Target")
 Speed = 10.0
-NoSmooth = true
 
 [node name="PropsPusher" type="Area3D" parent="." node_paths=PackedStringArray("player")]
 collision_layer = 8
