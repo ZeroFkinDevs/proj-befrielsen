@@ -33,16 +33,13 @@ namespace Game
 				{
 					trans.Origin = trans.Origin.Slerp(Target.GlobalTransform.Origin, (float)delta * Speed);
 				}
-				if (!trans.Basis.IsEqualApprox(Target.GlobalTransform.Basis))
+				try
 				{
-					try
-					{
-						trans.Basis = trans.Basis.Slerp(Target.GlobalTransform.Basis, (float)delta * Speed);
-					}
-					catch (Exception e)
-					{
-
-					}
+					trans.Basis = trans.Basis.Slerp(Target.GlobalTransform.Basis, (float)delta * Speed);
+				}
+				catch (Exception e)
+				{
+					GD.PrintErr(e);
 				}
 			}
 			Object.GlobalTransform = trans;
