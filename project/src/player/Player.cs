@@ -93,7 +93,7 @@ namespace Game
 
 			Movement.X += Input.GetAxis("move_left", "move_right");
 			Movement.Y += Input.GetAxis("move_backward", "move_forward");
-			Movement = Movement.Lerp(Vector2.Zero, (float)delta * 10.0f);
+			Movement = Movement.Lerp(Vector2.Zero, 0.013f * 10.0f);
 			if (Input.IsActionJustPressed("jump") && IsOnFloor())
 			{
 				Velocity = Velocity + Vector3.Up * 10.0f;
