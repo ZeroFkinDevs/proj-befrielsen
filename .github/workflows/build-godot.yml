@@ -1,5 +1,8 @@
 name: "godot-ci export"
-on: push
+on: 
+  push:
+    tags:
+    - 'v*'
 
 env:
   GODOT_VERSION: 4.3
@@ -34,8 +37,11 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --import --quit-after 300
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - name: Release with Notes
+        uses: softprops/action-gh-release@v1
         with:
-          name: windows
-          path: build/windows
+          generate_release_notes: true
+          files: |
+            build/windows/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
