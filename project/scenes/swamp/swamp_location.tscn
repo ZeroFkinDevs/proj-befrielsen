@@ -1,7 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=14 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
-[ext_resource type="PackedScene" uid="uid://60xauw3jusii" path="res://resources/objects/persistent/tools/grappling_hook_rigid_body.tscn" id="2_8ox6m"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_1/tree_1_static_body.tscn" id="4_wpwhh"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_2/tree_2_static_body.tscn" id="5_114nx"]
@@ -63,9 +62,6 @@ light_energy = 2.0
 light_specular = 0.0
 omni_range = 13.978
 omni_attenuation = 0.517633
-
-[node name="grappling_hook_rigid_body" parent="." instance=ExtResource("2_8ox6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.63248, 1.88348, -2.11995)
 
 [node name="swamp_geometry" parent="." instance=ExtResource("3_h4bbn")]
 transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
