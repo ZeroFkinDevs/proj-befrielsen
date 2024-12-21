@@ -11,6 +11,8 @@ env:
 
 jobs:
   export-windows:
+    permissions:
+      contents: write
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
@@ -37,10 +39,10 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --import --quit-after 300
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-          zip -r Befrielsen_Windows_x64.zip "$EXPORT_DIR/windows"
+          zip -r "$EXPORT_DIR/Befrielsen_Windows_x64.zip" "$EXPORT_DIR/windows"
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
           files: |
-            Befrielsen_Windows_x64.zip
+            build/Befrielsen_Windows_x64.zip
