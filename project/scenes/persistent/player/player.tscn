@@ -20,7 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://b2t4hssiolh1t" path="res://scenes/persistent/fingers/finger_prop.tscn" id="10_ejjqn"]
 [ext_resource type="Resource" uid="uid://bn2t7oen1bjav" path="res://scenes/persistent/player/cursor_icons_bank.tres" id="10_hrgru"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryPlaceRegion.cs" id="11_pp7et"]
-[ext_resource type="Script" path="res://src/player/TmpStorage.cs" id="14_j8e2n"]
+[ext_resource type="Script" path="res://src/player/tools/TmpStorage.cs" id="14_j8e2n"]
 [ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="18_0dw4w"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryFingersPlaceRegion.cs" id="19_n4m57"]
 [ext_resource type="Texture2D" uid="uid://byasll5a7c2yl" path="res://resources/ui/icons/fingers_region.png" id="20_n0yo3"]

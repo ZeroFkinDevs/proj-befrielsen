@@ -7,9 +7,7 @@ namespace Game
 		public bool Started = false;
 
 		[Export]
-		public Node3D LocationContainer;
-
-		public Location LocationInstance;
+		public LocationLoader locationLoader;
 
 		public override void _EnterTree()
 		{
@@ -22,9 +20,7 @@ namespace Game
 		}
 		public void SpawnLocation()
 		{
-			var locInstance = Global.Instance.LocationScene.Instantiate<Location>();
-			LocationInstance = locInstance;
-			LocationContainer.AddChild(locInstance);
+			locationLoader.InstantiateDefaultScene();
 		}
 
 		public bool Host()

@@ -25,11 +25,11 @@ namespace Game
             DirAccess.MakeDirRecursiveAbsolute(DirectoryPath);
         }
 
-        public void BroadcastArrayOfResources<[MustBeVariant] T>(Array<T> resVariant, string tag, Node3D node, StringName nodeRecieveMethod, Array<string> recieveArgs = null)
+        public (Array<string>, string) ConvertResourceToString<[MustBeVariant] T>(Array<T> resVariant, string tag)
         {
             var res = Variant.From(resVariant).AsGodotArray<Resource>();
 
-            var packedStacks = new Array<string>();
+            var packedResources = new Array<string>();
             int i = 0;
             var fileType = ".tres";
             foreach (var stack in res)
@@ -42,12 +42,23 @@ namespace Game
                     var file = FileAccess.Open(tmpItemResPath, FileAccess.ModeFlags.Read);
                     var text = file.GetAsText();
                     file.Close();
-                    packedStacks.Add(text);
+                    packedResources.Add(text);
                 }
                 i += 1;
             }
+            return (packedResources, fileType);
+        }
 
-            RpcId(1, MethodName.ServerBroadcastResources, packedStacks, tag, fileType, node.GetPath(), nodeRecieveMethod, recieveArgs);
+        public void SendArrayOfResourcesToPeer<[MustBeVariant] T>(int peerId, Array<T> resVariant, string tag, Node3D node, StringName nodeRecieveMethod, Array<string> recieveArgs = null)
+        {
+            var (packedResources, fileType) = ConvertResourceToString(resVariant, tag);
+            RpcId(peerId, MethodName.RecieveResources, packedResources, tag, fileType, node.GetPath(), nodeRecieveMethod, recieveArgs);
+        }
+
+        public void BroadcastArrayOfResources<[MustBeVariant] T>(Array<T> resVariant, string tag, Node3D node, StringName nodeRecieveMethod, Array<string> recieveArgs = null)
+        {
+            var (packedResources, fileType) = ConvertResourceToString(resVariant, tag);
+            RpcId(1, MethodName.ServerBroadcastResources, packedResources, tag, fileType, node.GetPath(), nodeRecieveMethod, recieveArgs);
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerBroadcastResources(Array<string> packedRes, string tag, string fileType, string nodePath, StringName nodeRecieveMethod, Array<string> recieveArgs)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dba88xnme7bjk"]
+[gd_scene load_steps=12 format=3 uid="uid://dba88xnme7bjk"]
 
 [ext_resource type="PackedScene" uid="uid://bvjwwppbx8r6r" path="res://scenes/persistent/player/player.tscn" id="1_a5rwg"]
+[ext_resource type="PackedScene" uid="uid://d3r5ljjf2hhvb" path="res://scenes/multiplayer/PlayersManager.tscn" id="2_27dx1"]
 [ext_resource type="Script" path="res://src/multiplayer/Server.cs" id="2_eog3n"]
-[ext_resource type="Script" path="res://src/multiplayer/ServerPlayersSpawner.cs" id="3_1hm2v"]
 [ext_resource type="Script" path="res://src/multiplayer/Client.cs" id="3_epd2y"]
+[ext_resource type="PackedScene" uid="uid://dmopieqsqsnq8" path="res://scenes/multiplayer/LocationLoader.tscn" id="4_o14ho"]
 [ext_resource type="Script" path="res://src/ui/main_menu/ButtonShortcuts.cs" id="5_13d81"]
 [ext_resource type="Script" path="res://src/ui/main_menu/DefaultPortLabel.cs" id="5_rpt4h"]
 [ext_resource type="Script" path="res://src/ui/main_menu/ServerPanel.cs" id="5_wfr22"]
@@ -24,39 +25,25 @@ bg_color = Color(0.2, 0.2, 0.2, 1)
 own_world_3d = true
 world_3d = SubResource("World3D_a5m2x")
 
-[node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("LocationContainer")]
+[node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("locationLoader")]
 script = ExtResource("2_eog3n")
-LocationContainer = NodePath("Location")
+locationLoader = NodePath("LocationLoader")
 
-[node name="Players" type="Node3D" parent="SubViewport/Server" node_paths=PackedStringArray("ServerNode")]
-script = ExtResource("3_1hm2v")
+[node name="Players" parent="SubViewport/Server" node_paths=PackedStringArray("ServerNode") instance=ExtResource("2_27dx1")]
 PlayerScene = ExtResource("1_a5rwg")
 ServerNode = NodePath("..")
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="SubViewport/Server/Players"]
-_spawnable_scenes = PackedStringArray("res://scenes/persistent/player/player.tscn")
-spawn_path = NodePath("..")
+[node name="LocationLoader" parent="SubViewport/Server" instance=ExtResource("4_o14ho")]
 
-[node name="Location" type="Node3D" parent="SubViewport/Server"]
-
-[node name="LocationSpawner" type="MultiplayerSpawner" parent="SubViewport/Server/Location"]
-_spawnable_scenes = PackedStringArray("res://scenes/swamp/swamp_location.tscn")
-spawn_path = NodePath("..")
-
-[node name="Client" type="Node" parent="."]
+[node name="Client" type="Node" parent="." node_paths=PackedStringArray("locationLoader", "playersManager")]
 script = ExtResource("3_epd2y")
+locationLoader = NodePath("LocationLoader")
+playersManager = NodePath("Players")
 
-[node name="Players" type="Node3D" parent="Client"]
+[node name="Players" parent="Client" instance=ExtResource("2_27dx1")]
+PlayerScene = ExtResource("1_a5rwg")
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Client/Players"]
-_spawnable_scenes = PackedStringArray("res://scenes/persistent/player/player.tscn")
-spawn_path = NodePath("..")
-
-[node name="Location" type="Node3D" parent="Client"]
-
-[node name="LocationSpawner" type="MultiplayerSpawner" parent="Client/Location"]
-_spawnable_scenes = PackedStringArray("res://scenes/swamp/swamp_location.tscn")
-spawn_path = NodePath("..")
+[node name="LocationLoader" parent="Client" instance=ExtResource("4_o14ho")]
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

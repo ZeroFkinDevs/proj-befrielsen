@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmopieqsqsnq8"]
+
+[ext_resource type="Script" path="res://src/multiplayer/LocationLoader.cs" id="1_uxx5r"]
+[ext_resource type="PackedScene" uid="uid://di36115wfkt1b" path="res://scenes/swamp/swamp_location.tscn" id="2_qoqvb"]
+[ext_resource type="Script" path="res://src/player/tools/TmpStorage.cs" id="3_t5at2"]
+
+[node name="LocationLoader" type="Node3D" node_paths=PackedStringArray("tmpStorage", "LocationContainer")]
+script = ExtResource("1_uxx5r")
+tmpStorage = NodePath("TmpStorage")
+LocationContainer = NodePath("LocationContainer")
+defaultScene = ExtResource("2_qoqvb")
+
+[node name="LocationContainer" type="Node3D" parent="."]
+
+[node name="TmpStorage" type="Node3D" parent="."]
+script = ExtResource("3_t5at2")
