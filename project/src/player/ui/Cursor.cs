@@ -52,6 +52,10 @@ namespace Game
 				{
 					textureRect.Texture = cursorIconsBank.Apply;
 				}
+				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.TOUCH)
+				{
+					textureRect.Texture = cursorIconsBank.Touch;
+				}
 			}
 		}
 	}

@@ -15,5 +15,7 @@ namespace Game
         public Texture2D InventoryDrag;
         [Export]
         public Texture2D Apply;
+        [Export]
+        public Texture2D Touch;
     }
 }

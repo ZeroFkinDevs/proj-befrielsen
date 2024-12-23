@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=15 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c47ht56frhtwi" path="res://scenes/dungeon_leash/anomaly_cube/anomaly_cube_prop.tscn" id="12_kq5fs"]
 [ext_resource type="PackedScene" uid="uid://cdaqwrjcqiye1" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_prop.tscn" id="12_s7keh"]
 [ext_resource type="PackedScene" uid="uid://b2t4hssiolh1t" path="res://scenes/persistent/fingers/finger_prop.tscn" id="13_1x0o5"]
+[ext_resource type="PackedScene" uid="uid://cs3gpdvx6r8g0" path="res://scenes/dungeon_leash/saving_flower/saving_flower.tscn" id="13_3un1p"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
 background_mode = 1
@@ -100,22 +101,25 @@ transform = Transform3D(-0.0935904, -0.102983, 0.99027, 0.102455, 0.988359, 0.11
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3302, -4.57482, 1.30633)
 
 [node name="NardsPropInstance2" parent="." instance=ExtResource("6_kmpqh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.888105, -0.930413, 2.8754)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16981, -0.256524, 2.8754)
 
 [node name="FuckingToolInstance" parent="." instance=ExtResource("12_s7keh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.225382, -0.767021, 3.49294)
 
 [node name="FuckingToolInstance2" parent="." instance=ExtResource("12_s7keh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.44855, -0.767021, 2.8268)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8388, -0.148706, 2.8268)
 
 [node name="anomaly_cube_prop" parent="." instance=ExtResource("12_kq5fs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.42162, -1.17216, 3.91461)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.29165, 0.550394, 3.91461)
 
 [node name="anomaly_cube_prop2" parent="." instance=ExtResource("12_kq5fs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.956108, -1.10173, 4.12165)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.04015, 0.173701, 4.12165)
 
 [node name="anomaly_cube_prop3" parent="." instance=ExtResource("12_kq5fs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9891, -0.817916, 5.28525)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.73251, 1.00963, 5.28525)
 
 [node name="finger_prop" parent="." instance=ExtResource("13_1x0o5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7496, 0.222671, 2.49497)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.59625, 0.0768556, 2.49497)
+
+[node name="saving_flower_static_body" parent="." instance=ExtResource("13_3un1p")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.76791, -1.89539, 4.57007)

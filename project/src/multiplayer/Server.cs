@@ -18,12 +18,8 @@ namespace Game
 		{
 
 		}
-		public void SpawnLocation()
-		{
-			locationLoader.InstantiateDefaultScene();
-		}
 
-		public bool Host()
+		public bool Host(string saveFilePath)
 		{
 			if (Started) return false;
 
@@ -32,7 +28,14 @@ namespace Game
 			if (check == Error.Ok)
 			{
 				Multiplayer.MultiplayerPeer = peer;
-				SpawnLocation();
+				if (saveFilePath == null)
+				{
+					locationLoader.InstantiateDefaultScene();
+				}
+				else
+				{
+					locationLoader.LoadLocation(saveFilePath);
+				}
 				Started = true;
 			}
 			else

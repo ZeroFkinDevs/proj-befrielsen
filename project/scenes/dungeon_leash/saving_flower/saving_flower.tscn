@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs3gpdvx6r8g0"]
+
+[ext_resource type="PackedScene" path="res://resources/locations/swamp/saving_flower/saving_flower_static_body.tscn" id="1_g4sir"]
+[ext_resource type="Script" path="res://src/objects/SaverEntity.cs" id="2_xw24r"]
+
+[node name="saving_flower_static_body" instance=ExtResource("1_g4sir")]
+script = ExtResource("2_xw24r")

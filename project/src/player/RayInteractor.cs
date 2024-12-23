@@ -43,6 +43,10 @@ namespace Game
 				{
 					Interactable.Interact(player);
 				}
+				else if (Interactable.InteractionType == InteractionTypeEnum.TOUCH)
+				{
+					Interactable.Interact(player);
+				}
 			}
 			if (Interactable != null && Input.IsActionJustPressed("fire"))
 			{

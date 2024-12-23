@@ -19,7 +19,10 @@ namespace Game.UI
 					if (Bindings.ContainsKey(code))
 					{
 						var button = GetNode<BaseButton>(Bindings[code]);
-						button.EmitSignal("pressed");
+						if (button.IsVisibleInTree())
+						{
+							button.EmitSignal("pressed");
+						}
 					}
 				}
 			}

@@ -98,9 +98,8 @@ livingStateManager = NodePath("livingStateManager")
 [node name="TmpStorage" type="Node3D" parent="."]
 script = ExtResource("14_j8e2n")
 
-[node name="ObjectInstantiator" type="Node3D" parent="." node_paths=PackedStringArray("Parent")]
+[node name="ObjectInstantiator" type="Node3D" parent="."]
 script = ExtResource("18_0dw4w")
-Parent = NodePath("..")
 SpawnId = "playerObjectSpawner"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
