@@ -39,8 +39,8 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --import --quit-after 300
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-          cd $EXPORT_DIR
-          zip -r "./Befrielsen_Windows_x64.zip" "./windows"
+          cd "$EXPORT_DIR/windows"
+          zip -r "../Befrielsen_Windows_x64.zip" *
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
