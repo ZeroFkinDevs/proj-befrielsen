@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://lbqtyqj081h0"]
+
+[ext_resource type="PackedScene" path="res://resources/locations/swamp/shrooms/disc_shroom_1.tscn" id="1_grjiw"]
+
+[node name="disc_shroom_1" type="Node3D"]
+
+[node name="disc_shroom_1" parent="." instance=ExtResource("1_grjiw")]
+transform = Transform3D(0.124827, 0, 0, 0, 0.124827, 0, 0, 0, 0.124827, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46545, 0)
+light_color = Color(0.912543, 0.406911, 0.45958, 1)
+light_energy = 5.0
+light_size = 0.256
+light_specular = 0.0
+omni_range = 6.0

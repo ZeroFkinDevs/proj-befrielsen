@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://c47ht56frhtwi"]
+[gd_scene load_steps=6 format=3 uid="uid://c47ht56frhtwi"]
 
+[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_h88n1"]
 [ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/anomaly_cube/anomaly_cube.tscn" id="1_hgavt"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_uodha"]
 [ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_qgw1f"]
 [ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/anomaly_cube/anomaly_cube_phy_collision_shape.tscn" id="4_snay1"]
 
 [node name="anomaly_cube_prop" type="Node3D"]
+script = ExtResource("1_h88n1")
 
 [node name="anomaly_cube" parent="." instance=ExtResource("1_hgavt")]
 

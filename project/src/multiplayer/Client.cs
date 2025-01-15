@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace Game
@@ -5,6 +6,12 @@ namespace Game
 	public partial class Client : Node
 	{
 		public bool Connected = false;
+
+		[Export]
+		public LocationLoader locationLoader;
+		[Export]
+		public PlayersManager playersManager;
+
 		public override void _EnterTree()
 		{
 			GetTree().SetMultiplayer(MultiplayerApi.CreateDefaultInterface(), this.GetPath());
@@ -30,6 +37,15 @@ namespace Game
 			{
 				Connected = true;
 				GD.Print("CLIENT: connected to server!");
+
+				locationLoader.RequestInstantiateServerScene();
+				Action onLocLoaded = null;
+				onLocLoaded = void () =>
+				{
+					playersManager.RequestPlayerSpawn();
+					locationLoader.OnLocationLoaded -= onLocLoaded;
+				};
+				locationLoader.OnLocationLoaded += onLocLoaded;
 			};
 			Multiplayer.ServerDisconnected += void () =>
 			{

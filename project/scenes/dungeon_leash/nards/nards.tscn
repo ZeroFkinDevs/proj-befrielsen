@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwvwa1jr52ig7"]
+[gd_scene load_steps=7 format=3 uid="uid://cwvwa1jr52ig7"]
 
+[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_0hkv7"]
 [ext_resource type="PackedScene" uid="uid://cx8knhhxi7qvl" path="res://resources/objects/dungeon_leash/nards/nards.tscn" id="1_oqqmf"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_rn1oi"]
 [ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_8aiam"]
@@ -7,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://resources/objects/dungeon_leash/nards/nards_phy_collision_shape.tscn" id="5_crfyj"]
 
 [node name="NardsPropInstance" type="Node3D"]
+script = ExtResource("1_0hkv7")
 
 [node name="PropMesh" parent="." instance=ExtResource("1_oqqmf")]
 

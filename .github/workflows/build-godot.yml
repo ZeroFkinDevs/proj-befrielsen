@@ -1,17 +1,22 @@
 name: "godot-ci export"
-on: push
+on: 
+  push:
+    tags:
+    - 'v*'
 
 env:
-  GODOT_VERSION: 4.2.1
+  GODOT_VERSION: 4.3
   EXPORT_NAME: proj-befrielsen
   PROJECT_PATH: project
 
 jobs:
   export-windows:
+    permissions:
+      contents: write
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:mono-4.2.1
+      image: barichello/godot-ci:mono-4.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,16 +31,19 @@ jobs:
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/
           mv /root/.config/godot ~/.config/godot
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
-          godot --headless --verbose --import --quit-after 2
+          godot --headless --verbose --import --quit-after 300
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+          cd "$EXPORT_DIR/windows"
+          zip -r "../Befrielsen_Windows_x64.zip" *
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: windows
-          path: $PROJECT_PATH/.godot
+          generate_release_notes: true
+          files: |
+            build/Befrielsen_Windows_x64.zip

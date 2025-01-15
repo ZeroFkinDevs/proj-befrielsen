@@ -33,7 +33,10 @@ namespace Game
         {
             fingersAlive[idx] = null;
             UpdateFinger(idx);
-            player.objectInstantiator.RequestInstantiate(player.tmpStorage, deadFingerScene, this, MethodName.DropFingerProp);
+            if (player.Controllable)
+            {
+                player.objectInstantiator.RequestInstantiate(player.tmpStorage, deadFingerScene, this, MethodName.DropFingerProp);
+            }
         }
         public void DropFingerProp(Node node)
         {

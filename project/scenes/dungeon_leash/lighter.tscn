@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://dagm07uqes3sw"]
+
+[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_hqqfc"]
+[ext_resource type="PackedScene" uid="uid://cxwtvk2csoxmi" path="res://resources/locations/swamp/lighter/ligher.tscn" id="2_6lnxm"]
+[ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="3_0oy4x"]
+[ext_resource type="Script" path="res://src/utils/BoneConnector.cs" id="3_4uv6p"]
+[ext_resource type="Script" path="res://src/objects/Prop.cs" id="4_npfka"]
+[ext_resource type="PackedScene" path="res://resources/locations/swamp/lighter/ligher_phy_collision_shape.tscn" id="5_kphyf"]
+[ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="7_2w4lk"]
+
+[node name="lighter" type="Node3D"]
+script = ExtResource("1_hqqfc")
+
+[node name="ligher" parent="." node_paths=PackedStringArray("targetNode", "skeleton") instance=ExtResource("2_6lnxm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132994, -0.623922, 1.49612)
+script = ExtResource("3_4uv6p")
+targetNode = NodePath("../target")
+skeleton = NodePath("Armature/Skeleton3D")
+boneName = "root"
+
+[node name="Cylinder" parent="ligher/Armature/Skeleton3D" index="0"]
+transform = Transform3D(1, -1.42108e-14, 1.42109e-14, -1.42109e-14, -1, 1.50996e-07, -1.42109e-14, -1.50996e-07, -1, -4.76588e-10, 0.00254307, 0.0184782)
+
+[node name="Cube" parent="ligher/Armature/Skeleton3D" index="1"]
+transform = Transform3D(1, 4.26326e-14, 1.43219e-14, -4.26326e-14, 1, 0, -1.43219e-14, 0, 1, 0.136957, 0.288546, -1.37833)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="ligher"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.189022, -0.369095, -0.0346903)
+light_energy = 2.0
+light_size = 0.566
+light_specular = 0.0
+shadow_enabled = true
+omni_range = 10.0
+
+[node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]
+script = ExtResource("3_0oy4x")
+Object = NodePath("../ligher")
+Target = NodePath("../PropBody")
+NoSmooth = true
+
+[node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132994, -0.623922, 1.49612)
+collision_layer = 8
+collision_mask = 9
+gravity_scale = 0.0
+script = ExtResource("4_npfka")
+ModelSmoothConnector = NodePath("../SmoothConnector")
+
+[node name="ligher_phy_collision_shape" parent="PropBody" instance=ExtResource("5_kphyf")]
+
+[node name="target" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.0270346, -0.0191427, 0.0290085)
+
+[node name="initPoint" type="Node3D" parent="."]
+transform = Transform3D(0.999503, 0, -0.0315329, 0, 1, 0, 0.0315329, 0, 0.999503, -0.138893, -0.628257, 1.45836)
+
+[node name="HookesConnector" type="Node3D" parent="." node_paths=PackedStringArray("Target", "Body")]
+script = ExtResource("7_2w4lk")
+Target = NodePath("../initPoint")
+Body = NodePath("../PropBody")
+linearSpringStiffness = 10.0
+linearSpringDamping = 1.0
+maxLinearForce = 1000.0
+angularSpringStiffness = 20.0
+angularSpringDamping = 1.0
+maxAngularForce = 1000.0
+
+[editable path="ligher"]

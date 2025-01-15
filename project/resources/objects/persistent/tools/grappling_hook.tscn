@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8mj7nanixclf"]
-
-[ext_resource type="PackedScene" uid="uid://bjvge52hyep54" path="res://resources/objects/persistent/tools/grappling_hook.glb" id="1"]
-
-[node name="grappling_hook" instance=ExtResource("1")]
-
-[node name="GP_Layer" parent="Armature/Skeleton3D" index="0"]
-layers = 2

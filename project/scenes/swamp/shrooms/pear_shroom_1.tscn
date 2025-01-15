@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://g6sv42td8cr1"]
+
+[ext_resource type="PackedScene" path="res://resources/locations/swamp/shrooms/pear_shroom_1.tscn" id="1_npk0r"]
+
+[node name="pear_shroom_1" type="Node3D"]
+
+[node name="pear_shroom_1" parent="." instance=ExtResource("1_npk0r")]
+transform = Transform3D(0.074891, 0, 0, 0, 0.074891, 0, 0, 0, 0.074891, 0, 0, 0)
+
+[node name="pear_shroom_1" parent="pear_shroom_1" index="0"]
+transform = Transform3D(1.356, 0, 0, 0, 1.356, 0, 0, 0, 1.356, 0.726353, -2.53182, 0.952775)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.458167, 0)
+light_color = Color(0.588235, 0.643137, 1, 1)
+light_energy = 5.0
+light_size = 0.256
+light_specular = 0.0
+omni_range = 6.0
+
+[editable path="pear_shroom_1"]

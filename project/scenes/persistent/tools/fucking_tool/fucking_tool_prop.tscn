@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdaqwrjcqiye1"]
+[gd_scene load_steps=7 format=3 uid="uid://cdaqwrjcqiye1"]
 
+[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_b6vof"]
 [ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_mmokl"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_iuxf4"]
 [ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_gabjc"]
@@ -7,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool_phy_collision_shape.tscn" id="5_7tnu6"]
 
 [node name="FuckingToolInstance" type="Node3D"]
+script = ExtResource("1_b6vof")
 
 [node name="fucking_tool" parent="." instance=ExtResource("1_mmokl")]
 

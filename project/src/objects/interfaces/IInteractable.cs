@@ -9,6 +9,7 @@ namespace Game
         PICKUP,
         INVENTORY_DRAG,
         APPLY,
+        TOUCH,
     }
     public interface IInteractable
     {
