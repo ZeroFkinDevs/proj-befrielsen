@@ -29,9 +29,10 @@ bg_color = Color(0.25098, 0.243137, 0.345098, 1)
 own_world_3d = true
 world_3d = SubResource("World3D_a5m2x")
 
-[node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("locationLoader")]
+[node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("locationLoader", "playersManager")]
 script = ExtResource("2_eog3n")
 locationLoader = NodePath("LocationLoader")
+playersManager = NodePath("Players")
 
 [node name="Players" parent="SubViewport/Server" node_paths=PackedStringArray("ServerNode") instance=ExtResource("2_27dx1")]
 PlayerScene = ExtResource("1_a5rwg")

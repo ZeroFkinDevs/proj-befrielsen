@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using Game.Utils;
+using System.Collections;
 
 namespace Game
 {
@@ -193,6 +194,23 @@ namespace Game
 		public void RecievePosition(Vector3 pos)
 		{
 			GlobalPosition = pos;
+		}
+
+		public void Despawn()
+		{
+			grabber.RequestUngrabProp(0.0f);
+			RpcId(1, MethodName.QueueFreeBroadcast);
+		}
+
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+		public void QueueFreeBroadcast()
+		{
+			Rpc(MethodName.QueueFreeRecieve);
+		}
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+		public void QueueFreeRecieve()
+		{
+			QueueFree();
 		}
 	}
 }

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxwtvk2csoxmi"]
+
+[ext_resource type="PackedScene" uid="uid://ciqtgljykgatq" path="res://resources/locations/swamp/lighter/ligher.glb" id="1"]
+
+[node name="ligher" instance=ExtResource("1")]
+
+[node name="Cylinder" parent="Armature/Skeleton3D" index="0"]
+transform = Transform3D(1, -1.42108e-14, 1.42109e-14, -1.42109e-14, -1, 1.50996e-07, -1.42109e-14, -1.50996e-07, -1, -4.76588e-10, 0.00254307, 0.0184782)
+
+[node name="Cylinder" parent="Armature/Skeleton3D/Cylinder" index="0"]
+cast_shadow = 0
+
+[node name="Cube" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(1, 4.26326e-14, 1.43219e-14, -4.26326e-14, 1, 0, -1.43219e-14, 0, 1, 0.136957, 0.288546, -1.37833)
+
+[node name="Cube" parent="Armature/Skeleton3D/Cube" index="0"]
+cast_shadow = 0
+
+[node name="Plane" parent="Armature/Skeleton3D" index="2"]
+cast_shadow = 0

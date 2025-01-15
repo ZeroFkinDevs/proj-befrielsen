@@ -21,7 +21,7 @@ namespace Game
 		{
 			trans = Object.GlobalTransform;
 		}
-		public override void _Process(double delta)
+		public override void _PhysicsProcess(double delta)
 		{
 			if (NoSmooth)
 			{

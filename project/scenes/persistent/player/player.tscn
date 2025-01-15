@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=37 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
@@ -28,6 +28,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
 margin = 0.414
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xsaoj"]
+height = 0.682644
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_askpe"]
 properties/0/path = NodePath(".:position")
@@ -105,6 +108,10 @@ SpawnId = "playerObjectSpawner"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.620834, -0.233155)
+shape = SubResource("CylinderShape3D_xsaoj")
+
 [node name="livingStateManager" type="Node3D" parent="." node_paths=PackedStringArray("tmpStorage")]
 script = ExtResource("2_ru2q0")
 MaxStatesCount = 10
@@ -139,6 +146,7 @@ Target = NodePath("../Target")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.975235)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
 light_energy = 1.457
 light_specular = 0.0
 omni_range = 12.313
@@ -209,41 +217,49 @@ StackRendererScene = ExtResource("10_1f563")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, -9.31323e-10, 9.31323e-10, -1.82354e-09, 0.0417177, -1.11022e-16, -0.0417177, -1.82354e-09, -0.0223876, -2.98023e-08, 0.0874492)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28073e-09, 0.0346577)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28076e-09, -0.013985)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28076e-09, -0.0712356)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, 0.0874492)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, 0.0346577)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D7" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, -0.013985)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D8" type="MeshInstance3D" parent="InventoryManager/InventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28076e-09, -0.0712356)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
@@ -319,41 +335,49 @@ StackRendererScene = ExtResource("10_1f563")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, -9.31323e-10, 9.31323e-10, -1.82354e-09, 0.0417177, -1.11022e-16, -0.0417177, -1.82354e-09, -0.0223876, -2.98023e-08, 0.0874492)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28073e-09, 0.0346577)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28076e-09, -0.013985)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, -0.0223876, -2.28076e-09, -0.0712356)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, 0.0874492)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, 0.0346577)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D7" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28073e-09, -0.013985)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D8" type="MeshInstance3D" parent="InventoryManager/ToolsInventoryContainer/Offset/Renderer"]
 transform = Transform3D(0.0417177, 0, 1.11022e-16, -1.11022e-16, -1.82354e-09, 0.0417177, 2.64698e-23, -0.0417177, -1.82354e-09, 0.0289637, -2.28076e-09, -0.0712356)
+visible = false
 mesh = SubResource("PrismMesh_7qklf")
 skeleton = NodePath("../../..")
 

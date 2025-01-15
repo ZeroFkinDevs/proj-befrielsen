@@ -8,6 +8,8 @@ namespace Game
 
 		[Export]
 		public LocationLoader locationLoader;
+		[Export]
+		public PlayersManager playersManager;
 
 		public override void _EnterTree()
 		{
@@ -50,6 +52,7 @@ namespace Game
 			Multiplayer.PeerDisconnected += void (long peerId) =>
 			{
 				GD.Print("SERVER: peer disconnected: " + peerId);
+				playersManager.PlayerDespawn(peerId);
 			};
 			return true;
 		}

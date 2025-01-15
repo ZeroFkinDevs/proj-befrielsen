@@ -33,5 +33,14 @@ namespace Game
 				player.RpcId(peerId, Player.MethodName.RecievePosition, pos);
 			}
 		}
+
+		public void PlayerDespawn(long id)
+		{
+			var player = GetNode<Player>(id.ToString());
+			if (player != null)
+			{
+				player.Despawn();
+			}
+		}
 	}
 }
