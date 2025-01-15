@@ -12,6 +12,7 @@
 script = ExtResource("1_hqqfc")
 
 [node name="ligher" parent="." node_paths=PackedStringArray("targetNode", "skeleton") instance=ExtResource("2_6lnxm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132994, -0.623922, 1.49612)
 script = ExtResource("3_4uv6p")
 targetNode = NodePath("../target")
 skeleton = NodePath("Armature/Skeleton3D")
@@ -38,6 +39,7 @@ Target = NodePath("../PropBody")
 NoSmooth = true
 
 [node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132994, -0.623922, 1.49612)
 collision_layer = 8
 collision_mask = 9
 gravity_scale = 0.0
@@ -47,10 +49,10 @@ ModelSmoothConnector = NodePath("../SmoothConnector")
 [node name="ligher_phy_collision_shape" parent="PropBody" instance=ExtResource("5_kphyf")]
 
 [node name="target" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.105959, 0.604779, -1.46711)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.0270346, -0.0191427, 0.0290085)
 
 [node name="initPoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00205982, -0.00920188, -0.0166892)
+transform = Transform3D(0.999503, 0, -0.0315329, 0, 1, 0, 0.0315329, 0, 0.999503, -0.138893, -0.628257, 1.45836)
 
 [node name="HookesConnector" type="Node3D" parent="." node_paths=PackedStringArray("Target", "Body")]
 script = ExtResource("7_2w4lk")

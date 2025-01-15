@@ -56,13 +56,6 @@ PlayerSpawners = [NodePath("PlayerSpawner")]
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qpcki")
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6018, -2.82317, 14.6372)
-light_energy = 2.0
-light_specular = 0.0
-omni_range = 13.978
-omni_attenuation = 0.517633
-
 [node name="swamp_geometry" parent="." instance=ExtResource("3_h4bbn")]
 transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
 
@@ -154,10 +147,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.08541, -0.893698, -28.9584
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2179, 1.13148, -26.321)
 
 [node name="lighter" parent="." instance=ExtResource("16_0v5sm")]
-transform = Transform3D(0.709608, 0, 0.704597, 0, 1, 0, -0.704597, 0, 0.709608, 0.537917, -0.552124, 1.5029)
+transform = Transform3D(0.709608, 0, 0.704597, 0, 1, 0, -0.704597, 0, 0.709608, -0.562052, 0.272897, 0.395108)
 
 [node name="lighter2" parent="." instance=ExtResource("16_0v5sm")]
-transform = Transform3D(-0.109977, -0.494274, 0.862322, 0.000296738, -0.867601, -0.497262, 0.993934, -0.0544316, 0.095563, 3.87834, 4.30024, -8.74347)
+transform = Transform3D(-0.109977, -0.494274, 0.862322, 0.000296738, -0.867601, -0.497262, 0.993934, -0.0544316, 0.095563, 2.37435, 4.50334, -8.90995)
 
 [node name="cookerfire_static_body" parent="." instance=ExtResource("17_ovy3j")]
 transform = Transform3D(0.989037, 0.00521547, -0.147579, -0.00515881, 0.999986, 0.000766728, 0.147581, 3.00258e-06, 0.98905, -9.43273, -1.30515, -34.016)
@@ -167,3 +160,9 @@ transform = Transform3D(0.709193, -0.0242822, 0.704597, 0.0342192, 0.999414, -3.
 
 [node name="dungeon_enter_static_body" parent="." instance=ExtResource("19_dny1g")]
 transform = Transform3D(0.0644458, 0, 0.997922, 0, 1, 0, -0.997922, 0, 0.0644458, -9.44719, -5.38071, 16.5328)
+
+[node name="lighter3" parent="." instance=ExtResource("16_0v5sm")]
+transform = Transform3D(-0.995118, 0, 0.0986945, 0, 1, 0, -0.0986945, 0, -0.995118, -8.60684, -2.28097, 16.3855)
+
+[node name="lighter4" parent="." instance=ExtResource("16_0v5sm")]
+transform = Transform3D(0.996376, -0.0841206, -0.0126085, -0.0551123, -0.525533, -0.848986, 0.0647911, 0.846604, -0.528265, -9.9146, -1.74998, 23.032)
