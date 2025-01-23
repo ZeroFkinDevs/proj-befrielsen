@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=29 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
+[ext_resource type="PackedScene" uid="uid://cym8rjgnfv6jw" path="res://scenes/persistent/portals/portal.tscn" id="4_mscds"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_1/tree_1_static_body.tscn" id="4_wpwhh"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_2/tree_2_static_body.tscn" id="5_114nx"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_3/tree_3_static_body.tscn" id="6_75fxr"]
@@ -19,27 +20,45 @@
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/cookerfire/cookerfire_static_body.tscn" id="17_ovy3j"]
 [ext_resource type="PackedScene" uid="uid://cxeocpxg8ccb4" path="res://scenes/effects/fire.tscn" id="18_1vsui"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/dungeon_enter/dungeon_enter_static_body.tscn" id="19_dny1g"]
+[ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="21_yhgnv"]
+[ext_resource type="PackedScene" uid="uid://bfa3r5f05xrfc" path="res://resources/locations/swamp/lock/lock_static_body.tscn" id="22_p3pcr"]
+[ext_resource type="PackedScene" path="res://resources/locations/swamp/dungeon_enter/dungeon_enter_door_rigid_body.tscn" id="22_q7kby"]
+[ext_resource type="Script" path="res://src/objects/locations/swamp/DoorLock.cs" id="24_vq4jk"]
+[ext_resource type="PackedScene" path="res://resources/locations/dungeon_leash/geometry/room_1_static_body.tscn" id="25_52ntw"]
+[ext_resource type="PackedScene" path="res://resources/locations/dungeon_sewer/geometry/room_1_static_body.tscn" id="26_8u0ec"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
 background_mode = 1
-background_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
-background_energy_multiplier = 3.02
+background_energy_multiplier = 0.0
 ambient_light_energy = 0.49
 ssr_fade_in = 0.109806
 ssr_fade_out = 2.73208
 ssr_depth_tolerance = 25.81
 ssao_enabled = true
-ssao_radius = 3.18
-ssao_intensity = 4.87
-ssao_power = 5.2233
-ssil_enabled = true
+ssao_radius = 0.29
+ssao_intensity = 16.0
+ssao_power = 0.430761
+ssao_detail = 2.74
+ssao_horizon = 0.0
+ssao_sharpness = 1.0
+ssao_light_affect = 1.0
+ssao_ao_channel_affect = 1.0
 ssil_radius = 4.05
 ssil_intensity = 2.34
 ssil_sharpness = 0.0
-fog_light_color = Color(0.184314, 0.239216, 0.301961, 1)
-fog_light_energy = 1.85
+sdfgi_read_sky_light = false
+sdfgi_cascades = 8
+sdfgi_min_cell_size = 0.104004
+sdfgi_cascade0_distance = 6.65625
+sdfgi_max_distance = 1704.0
+sdfgi_energy = 5.175
+fog_light_color = Color(0.950729, 0.96195, 0.975075, 1)
+fog_light_energy = 1.34
 fog_sun_scatter = 0.02
-fog_density = 0.1363
+fog_density = 0.0083
+fog_sky_affect = 0.0
+fog_height = 0.26
+fog_height_density = 0.061
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.1131
 volumetric_fog_albedo = Color(0.556863, 0.898039, 0.835294, 1)
@@ -48,6 +67,13 @@ volumetric_fog_gi_inject = 0.82
 volumetric_fog_length = 10.11
 volumetric_fog_detail_spread = 2.19613
 volumetric_fog_ambient_inject = 0.54
+adjustment_enabled = true
+adjustment_brightness = 1.33
+adjustment_contrast = 1.33
+adjustment_saturation = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s7pjl"]
+size = Vector3(1, 0.211914, 1.52124)
 
 [node name="swamp_location" type="Node3D" node_paths=PackedStringArray("PlayerSpawners")]
 script = ExtResource("1_rvnvd")
@@ -63,7 +89,19 @@ transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
 transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.514906, 1.08627, 0.225359, 0.753673, -6.76312, -3.42062, 1.23841)
 
 [node name="PlayerSpawner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.06317, 0.484081, 2.07066)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.66947, -3.05128, 20.9647)
+
+[node name="Portal" parent="." node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
+process_physics_priority = 1
+transform = Transform3D(0.0929186, 0, 1.66458, 0, 1.66717, 0, -1.66458, 0, 0.0929186, -5.36915, -3.6223, 21.6318)
+OtherPortal = NodePath("../Node3D/Portal2")
+CullLayer = 2
+
+[node name="Portal2" parent="." node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
+process_physics_priority = 1
+transform = Transform3D(-0.0929187, 0, -1.66458, 0, 1.66717, 0, 1.66458, 0, -0.0929187, -14.0365, -3.6223, 21.148)
+OtherPortal = NodePath("../Node3D2/Portal3")
+CullLayer = 2
 
 [node name="vines_1" parent="." instance=ExtResource("10_m0jkx")]
 transform = Transform3D(0.582273, 0, 0.331449, 0, 0.67, 0, -0.331449, 0, 0.582273, -3.74239, 4.98322, 2.20406)
@@ -165,4 +203,106 @@ transform = Transform3D(0.0644458, 0, 0.997922, 0, 1, 0, -0.997922, 0, 0.0644458
 transform = Transform3D(-0.995118, 0, 0.0986945, 0, 1, 0, -0.0986945, 0, -0.995118, -8.60684, -2.28097, 16.3855)
 
 [node name="lighter4" parent="." instance=ExtResource("16_0v5sm")]
-transform = Transform3D(0.996376, -0.0841206, -0.0126085, -0.0551123, -0.525533, -0.848986, 0.0647911, 0.846604, -0.528265, -9.9146, -1.74998, 23.032)
+transform = Transform3D(0.996376, -0.0841206, -0.0126085, -0.0551123, -0.525533, -0.848986, 0.0647911, 0.846604, -0.528265, -9.98712, -2.59383, 23.4294)
+
+[node name="anomaly_cube_prop4" parent="." instance=ExtResource("12_kq5fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3618, -4.68422, 18.1967)
+
+[node name="anomaly_cube_prop5" parent="." instance=ExtResource("12_kq5fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16114, -4.74458, 18.067)
+
+[node name="door_target_2" type="Node3D" parent="."]
+transform = Transform3D(-0.674482, -0.0276949, 0.737772, 0.0186875, -0.999617, -0.0204405, 0.738055, 7.10178e-07, 0.67474, -8.30317, -2.23059, 21.3268)
+
+[node name="door_target" type="Node3D" parent="."]
+transform = Transform3D(0.0276948, -0.994262, -0.103326, 0.999617, 0.0275463, 0.00286269, -4.47035e-08, -0.103365, 0.994643, -6.86915, -3.66036, 21.4799)
+
+[node name="door_connector" type="Node3D" parent="." node_paths=PackedStringArray("Target", "Body")]
+transform = Transform3D(0.0276948, -0.994262, -0.103326, 0.999617, 0.0275463, 0.00286269, -4.47035e-08, -0.103365, 0.994643, -6.86915, -3.66036, 21.4799)
+script = ExtResource("21_yhgnv")
+Target = NodePath("../door_target")
+Body = NodePath("../dungeon_enter_door_rigid_body")
+linearSpringStiffness = 100.0
+maxLinearForce = 50.0
+angularSpringStiffness = 200.0
+
+[node name="dungeon_enter_door_rigid_body" parent="." instance=ExtResource("22_q7kby")]
+transform = Transform3D(0.0276948, -0.994262, -0.103326, 0.999617, 0.0275463, 0.00286269, -4.47035e-08, -0.103365, 0.994643, -6.86915, -3.66036, 21.4799)
+
+[node name="door2_target" type="Node3D" parent="."]
+transform = Transform3D(0.0276948, 0.995533, 0.090268, 0.999617, -0.0275818, -0.002501, -4.46497e-08, 0.090302, -0.995914, -12.5926, -3.50179, 21.1195)
+
+[node name="door2_target2" type="Node3D" parent="."]
+transform = Transform3D(-0.995533, 0.0276949, 0.090268, 0.0275816, 0.999617, -0.002501, -0.0903027, -7.7486e-07, -0.995914, -10.8282, -2.20819, 21.2762)
+
+[node name="dungeon_enter_door_rigid_body2" parent="." instance=ExtResource("22_q7kby")]
+transform = Transform3D(0.0276948, 0.995533, 0.090268, 0.999617, -0.0275818, -0.002501, -4.46497e-08, 0.090302, -0.995914, -12.5926, -3.50179, 21.1195)
+
+[node name="door_connector2" type="Node3D" parent="." node_paths=PackedStringArray("Target", "Body")]
+transform = Transform3D(0.0276948, -0.994262, -0.103326, 0.999617, 0.0275463, 0.00286269, -4.47035e-08, -0.103365, 0.994643, -6.86915, -3.66036, 21.4799)
+script = ExtResource("21_yhgnv")
+Target = NodePath("../door2_target")
+Body = NodePath("../dungeon_enter_door_rigid_body2")
+linearSpringStiffness = 100.0
+maxLinearForce = 50.0
+angularSpringStiffness = 200.0
+
+[node name="lock_static_body" parent="." instance=ExtResource("22_p3pcr")]
+transform = Transform3D(-0.423607, -0.897307, 0.124083, 0.0254918, 0.125117, 0.991814, -0.905487, 0.423303, -0.0301266, -5.69647, -4.305, 15.0674)
+
+[node name="lock_static_body2" parent="." node_paths=PackedStringArray("Connector", "TargetToSet") instance=ExtResource("22_p3pcr")]
+transform = Transform3D(-0.161431, -0.0694305, -0.984438, -0.0710764, 0.99575, -0.0585734, 0.984321, 0.0605145, -0.16568, -7.74552, -5.26492, 19.5275)
+script = ExtResource("24_vq4jk")
+InteractMessage = "открыть левый люк"
+Connector = NodePath("../door_connector")
+TargetToSet = NodePath("../door_target_2")
+
+[node name="lock_static_body3" parent="." node_paths=PackedStringArray("Connector", "TargetToSet") instance=ExtResource("22_p3pcr")]
+transform = Transform3D(-0.00949988, 0.0019816, -0.999953, -0.0613185, 0.998115, 0.00256006, 0.998073, 0.0613395, -0.00936057, -11.4147, -5.49883, 19.1666)
+script = ExtResource("24_vq4jk")
+InteractMessage = "открыть правый люк"
+Connector = NodePath("../door_connector2")
+TargetToSet = NodePath("../door2_target2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(0.964058, -0.265691, 0, 0.265691, 0.964058, 0, 0, 0, 1, -7.28006, -5.25103, 21.4761)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_s7pjl")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3298, -6.16645, 23.4386)
+
+[node name="lighter5" parent="Node3D" instance=ExtResource("16_0v5sm")]
+transform = Transform3D(-0.14579, 0, -0.989316, 0, 1, 0, 0.989316, 0, -0.14579, 5.13022, 2.35439, -1.43054)
+
+[node name="room_1_static_body" parent="Node3D" instance=ExtResource("25_52ntw")]
+
+[node name="lighter" parent="Node3D" instance=ExtResource("16_0v5sm")]
+transform = Transform3D(0.0853299, 0, 0.996353, 0, 1, 0, -0.996353, 0, 0.0853299, -0.952462, 2.05818, 1.64691)
+
+[node name="lighter6" parent="Node3D" instance=ExtResource("16_0v5sm")]
+transform = Transform3D(-0.349848, 0, -0.936807, 0, 1, 0, 0.936807, 0, -0.349848, -1.65764, 3.1948, -3.37011)
+
+[node name="Portal2" parent="Node3D" node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
+process_physics_priority = 1
+transform = Transform3D(1.667, 0, 0, 0, 1.667, 0, 0, 0, 1.667, 1.86891, 1.48669, 4.69883)
+OtherPortal = NodePath("../../Portal")
+CullLayer = 3
+
+[node name="Node3D2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6241, 126.897, 29.926)
+
+[node name="room_1_static_body" parent="Node3D2" instance=ExtResource("26_8u0ec")]
+
+[node name="Portal3" parent="Node3D2" node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
+process_physics_priority = 1
+transform = Transform3D(-1.667, 0, 5.43178e-07, 0, 1.667, 0, -5.43178e-07, 0, -1.667, -4.56069, 1.7364, 5.24647)
+OtherPortal = NodePath("../../Portal2")
+CullLayer = 3
+
+[node name="lighter5" parent="Node3D2" instance=ExtResource("16_0v5sm")]
+transform = Transform3D(-0.410759, 0.828472, -0.380672, -0.745367, -0.0646807, 0.663509, 0.525077, 0.556283, 0.644084, -2.5468, -0.59056, 10.5682)
+
+[editable path="anomaly_cube_prop5"]
+[editable path="anomaly_cube_prop5/anomaly_cube"]

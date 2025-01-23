@@ -4,6 +4,20 @@ namespace Game.Utils
 {
     public static class NodeUtils
     {
+        public static void PutChildrenInArray(this Node node, Godot.Collections.Array<Node> arr)
+        {
+            foreach (var child in node.GetChildren())
+            {
+                arr.Add(child);
+                child.PutChildrenInArray(arr);
+            }
+        }
+        public static Godot.Collections.Array<Node> GetChildrenRecursively(this Node node)
+        {
+            var arr = new Godot.Collections.Array<Node>();
+            node.PutChildrenInArray(arr);
+            return arr;
+        }
         public static NodePath AdaptMultiplayerPath(this Node node, NodePath path)
         {
             if (node.Multiplayer.IsServer())

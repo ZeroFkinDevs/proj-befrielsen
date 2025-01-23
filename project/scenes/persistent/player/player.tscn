@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=44 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
@@ -10,20 +10,24 @@
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
 [ext_resource type="Script" path="res://src/player/FingersManager.cs" id="7_qxsfq"]
 [ext_resource type="Texture2D" uid="uid://07r4ntprd44d" path="res://resources/ui/icons/point.png" id="8_8afli"]
+[ext_resource type="PackedScene" path="res://resources/util/model_phy_collision_shape.tscn" id="8_cq16g"]
 [ext_resource type="Script" path="res://src/player/ui/PlayerUI.cs" id="8_v0c8m"]
 [ext_resource type="Script" path="res://src/player/ToolsManager.cs" id="8_yuepf"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryContainer.cs" id="9_2nk6i"]
 [ext_resource type="Script" path="res://src/player/ui/Cursor.cs" id="9_bqwsj"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryItemsRenderer.cs" id="9_f8yeh"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryManager.cs" id="9_i7djo"]
+[ext_resource type="Script" path="res://src/objects/portals/PortalEnabler.cs" id="9_mhtxd"]
 [ext_resource type="PackedScene" uid="uid://fwn7h3jh7fxm" path="res://scenes/persistent/player/item_stack_renderer.tscn" id="10_1f563"]
 [ext_resource type="PackedScene" uid="uid://b2t4hssiolh1t" path="res://scenes/persistent/fingers/finger_prop.tscn" id="10_ejjqn"]
 [ext_resource type="Resource" uid="uid://bn2t7oen1bjav" path="res://scenes/persistent/player/cursor_icons_bank.tres" id="10_hrgru"]
+[ext_resource type="Script" path="res://src/player/PlayerModelRenderer.cs" id="10_rrwe5"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryPlaceRegion.cs" id="11_pp7et"]
 [ext_resource type="Script" path="res://src/player/tools/TmpStorage.cs" id="14_j8e2n"]
 [ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="18_0dw4w"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryFingersPlaceRegion.cs" id="19_n4m57"]
 [ext_resource type="Texture2D" uid="uid://byasll5a7c2yl" path="res://resources/ui/icons/fingers_region.png" id="20_n0yo3"]
+[ext_resource type="Theme" uid="uid://civ31we8rg0qk" path="res://resources/ui/ui.tres" id="24_mgy1o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
@@ -31,6 +35,16 @@ margin = 0.414
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_xsaoj"]
 height = 0.682644
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e7p5q"]
+radius = 0.845437
+
+[sub_resource type="Environment" id="Environment_y3reo"]
+background_mode = 1
+background_energy_multiplier = 0.0
+ambient_light_source = 2
+ambient_light_color = Color(0.991164, 0.991164, 0.991164, 1)
+ambient_light_energy = 0.5
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_askpe"]
 properties/0/path = NodePath(".:position")
@@ -79,6 +93,9 @@ size = Vector2(0.08, 0.105)
 [sub_resource type="BoxShape3D" id="BoxShape3D_avwsv"]
 size = Vector3(0.08, 0.166753, 0.092745)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_g17h4"]
+viewport_path = NodePath("Camera3D/PlayerModelRenderer/SubViewport")
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber", "livingStateManager")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
@@ -119,8 +136,11 @@ tmpStorage = NodePath("../TmpStorage")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.671634, -0.165665)
+cull_mask = 1047551
 current = true
 fov = 90.0
+near = 0.001
+far = 100.0
 
 [node name="RayInteractor" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("UseRaycast", "player", "grabber")]
 script = ExtResource("4_ftn5o")
@@ -144,6 +164,39 @@ Target = NodePath("../Target")
 
 [node name="Target" type="Node3D" parent="Camera3D/ObjectGrabber"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.975235)
+
+[node name="portals_enabler" type="Area3D" parent="Camera3D" node_paths=PackedStringArray("camera")]
+collision_layer = 0
+collision_mask = 256
+collision_priority = 2.0
+priority = 1
+script = ExtResource("9_mhtxd")
+camera = NodePath("..")
+
+[node name="model_phy_collision_shape" parent="Camera3D/portals_enabler" instance=ExtResource("8_cq16g")]
+transform = Transform3D(-3.90424e-07, 0, -8.93185, 0, 8.93185, 0, 8.93185, 0, -3.90424e-07, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/portals_enabler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.667108, 0.0221629)
+shape = SubResource("CapsuleShape3D_e7p5q")
+
+[node name="PlayerModelRenderer" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("player", "layerCamera", "layerViewport")]
+script = ExtResource("10_rrwe5")
+player = NodePath("../..")
+layerCamera = NodePath("SubViewport/player_model_camera")
+layerViewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="Camera3D/PlayerModelRenderer"]
+transparent_bg = true
+
+[node name="player_model_camera" type="Camera3D" parent="Camera3D/PlayerModelRenderer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.671634, -0.165665)
+cull_mask = 1024
+environment = SubResource("Environment_y3reo")
+current = true
+fov = 90.0
+near = 0.001
+far = 5.0
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 visible = false
@@ -405,8 +458,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("24_mgy1o")
 script = ExtResource("8_v0c8m")
 player = NodePath("..")
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_g17h4")
 
 [node name="Cursor" type="Control" parent="UI" node_paths=PackedStringArray("playerUI", "rayInteractor", "textureRect", "descriptionLabel")]
 layout_mode = 2

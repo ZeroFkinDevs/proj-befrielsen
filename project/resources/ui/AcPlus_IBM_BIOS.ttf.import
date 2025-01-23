@@ -1,0 +1,39 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://qvxptxhqv20b"
+path="res://.godot/imported/AcPlus_IBM_BIOS.ttf-573b5444fbed77e5e6daa5a3145454f8.fontdata"
+
+[deps]
+
+source_file="res://resources/ui/AcPlus_IBM_BIOS.ttf"
+dest_files=["res://.godot/imported/AcPlus_IBM_BIOS.ttf-573b5444fbed77e5e6daa5a3145454f8.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=false
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=false
+force_autohinter=false
+hinting=1
+subpixel_positioning=0
+oversampling=5.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=false
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "Новая конфигурация",
+"size": Vector2i(16, 0)
+}]
+language_support={}
+script_support={}
+opentype_features={}

@@ -39,10 +39,16 @@ namespace Game
 				}
 				catch (Exception e)
 				{
-					GD.PrintErr(e);
+					trans = Target.GlobalTransform;
+					// GD.PrintErr(e);
 				}
 			}
 			Object.GlobalTransform = trans;
+		}
+
+		public void Teleport()
+		{
+			trans = Target.GlobalTransform;
 		}
 	}
 }

@@ -24,6 +24,8 @@ namespace Game
         public float angularSpringDamping = 30f;
         [Export]
         public float maxAngularForce = 400f;
+        [Export]
+        public float TeleportDistance = 2.5f;
 
         public override void _Ready()
         {
@@ -41,10 +43,10 @@ namespace Game
             if (!IsInstanceValid(Target)) return;
             if (!IsInstanceValid(Body)) return;
 
-            if (Body.GlobalTransform.Origin.DistanceTo(Target.GlobalTransform.Origin) > 3.0f)
+            if (Body.GlobalTransform.Origin.DistanceTo(Target.GlobalTransform.Origin) > TeleportDistance)
             {
                 Transform3D trans = Body.GlobalTransform;
-                trans.Origin = Target.GlobalTransform.Origin + ((Body.GlobalTransform.Origin - Target.GlobalTransform.Origin).Normalized() * 3.0f);
+                trans.Origin = Target.GlobalTransform.Origin + ((Body.GlobalTransform.Origin - Target.GlobalTransform.Origin).Normalized() * TeleportDistance);
                 Body.GlobalTransform = trans;
             }
 

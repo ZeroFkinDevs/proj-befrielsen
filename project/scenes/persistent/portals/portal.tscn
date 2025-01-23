@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://cym8rjgnfv6jw"]
+
+[ext_resource type="Script" path="res://src/objects/portals/Portal.cs" id="1_edcvy"]
+[ext_resource type="Shader" path="res://shaders/portals/portal_plane.gdshader" id="2_vdvo7"]
+[ext_resource type="Environment" uid="uid://bjw0ga4hqb1fh" path="res://scenes/persistent/portals/portal_env.tres" id="3_1ge74"]
+[ext_resource type="Script" path="res://src/objects/portals/PortalCamera.cs" id="3_md4ce"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_aqfey"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u2ios"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_vdvo7")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_aqfey")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i7syh"]
+orientation = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mix7u"]
+size = Vector3(2, 2, 0.613472)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0sh35"]
+size = Vector3(2, 2, 3.24438)
+
+[node name="Portal" type="Area3D" node_paths=PackedStringArray("Camera", "PlayerPuppetArea", "Plane", "Viewport")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+collision_layer = 256
+collision_mask = 43
+script = ExtResource("1_edcvy")
+Camera = NodePath("SubViewport/Camera3D")
+PlayerPuppetArea = NodePath("PlayerPuppetArea")
+Plane = NodePath("MeshInstance3D")
+Viewport = NodePath("SubViewport")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_u2ios")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_i7syh")
+skeleton = NodePath("../../PlayerSpawner")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.215093)
+shape = SubResource("BoxShape3D_mix7u")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(910, 512)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(-0.99462, 0, -0.103592, 0, 1, 0, 0.103592, 0, -0.99462, -0.311816, -0.191661, 1.20422)
+cull_mask = 1047551
+environment = ExtResource("3_1ge74")
+script = ExtResource("3_md4ce")
+
+[node name="PlayerPuppetArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerPuppetArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.834595)
+shape = SubResource("BoxShape3D_0sh35")

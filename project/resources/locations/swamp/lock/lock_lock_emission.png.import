@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://b1qhrc2u6gkcf"
+path.s3tc="res://.godot/imported/lock_lock_emission.png-3656b6ada5f7e887f7eafb6425a37e9a.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "f4495c487fb1b552162f43dd60bedb5c"
+}
+
+[deps]
+
+source_file="res://resources/locations/swamp/lock/lock_lock_emission.png"
+dest_files=["res://.godot/imported/lock_lock_emission.png-3656b6ada5f7e887f7eafb6425a37e9a.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

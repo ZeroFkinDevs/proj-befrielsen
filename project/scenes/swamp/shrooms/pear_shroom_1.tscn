@@ -12,6 +12,7 @@ transform = Transform3D(1.356, 0, 0, 0, 1.356, 0, 0, 0, 1.356, 0.726353, -2.5318
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.458167, 0)
+layers = 1025
 light_color = Color(0.588235, 0.643137, 1, 1)
 light_energy = 5.0
 light_size = 0.256

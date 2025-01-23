@@ -29,7 +29,11 @@ draw_pass_1 = SubResource("PlaneMesh_21nqs")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0334541, 0)
+layers = 1025
 light_color = Color(1, 0.9, 0, 1)
 light_energy = 3.0
 shadow_enabled = true
-omni_range = 2.799
+distance_fade_enabled = true
+distance_fade_begin = 10.0
+distance_fade_shadow = 10.0
+omni_range = 3.69065

@@ -229,18 +229,18 @@ MovementSensivity = 0.4
 skeleton3D = NodePath("Armature/Skeleton3D")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(0.000465229, -0.0537175, 0.403939)
-bones/0/rotation = Quaternion(-0.705832, 7.67728e-17, 8.02362e-17, 0.70838)
+bones/0/position = Vector3(3.86883e-06, -0.0504577, 0.403949)
+bones/0/rotation = Quaternion(-0.707092, 7.85062e-17, 7.8503e-17, 0.707121)
 bones/1/rotation = Quaternion(-0.0155866, 0.0155865, -0.706935, 0.706935)
-bones/2/rotation = Quaternion(-0.651939, -0.0250911, -0.0311303, 0.757217)
+bones/2/rotation = Quaternion(-0.6525, -0.0229892, -0.0288391, 0.756891)
 bones/2/scale = Vector3(1, 1, 1)
-bones/3/rotation = Quaternion(-0.0565751, 0.000871979, 0.1466, 0.987576)
+bones/3/rotation = Quaternion(-0.055172, 0.000901187, 0.143791, 0.988069)
 bones/4/rotation = Quaternion(-0.0174504, -0.00968271, -0.772294, 0.634951)
 bones/5/rotation = Quaternion(-0.0265268, -0.0265268, 0.706609, 0.706609)
 bones/5/scale = Vector3(1, 1, 1)
-bones/6/rotation = Quaternion(-0.637897, 0.0233454, 0.0294022, 0.769206)
+bones/6/rotation = Quaternion(-0.638509, 0.0213211, 0.0271192, 0.768841)
 bones/6/scale = Vector3(1, 1, 1)
-bones/7/rotation = Quaternion(-0.0601616, -0.00122212, -0.149699, 0.986899)
+bones/7/rotation = Quaternion(-0.0587535, -0.00124948, -0.146999, 0.987389)
 bones/8/rotation = Quaternion(-0.00832019, 0.0249771, 0.77908, 0.626372)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/rotation = Quaternion(0.707107, -7.85046e-17, -7.85046e-17, 0.707107)
@@ -310,7 +310,7 @@ bones/56/position = Vector3(0.942021, -6.6344, 0.00447227)
 bones/56/scale = Vector3(1, 1, 1)
 
 [node name="Circle" parent="Armature/Skeleton3D" index="0"]
-transform = Transform3D(1, -4.07128e-14, -4.9738e-13, 3.99125e-14, 0.999994, -0.00360371, 4.9738e-13, 0.00360371, 0.999994, -6.79006e-05, 5.76837, 0.860667)
+transform = Transform3D(1, -4.07128e-14, -4.9738e-13, 4.59311e-14, 1, -4.14699e-05, 4.83169e-13, 4.14699e-05, 1, -0.000529261, 5.77322, 0.839935)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource("AnimationNodeBlendTree_qleba")
