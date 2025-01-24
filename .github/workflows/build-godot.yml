@@ -7,16 +7,14 @@ on:
 env:
   GODOT_VERSION: 4.3
   EXPORT_NAME: proj-befrielsen
-  PROJECT_PATH: project
+  PROJECT_FOLDER: project
 
 jobs:
   export-windows:
     permissions:
       contents: write
     name: Windows Export
-    runs-on: ubuntu-20.04
-    container:
-      image: barichello/godot-ci:mono-4.3
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,19 +26,20 @@ jobs:
           dotnet-version: 6.0.x
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mkdir -v -p ~/.config/
-          mv /root/.config/godot ~/.config/godot
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+          wget https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
+          Expand-Archive ./zerofkndevs-godot.zip -DestinationPath ./
+          New-Item -ItemType Directory -Path %appdata%/Roaming/Godot/export_templates/4.3.stable.mono -Force
+          Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination %appdata%/Roaming/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
+          Copy-Item ./GodotSharp -Destination %appdata%/Roaming/Godot/export_templates/4.3.stable.mono/GodotSharp -Recurse
+        
       - name: Windows Build
         run: |
-          mkdir -v -p build/windows
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --import --quit-after 300
-          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-          cd "$EXPORT_DIR/windows"
-          zip -r "../Befrielsen_Windows_x64.zip" *
+          New-Item -ItemType Directory -Path ./build/windows -Force
+          cd $PROJECT_FOLDER
+          ../godot.windows.editor.x86_64.mono.exe --headless --verbose --import --quit-after 10
+          ../godot.windows.editor.x86_64.mono.exe --headless --verbose --export-release "Windows Desktop" "../build/windows/$EXPORT_NAME.exe"
+          cd ..
+          Compress-Archive -Path ./build/windows/* -Destination ./build/Befrielsen_Windows_x64.zip
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
