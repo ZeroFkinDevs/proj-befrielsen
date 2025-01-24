@@ -35,8 +35,8 @@ jobs:
 
           New-Item -ItemType Directory -Path ./build/windows -Force
           cd $PROJECT_FOLDER
-          "${{github.workspace}}/godot.exe" --headless --verbose --import --quit-after 10
-          "${{github.workspace}}/godot.exe" --headless --verbose --export-release "Windows Desktop" "../build/windows/$EXPORT_NAME.exe"
+          & "${{github.workspace}}/godot.exe" --headless --verbose --import --quit-after 10
+          & "${{github.workspace}}/godot.exe" --headless --verbose --export-release "Windows Desktop" "../build/windows/$EXPORT_NAME.exe"
           cd ..
           Compress-Archive -Path ./build/windows/* -Destination ./build/Befrielsen_Windows_x64.zip
       - name: Release
