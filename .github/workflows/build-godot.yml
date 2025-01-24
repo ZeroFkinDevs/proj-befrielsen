@@ -26,7 +26,7 @@ jobs:
           dotnet-version: 6.0.x
       - name: Setup
         run: |
-          wget https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
+          Invoke-WebRequest https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
           Expand-Archive ./zerofkndevs-godot.zip -DestinationPath ./
           New-Item -ItemType Directory -Path %appdata%/Roaming/Godot/export_templates/4.3.stable.mono -Force
           Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination %appdata%/Roaming/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
