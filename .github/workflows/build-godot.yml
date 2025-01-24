@@ -28,29 +28,15 @@ jobs:
         run: |
           Invoke-WebRequest https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
           Expand-Archive ./zerofkndevs-godot.zip -DestinationPath ./
-          New-Item -ItemType Directory -Path ${{env.EXPORT_NAME}}/Roaming/Godot/export_templates/4.3.stable.mono -Force
-          Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination ${{env.EXPORT_NAME}}/Roaming/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
-          Copy-Item ./GodotSharp -Destination ${{env.EXPORT_NAME}}/Roaming/Godot/export_templates/4.3.stable.mono/GodotSharp -Recurse
+          New-Item -ItemType Directory -Path $env:APPDATA/Roaming/Godot/export_templates/4.3.stable.mono -Force
+          Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination $env:APPDATA/Roaming/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
+          Copy-Item ./GodotSharp -Destination $env:APPDATA/Roaming/Godot/export_templates/4.3.stable.mono/GodotSharp -Recurse
           Copy-Item ./godot.windows.editor.x86_64.mono.exe -Destination ${{github.workspace}}/godot.exe -Recurse
 
           New-Item -ItemType Directory -Path ${{github.workspace}}/build/windows -Force
           Set-Location -Path ${{github.workspace}}/${{env.PROJECT_FOLDER}}
           Start-Process -FilePath "${{github.workspace}}/godot.exe" -ArgumentList "--headless --verbose --import --quit-after 10" -NoNewWindow -Wait
           Start-Process -FilePath "${{github.workspace}}/godot.exe" -ArgumentList "--headless","--verbose","--export-release","Windows Desktop","../build/windows/${{env.EXPORT_NAME}}.exe" -NoNewWindow -Wait
-          Compress-Archive -Path ${{github.workspace}}/build/windows/* -Destination ${{github.workspace}}/build/Befrielsen_Windows_x64.zip
-
-
-          Invoke-WebRequest https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
-          Expand-Archive ./zerofkndevs-godot.zip -DestinationPath ./
-          New-Item -ItemType Directory -Path ${{env.EXPORT_NAME}}/Roaming/Godot/export_templates/4.3.stable.mono -Force
-          Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination ${{env.EXPORT_NAME}}/Roaming/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
-          Copy-Item ./GodotSharp -Destination ${{env.EXPORT_NAME}}/Roaming/Godot/export_templates/4.3.stable.mono/GodotSharp -Recurse
-          Copy-Item ./godot.windows.editor.x86_64.mono.exe -Destination ${{github.workspace}}/godot.exe -Recurse
-
-          New-Item -ItemType Directory -Path ${{github.workspace}}/build/windows -Force
-          Set-Location -Path ${{github.workspace}}/${{env.PROJECT_FOLDER}}
-          & "${{github.workspace}}/godot.exe" --headless --verbose --import --quit-after 10
-          & "${{github.workspace}}/godot.exe" --headless --verbose --export-release "Windows Desktop" "../build/windows/${{env.EXPORT_NAME}}.exe"
           Compress-Archive -Path ${{github.workspace}}/build/windows/* -Destination ${{github.workspace}}/build/Befrielsen_Windows_x64.zip
       - name: Release
         uses: softprops/action-gh-release@v2
