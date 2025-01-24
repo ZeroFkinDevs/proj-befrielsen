@@ -34,9 +34,9 @@ jobs:
           Copy-Item ./godot.windows.editor.x86_64.mono.exe -Destination ${{github.workspace}}/godot.exe -Recurse
 
           New-Item -ItemType Directory -Path ${{github.workspace}}/build/windows -Force
-          Set-Location -Path ${{github.workspace}}/$PROJECT_FOLDER
+          Set-Location -Path ${{github.workspace}}/${{env.PROJECT_FOLDER}}
           & "${{github.workspace}}/godot.exe" --headless --verbose --import --quit-after 10
-          & "${{github.workspace}}/godot.exe" --headless --verbose --export-release "Windows Desktop" "../build/windows/$EXPORT_NAME.exe"
+          & "${{github.workspace}}/godot.exe" --headless --verbose --export-release "Windows Desktop" "../build/windows/${{env.EXPORT_NAME}}.exe"
           Compress-Archive -Path ${{github.workspace}}/build/windows/* -Destination ${{github.workspace}}/build/Befrielsen_Windows_x64.zip
       - name: Release
         uses: softprops/action-gh-release@v2
