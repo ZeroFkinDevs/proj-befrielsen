@@ -24,20 +24,18 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
-      - name: Setup
+      - name: Windows Build
         run: |
           Invoke-WebRequest https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
           Expand-Archive ./zerofkndevs-godot.zip -DestinationPath ./
           New-Item -ItemType Directory -Path $env:APPDATA/Roaming/Godot/export_templates/4.3.stable.mono -Force
           Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination $env:APPDATA/Roaming/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
           Copy-Item ./GodotSharp -Destination $env:APPDATA/Roaming/Godot/export_templates/4.3.stable.mono/GodotSharp -Recurse
-        
-      - name: Windows Build
-        run: |
+          
           New-Item -ItemType Directory -Path ./build/windows -Force
           cd $PROJECT_FOLDER
-          Start-Process -FilePath "../godot.windows.editor.x86_64.mono.exe" -ArgumentList "--headless --verbose --import --quit-after 10" -NoNewWindow -Wait
-          Start-Process -FilePath "../godot.windows.editor.x86_64.mono.exe" -ArgumentList "--headless","--verbose","--export-release","Windows Desktop","../build/windows/$EXPORT_NAME.exe" -NoNewWindow -Wait
+          Start-Process -FilePath "./../godot.windows.editor.x86_64.mono.exe" -ArgumentList "--headless --verbose --import --quit-after 10" -NoNewWindow -Wait
+          Start-Process -FilePath "./../godot.windows.editor.x86_64.mono.exe" -ArgumentList "--headless","--verbose","--export-release","Windows Desktop","../build/windows/$EXPORT_NAME.exe" -NoNewWindow -Wait
           cd ..
           Compress-Archive -Path ./build/windows/* -Destination ./build/Befrielsen_Windows_x64.zip
       - name: Release
