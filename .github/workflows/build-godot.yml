@@ -39,7 +39,7 @@ jobs:
           New-Item -ItemType Directory -Path ${{github.workspace}}/build/windows -Force
           Set-Location -Path ${{github.workspace}}/${{env.PROJECT_FOLDER}}
 
-          Start-Process -FilePath "${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe" -ArgumentList "--headless --verbose --import --quit-after 10" -NoNewWindow -Wait
+          ${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe --headless --verbose --import --quit-after 10
 
           $arguments = '--headless --verbose --export-release "Windows Desktop" "../build/windows/${{env.EXPORT_NAME}}.exe"'
           Start-Process -Passthru -FilePath "${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe" -ArgumentList $arguments | Wait-Process
