@@ -1,4 +1,5 @@
 using System;
+using Game.Utils;
 using Godot;
 
 namespace Game
@@ -25,6 +26,10 @@ namespace Game
         public override void _Ready()
         {
             player.model.ObserveLockToCamera += GetIsLookingInventory;
+        }
+        public override void _Process(double delta)
+        {
+
         }
         public override void _ExitTree()
         {

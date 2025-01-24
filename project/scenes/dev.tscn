@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dba88xnme7bjk"]
+[gd_scene load_steps=19 format=3 uid="uid://dba88xnme7bjk"]
 
 [ext_resource type="PackedScene" uid="uid://bvjwwppbx8r6r" path="res://scenes/persistent/player/player.tscn" id="1_a5rwg"]
 [ext_resource type="PackedScene" uid="uid://d3r5ljjf2hhvb" path="res://scenes/multiplayer/PlayersManager.tscn" id="2_27dx1"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://src/ui/main_menu/ButtonShortcuts.cs" id="5_13d81"]
 [ext_resource type="Script" path="res://src/ui/main_menu/DefaultPortLabel.cs" id="5_rpt4h"]
 [ext_resource type="Script" path="res://src/ui/main_menu/ServerPanel.cs" id="5_wfr22"]
+[ext_resource type="FontFile" uid="uid://b0ye61uomc58p" path="res://resources/ui/ofont.ru_Xenia.ttf" id="6_0ac58"]
 [ext_resource type="Texture2D" uid="uid://ce0dl70ie2yon" path="res://resources/ui/lulz/zobny.png" id="6_8qy6k"]
 [ext_resource type="Script" path="res://src/ui/main_menu/ClientPanel.cs" id="8_koygl"]
 [ext_resource type="Texture2D" uid="uid://bxcfwjdd0jln6" path="res://resources/ui/lulz/kit.png" id="10_t3nvg"]
@@ -16,12 +17,22 @@
 
 [sub_resource type="World3D" id="World3D_a5m2x"]
 
+[sub_resource type="Theme" id="Theme_qjc7e"]
+default_font = ExtResource("6_0ac58")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4mai"]
 content_margin_left = 32.0
 content_margin_top = 32.0
 content_margin_right = 32.0
 content_margin_bottom = 32.0
 bg_color = Color(0.25098, 0.243137, 0.345098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xuu1"]
+bg_color = Color(0.160784, 0.156863, 0.196078, 1)
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
 
 [node name="Main" type="Node3D"]
 
@@ -57,6 +68,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_qjc7e")
 
 [node name="MainMenu" type="Control" parent="UI"]
 layout_mode = 1
@@ -70,19 +82,81 @@ grow_vertical = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.995
-offset_bottom = 0.239929
+anchor_bottom = 1.002
+offset_bottom = -0.296082
 color = Color(1, 0.239216, 0.380392, 1)
 
-[node name="Zobny" type="Sprite2D" parent="UI/MainMenu"]
-position = Vector2(267, 350.25)
-scale = Vector2(0.802989, 0.826766)
+[node name="zobny2" type="TextureRect" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.074
+anchor_right = 0.522
+anchor_bottom = 1.0
+offset_top = 0.0480003
+offset_right = -0.343994
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("6_8qy6k")
+expand_mode = 1
 
-[node name="Zobny2" type="Sprite2D" parent="UI/MainMenu"]
-position = Vector2(1275, 305)
-scale = Vector2(0.802989, 0.826766)
+[node name="zobny" type="TextureRect" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.846
+anchor_top = 0.003
+anchor_right = 1.368
+anchor_bottom = 0.931
+offset_left = 0.407959
+offset_top = 0.056
+offset_right = 0.0639648
+offset_bottom = -0.288025
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("6_8qy6k")
+expand_mode = 1
+flip_h = true
+
+[node name="fairy" type="TextureRect" parent="UI/MainMenu"]
+layout_mode = 2
+anchor_left = 0.689
+anchor_top = -0.039
+anchor_right = 0.891
+anchor_bottom = 0.347
+offset_left = 0.271973
+offset_top = 0.272001
+offset_right = 0.567993
+offset_bottom = 0.143997
+texture = ExtResource("12_eqg4x")
+expand_mode = 1
+
+[node name="alfred" type="TextureRect" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.628
+anchor_top = 0.444
+anchor_right = 0.937
+anchor_bottom = 1.019
+offset_left = -0.456055
+offset_top = 0.287964
+offset_right = -0.424072
+offset_bottom = -0.312012
+texture = ExtResource("12_fy06o")
+expand_mode = 1
+
+[node name="kit" type="TextureRect" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.844
+anchor_top = 0.591
+anchor_right = 1.077
+anchor_bottom = 1.006
+offset_left = -0.288025
+offset_top = 0.0319824
+offset_right = 0.296021
+offset_bottom = 0.112
+texture = ExtResource("10_t3nvg")
+expand_mode = 1
 flip_h = true
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenu"]
@@ -90,6 +164,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 3.0
+offset_right = -1.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -243,10 +321,92 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_m4mai")
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel"]
 layout_mode = 2
 
+[node name="Control" type="Control" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = 172.0
+offset_top = 9.0
+offset_right = 202.0
+offset_bottom = 39.0
+rotation = 0.431699
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = -21.0
+offset_top = -15.0
+offset_right = 2.0
+offset_bottom = 7.0
+rotation = -0.328866
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer3" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = 121.0
+offset_top = -27.0
+offset_right = 138.0
+offset_bottom = -12.0
+rotation = -0.269404
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer4" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = -24.0
+offset_top = 51.0
+offset_right = -6.99998
+offset_bottom = 66.0
+rotation = 0.723574
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer5" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = -12.0
+offset_top = 10.0
+offset_right = 92.0
+offset_bottom = 51.0
+rotation = 0.19836
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer6" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = -4.0
+offset_top = -7.0
+offset_right = 100.0
+offset_bottom = 35.0
+rotation = -0.107694
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer7" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = 57.0
+offset_top = 2.0
+offset_right = 167.0
+offset_bottom = 61.0
+rotation = -0.115648
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
+[node name="VBoxContainer8" type="ColorRect" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/Control"]
+custom_minimum_size = Vector2(6.035, 4.52)
+layout_mode = 0
+offset_left = 69.0
+offset_top = -58.0
+offset_right = 83.0
+offset_bottom = -41.0
+rotation = 0.226466
+color = Color(0.160784, 0.156863, 0.196078, 1)
+
 [node name="Title" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/shadow_offset_x = 2
-theme_override_constants/outline_size = 135
 theme_override_font_sizes/font_size = 20
 text = "Proj Befrielsen"
 horizontal_alignment = 1
@@ -257,6 +417,24 @@ theme_override_font_sizes/font_size = 12
 text = "дефолтный порт: 9001"
 horizontal_alignment = 1
 script = ExtResource("5_rpt4h")
+
+[node name="InfoLabel3" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4xuu1")
+
+[node name="InfoLabel4" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 10
+text = "[TAB] - Инвентарь
+[E] - Взаимодействие
+[ЛКМ] - Атака, бросить проп
+[ПКМ] - Отпустить проп"
 
 [node name="ServerPanel2" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ServerNode", "InfoLabel", "LoadButtonsContainer")]
 layout_mode = 2
@@ -319,22 +497,6 @@ text = "localhost"
 [node name="ClientButton_Two" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "[2] го"
-
-[node name="Fairy" type="Sprite2D" parent="UI/MainMenu/CenterContainer/MultiplayerForm"]
-position = Vector2(446, -5)
-scale = Vector2(0.439524, 0.314202)
-texture = ExtResource("12_eqg4x")
-
-[node name="Kit" type="Sprite2D" parent="UI/MainMenu/CenterContainer/MultiplayerForm"]
-position = Vector2(642, 414)
-scale = Vector2(0.372962, 0.365489)
-texture = ExtResource("10_t3nvg")
-flip_h = true
-
-[node name="Alfred" type="Sprite2D" parent="UI/MainMenu/CenterContainer/MultiplayerForm"]
-position = Vector2(435, 371)
-scale = Vector2(0.758586, 0.717054)
-texture = ExtResource("12_fy06o")
 
 [connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer/ServerButton_One" to="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2" method="_on_button_pressed"]
 [connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer/ClientButton_Two" to="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel" method="_on_button_pressed"]

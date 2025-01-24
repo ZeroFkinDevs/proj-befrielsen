@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Net.Http;
 using Godot;
+using Game.Utils;
 
 namespace Game
 {
@@ -19,7 +20,7 @@ namespace Game
 		public Vector3 MovementTarget;
 		[Export]
 		public Vector3 HandsState;
-		private Vector3 LastGlobalPosition;
+		public Vector3 LastGlobalPosition;
 
 		public delegate bool ObserveLockCameraStateDelegate();
 		public ObserveLockCameraStateDelegate ObserveLockToCamera;

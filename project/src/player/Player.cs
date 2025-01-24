@@ -24,7 +24,7 @@ namespace Game
 		public bool Controllable = true;
 		public ControlGroupEnum ControlGroup = ControlGroupEnum.WORLD;
 		[Export]
-		public Node3D Puppet;
+		public bool IsPuppet;
 		[Export]
 		public float Gravity = 10.0f;
 		[Export]
@@ -47,6 +47,10 @@ namespace Game
 		public Vector2 CameraRotationTarget;
 		private Vector3 LastGlobalPosition;
 
+		public float StabilizeTimer = 0.5f;
+
+		public Action OnTeleported;
+
 		[Export]
 		public LivingStateManager livingStateManager { get; set; }
 
@@ -64,19 +68,12 @@ namespace Game
 			{
 				ModelSmoothConnector.NoSmooth = true;
 				Controllable = true;
-				if (Puppet != null)
-				{
-					Puppet.Visible = false;
-				}
 				model.DisableHead();
 			}
 			else
 			{
-				if (Puppet != null)
-				{
-					Puppet.Visible = true;
-				}
-				playerUI.QueueFree();
+				playerUI.Visible = false;
+				Controllable = false;
 			}
 			SetupCamera();
 			LastGlobalPosition = GlobalPosition;
@@ -84,7 +81,7 @@ namespace Game
 
 		public void SetupCamera()
 		{
-			Camera.Current = Controllable;
+			Camera.Current = Controllable && !IsPuppet;
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -93,6 +90,19 @@ namespace Game
 			CommonProcess((float)delta);
 			if (!Controllable) return;
 
+			// setting 11 layer to all meshes inside
+			if (!IsPuppet)
+			{
+				foreach (var child in this.GetChildrenRecursively())
+				{
+					if (child is MeshInstance3D mesh)
+					{
+						if (!mesh.GetLayerMaskValue(11)) mesh.SetLayerMaskValue(11, true);
+					}
+				}
+			}
+
+			// controls
 			Movement.X += Input.GetAxis("move_left", "move_right");
 			Movement.Y += Input.GetAxis("move_backward", "move_forward");
 			Movement = Movement.Lerp(Vector2.Zero, 0.013f * 10.0f);
@@ -116,14 +126,20 @@ namespace Game
 				inventoryManager.CloseInventory();
 			}
 
-			CameraRotation = CameraRotation.Lerp(CameraRotationTarget, (float)delta * 15.0f);
+			CameraRotation = CameraRotation.Lerp(Vector2.Zero, (float)delta * 15f);
 			var deg = GlobalRotation;
-			deg.Y = CameraRotation.Y;
+			deg.Y += CameraRotation.Y * (float)delta;
 			GlobalRotation = deg;
 
 			deg = Camera.GlobalRotation;
-			deg.X = CameraRotation.X;
+			deg.X += CameraRotation.X * (float)delta;
+			deg.X = Mathf.Clamp(deg.X, -Mathf.Pi / 2.0f, Mathf.Pi / 2.0f);
 			Camera.GlobalRotation = deg;
+
+			deg = Camera.Rotation;
+			if (deg.Z > 0.0f || deg.Z < 0.0f) deg.Z /= 1.1f;
+			if (deg.Y > 0.0f || deg.Y < 0.0f) deg.Y /= 1.1f;
+			Camera.Rotation = deg;
 		}
 
 		void CommonProcess(float delta)
@@ -143,9 +159,9 @@ namespace Game
 				{
 					if (Input.MouseMode == Input.MouseModeEnum.Captured)
 					{
-						CameraRotationTarget.Y -= motion.Relative.X * 0.01f;
-						CameraRotationTarget.X -= motion.Relative.Y * 0.01f;
-						CameraRotationTarget.X = Mathf.Clamp(CameraRotationTarget.X, -Mathf.Pi / 2.0f, Mathf.Pi / 2.0f);
+						CameraRotation.Y -= motion.Relative.X * 0.15f;
+						CameraRotation.X -= motion.Relative.Y * 0.15f;
+						// CameraRotation.X = Mathf.Clamp(CameraRotation.X, -Mathf.Pi / 2.0f, Mathf.Pi / 2.0f);
 					}
 				}
 				if (@event is InputEventMouseButton button)
@@ -163,6 +179,8 @@ namespace Game
 			CommonProcess((float)delta);
 
 			if (!Controllable) return;
+			if (IsPuppet) return;
+
 			Vector3 newVelocity = Velocity;
 			newVelocity.Y -= Gravity * (float)delta;
 
@@ -176,6 +194,18 @@ namespace Game
 
 			newVelocity.X = Mathf.Lerp(newVelocity.X, 0.0f, stopForce);
 			newVelocity.Z = Mathf.Lerp(newVelocity.Z, 0.0f, stopForce);
+
+			if (IsOnFloor())
+			{
+				if (StabilizeTimer <= 0.0f)
+				{
+					var rot = Rotation;
+					if (rot.X > 0.0f || rot.X < 0.0f) rot.X /= 1.1f;
+					if (rot.Z > 0.0f || rot.Z < 0.0f) rot.Z /= 1.1f;
+					Rotation = rot;
+				}
+			}
+			StabilizeTimer -= (float)delta;
 
 			Velocity = newVelocity;
 			MoveAndSlide();
@@ -194,6 +224,18 @@ namespace Game
 		public void RecievePosition(Vector3 pos)
 		{
 			GlobalPosition = pos;
+		}
+
+		public void Teleport(Transform3D transform)
+		{
+			Rpc(MethodName.RecieveTeleport, transform);
+		}
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+		public void RecieveTeleport(Transform3D transform)
+		{
+			GlobalTransform = transform;
+			ModelSmoothConnector.Teleport();
+			OnTeleported?.Invoke();
 		}
 
 		public void Despawn()

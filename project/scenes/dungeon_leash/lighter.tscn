@@ -18,18 +18,16 @@ targetNode = NodePath("../target")
 skeleton = NodePath("Armature/Skeleton3D")
 boneName = "root"
 
-[node name="Cylinder" parent="ligher/Armature/Skeleton3D" index="0"]
-transform = Transform3D(1, -1.42108e-14, 1.42109e-14, -1.42109e-14, -1, 1.50996e-07, -1.42109e-14, -1.50996e-07, -1, -4.76588e-10, 0.00254307, 0.0184782)
-
-[node name="Cube" parent="ligher/Armature/Skeleton3D" index="1"]
-transform = Transform3D(1, 4.26326e-14, 1.43219e-14, -4.26326e-14, 1, 0, -1.43219e-14, 0, 1, 0.136957, 0.288546, -1.37833)
-
 [node name="OmniLight3D" type="OmniLight3D" parent="ligher"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.189022, -0.369095, -0.0346903)
+layers = 1025
 light_energy = 2.0
 light_size = 0.566
 light_specular = 0.0
 shadow_enabled = true
+distance_fade_enabled = true
+distance_fade_begin = 20.0
+distance_fade_shadow = 5.0
 omni_range = 10.0
 
 [node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]

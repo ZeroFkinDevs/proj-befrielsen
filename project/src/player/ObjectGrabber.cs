@@ -36,7 +36,7 @@ namespace Game
             var targetPointTransformVariant = targetPointTransform.HasValue ? targetPointTransform.Value : prop.GlobalTransform;
             RpcId(1, MethodName.ServerGrabProp, prop.GlobalTransform, targetPointTransformVariant, prop.GetMultiplayerPath());
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerGrabProp(Transform3D transform, Transform3D targetPointTransform, NodePath propPath)
         {
             Rpc(MethodName.RecieveGrabProp, transform, targetPointTransform, propPath);
@@ -55,8 +55,9 @@ namespace Game
 
             connector.Target.GlobalTransform = targetPointTransform;
             connector.Body = prop;
+            connector.Active = true;
             prop.CanRequestImpulses = false;
-            GrabbingProp.GrabStart();
+            GrabbingProp.GrabStart(this);
 
             IsGrabbing = true;
         }
@@ -76,6 +77,7 @@ namespace Game
         {
             IsGrabbing = false;
             connector.Body = null;
+            connector.Active = false;
 
             if (IsInstanceValid(GrabbingProp))
             {
@@ -92,6 +94,20 @@ namespace Game
             GrabbingProp = null;
         }
         #endregion
+
+        public void UngrabSimply()
+        {
+            IsGrabbing = false;
+            connector.Body = null;
+            connector.Active = false;
+
+            if (IsInstanceValid(GrabbingProp))
+            {
+                GrabbingProp.GrabEnd();
+                GrabbingProp.CanRequestImpulses = true;
+            }
+            GrabbingProp = null;
+        }
 
         public override void _Process(double delta)
         {

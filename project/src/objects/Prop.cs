@@ -35,23 +35,27 @@ namespace Game
 
         public ItemsStorage ItemsStorageRes { get { return itemsStorage; } }
 
+        public ObjectGrabber grabber;
+
         public string InteractableDescription => "prop";
 
 
-        public void GrabStart()
+        public void GrabStart(ObjectGrabber _grabber)
         {
+            grabber = _grabber;
             _interactionType = InteractionTypeEnum.NONE;
             SetCollisionLayerValue(4, false);
             SetCollisionMaskValue(4, false);
             ModelSmoothConnector.NoSmooth = false;
+            SetCollisionLayerValue(6, true);
             if (itemsStorage != null)
             {
-                SetCollisionLayerValue(6, true);
                 _interactionType = InteractionTypeEnum.PICKUP;
             }
         }
         public void GrabEnd()
         {
+            grabber = null;
             _interactionType = InteractionTypeEnum.GRAB;
             SetCollisionLayerValue(4, true);
             SetCollisionMaskValue(4, true);
@@ -72,13 +76,13 @@ namespace Game
             // чтобы синхронизировать позицию когда игрок подключается и спавнятся пропы
             RequestImpulse(Vector3.Zero, null);
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerImpulse(Vector3 velocity)
         {
             ApplyCentralImpulse(velocity);
             shouldSharePhysics = 1;
         }
-        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void ServerPositionedImpulse(Vector3 velocity, Transform3D transform)
         {
             GlobalTransform = transform;
@@ -90,6 +94,17 @@ namespace Game
         {
             var pack = new PhysicsPackStruct(transform, linearVelocity, angularVelocity);
             physicsToRecieve = pack;
+        }
+
+        public void Teleport(Transform3D transform)
+        {
+            Rpc(MethodName.RecieveTeleport, transform);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RecieveTeleport(Transform3D transform)
+        {
+            GlobalTransform = transform;
+            ModelSmoothConnector.Teleport();
         }
 
         public override void _PhysicsProcess(double delta)
@@ -114,8 +129,11 @@ namespace Game
             else
             if (shouldSharePhysics == 2)
             {
-                Rpc(MethodName.RecievePhysics, GlobalTransform, LinearVelocity, AngularVelocity);
-                shouldSharePhysics = 0;
+                if (Multiplayer.IsServer())
+                {
+                    Rpc(MethodName.RecievePhysics, GlobalTransform, LinearVelocity, AngularVelocity);
+                    shouldSharePhysics = 0;
+                }
             }
         }
 

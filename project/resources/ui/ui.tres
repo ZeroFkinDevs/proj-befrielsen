@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://civ31we8rg0qk"]
+
+[ext_resource type="FontFile" uid="uid://qvxptxhqv20b" path="res://resources/ui/AcPlus_IBM_BIOS.ttf" id="1_xts06"]
+
+[resource]
+default_font = ExtResource("1_xts06")
