@@ -42,7 +42,7 @@ jobs:
           Start-Process -FilePath "${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe" -ArgumentList "--headless --verbose --import --quit-after 10" -NoNewWindow -Wait
 
           $arguments = '--headless --verbose --export-release "Windows Desktop" "../build/windows/${{env.EXPORT_NAME}}.exe"'
-          Start-Process -FilePath "${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe" -ArgumentList $arguments
+          Start-Process -FilePath "${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe" -ArgumentList $arguments -NoNewWindow
           Compress-Archive -Path ${{github.workspace}}/build/windows/* -Destination ${{github.workspace}}/build/Befrielsen_Windows_x64.zip
       - name: Release
         uses: softprops/action-gh-release@v2
