@@ -36,7 +36,9 @@ jobs:
           New-Item -ItemType Directory -Path ${{github.workspace}}/build/windows -Force
           Set-Location -Path ${{github.workspace}}/${{env.PROJECT_FOLDER}}
           Start-Process -FilePath "${{github.workspace}}/godot.exe" -ArgumentList "--headless --verbose --import --quit-after 10" -NoNewWindow -Wait
-          Start-Process -FilePath "${{github.workspace}}/godot.exe" -ArgumentList "--headless","--verbose","--export-release","Windows Desktop","../build/windows/${{env.EXPORT_NAME}}.exe" -NoNewWindow -Wait
+
+          $templateName = "Windows Desktop"
+          Start-Process -FilePath "${{github.workspace}}/godot.exe" -ArgumentList "--headless","--verbose","--export-release",$templateName,"../build/windows/${{env.EXPORT_NAME}}.exe" -NoNewWindow -Wait
           Compress-Archive -Path ${{github.workspace}}/build/windows/* -Destination ${{github.workspace}}/build/Befrielsen_Windows_x64.zip
       - name: Release
         uses: softprops/action-gh-release@v2
