@@ -7,14 +7,16 @@ on:
 env:
   GODOT_VERSION: 4.3
   EXPORT_NAME: proj-befrielsen
-  PROJECT_FOLDER: project
+  PROJECT_PATH: project
 
 jobs:
   export-windows:
     permissions:
       contents: write
     name: Windows Export
-    runs-on: windows-latest
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:mono-4.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,24 +26,26 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
-      - name: Get AppData Directory
-        run: echo ("APPDATA_DIR=" + $env:APPDATA) >> $env:GITHUB_ENV
+      
+      - name: Setup
+        run: |
+          wget https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v9/zerofkndevs-godot-linux.zip
+          unzip zerofkndevs-godot-linux.zip
+          wget https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v9/zerofkndevs-godot-windows.zip
+          unzip zerofkndevs-godot-windows.zip
+          - cp ./godot.windows.template_release.x86_64.mono.exe ~/.local/share/godot/templates/4.3.stable.mono/windows_release_x86_64.exe
+          - cp -r ./GodotSharp ~/.local/share/godot/templates/4.3.stable.mono/GodotSharp
+
       - name: Windows Build
         run: |
-          Set-Location -Path ${{github.workspace}}
-
-          Invoke-WebRequest https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v8/zerofkndevs-godot.zip -OutFile zerofkndevs-godot.zip
-          Expand-Archive ./zerofkndevs-godot.zip -DestinationPath ./
-          New-Item -ItemType Directory -Path "${{ env.APPDATA_DIR }}/Godot/export_templates/4.3.stable.mono" -Force
-          Copy-Item ./godot.windows.template_release.x86_64.mono.exe -Destination "${{ env.APPDATA_DIR }}/Godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe"
-          Copy-Item ./GodotSharp -Destination "${{ env.APPDATA_DIR }}/Godot/export_templates/4.3.stable.mono/GodotSharp" -Recurse
-
-          New-Item -ItemType Directory -Path ${{github.workspace}}/build/windows -Force
-          Set-Location -Path ${{github.workspace}}/${{env.PROJECT_FOLDER}}
-
-          $arguments = '--headless --verbose --import --export-release "Windows Desktop" "../build/windows/${{env.EXPORT_NAME}}.exe"'
-          Start-Process -Passthru -FilePath "${{github.workspace}}/godot.windows.editor.x86_64.mono.console.exe" -ArgumentList $arguments | Wait-Process
-          Compress-Archive -Path ${{github.workspace}}/build/windows/* -Destination ${{github.workspace}}/build/Befrielsen_Windows_x64.zip
+          mkdir -v -p build/windows
+          EXPORT_DIR="$(readlink -f build)"
+          cd $PROJECT_PATH
+          "$EXPORT_DIR/../godot.linuxbsd.editor.x86_64.mono" --headless --verbose --import --quit-after 10
+          "$EXPORT_DIR/../godot.linuxbsd.editor.x86_64.mono" --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
+          cd "$EXPORT_DIR/windows"
+          zip -r "../Befrielsen_Windows_x64.zip" *
+      
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
