@@ -39,6 +39,12 @@ jobs:
           cp ./godot.windows.template_release.x86_64.mono.exe ~/.local/share/godot/templates/4.3.stable.mono/windows_release_x86_64.exe
           cp -r ./GodotSharp ~/.local/share/godot/templates/4.3.stable.mono/GodotSharp
 
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mkdir -v -p ~/.config/
+          mv /root/.config/godot ~/.config/godot
+          ls ~/.config/godot
+          mv ~/.local/share/godot/templates/4.3.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
