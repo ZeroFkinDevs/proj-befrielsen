@@ -6,6 +6,6 @@ namespace Game
     public partial class Location : Node3D
     {
         [Export]
-        public Array<Node3D> PlayerSpawners = new Array<Node3D>();
+        public Array<NodePath> PlayerSpawners = new Array<NodePath>();
     }
 }

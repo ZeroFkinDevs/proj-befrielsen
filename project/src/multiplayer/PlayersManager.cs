@@ -1,3 +1,4 @@
+using Game.Utils;
 using Godot;
 
 namespace Game
@@ -29,7 +30,7 @@ namespace Game
 			AddChild(player);
 			if (spawners.Count > 0)
 			{
-				var pos = spawners[0].GlobalPosition;
+				var pos = ServerNode.locationLoader.LocationInstance.GetMultiplayerNode<Node3D>(spawners[0]).GlobalPosition;
 				player.RpcId(peerId, Player.MethodName.RecievePosition, pos);
 			}
 		}

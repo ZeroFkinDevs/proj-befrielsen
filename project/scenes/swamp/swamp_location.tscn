@@ -75,7 +75,7 @@ adjustment_saturation = 0.5
 [sub_resource type="BoxShape3D" id="BoxShape3D_s7pjl"]
 size = Vector3(1, 0.211914, 1.52124)
 
-[node name="swamp_location" type="Node3D" node_paths=PackedStringArray("PlayerSpawners")]
+[node name="swamp_location" type="Node3D"]
 script = ExtResource("1_rvnvd")
 PlayerSpawners = [NodePath("PlayerSpawner")]
 
