@@ -33,9 +33,9 @@ jobs:
           cd windows
           wget https://github.com/ZeroFkinDevs/godot/releases/download/zfd-v9/zerofkndevs-godot-windows.zip
           unzip zerofkndevs-godot-windows.zip
-          mkdir -v -p ~/.local/share/godot/templates/4.3.stable.mono
-          cp ./godot.windows.template_release.x86_64.mono.exe ~/.local/share/godot/templates/4.3.stable.mono/windows_release_x86_64.exe
-          cp -r ./GodotSharp ~/.local/share/godot/templates/4.3.stable.mono/GodotSharp
+          mkdir -v -p ~/.local/share/godot/export_templates/4.3.stable.mono
+          cp ./godot.windows.template_release.x86_64.mono.exe ~/.local/share/godot/export_templates/4.3.stable.mono/windows_release_x86_64.exe
+          cp -r ./GodotSharp ~/.local/share/godot/export_templates/4.3.stable.mono/GodotSharp
 
       - name: Windows Build
         run: |
