@@ -15,8 +15,6 @@ jobs:
       contents: write
     name: Windows Export
     runs-on: ubuntu-24.04
-    container:
-      image: barichello/godot-ci:mono-4.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,8 +36,6 @@ jobs:
           mkdir -v -p ~/.local/share/godot/templates/4.3.stable.mono
           cp ./godot.windows.template_release.x86_64.mono.exe ~/.local/share/godot/templates/4.3.stable.mono/windows_release_x86_64.exe
           cp -r ./GodotSharp ~/.local/share/godot/templates/4.3.stable.mono/GodotSharp
-
-          
 
       - name: Windows Build
         run: |
