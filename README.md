@@ -4,7 +4,7 @@
 
 ### Godot
 
-используется наш билд - [ZeroFkinDevs/godot](https://github.com/ZeroFkinDevs/godot)
+- Godot 4.3 - используется наш билд - [ZeroFkinDevs/godot](https://github.com/ZeroFkinDevs/godot)
 
 ### Процесс
 
