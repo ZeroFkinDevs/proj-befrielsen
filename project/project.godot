@@ -93,3 +93,8 @@ alt_mode={
 3d_physics/layer_6="interactable"
 3d_physics/layer_8="Слой 8"
 3d_physics/layer_9="portals"
+3d_physics/layer_10="npc"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

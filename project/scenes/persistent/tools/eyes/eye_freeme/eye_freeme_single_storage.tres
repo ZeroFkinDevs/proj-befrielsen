@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cmgbkefecvrc5"]
+
+[ext_resource type="Resource" uid="uid://dfkbgxehm45hh" path="res://scenes/persistent/tools/eyes/eye_freeme/eye_freeme_single_stack.tres" id="1_i5q0w"]
+[ext_resource type="Script" path="res://src/objects/item/ItemsStorage.cs" id="2_2obo8"]
+
+[resource]
+script = ExtResource("2_2obo8")
+ItemsStacks = [ExtResource("1_i5q0w")]

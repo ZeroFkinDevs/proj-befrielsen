@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://b0ded0rt61awf"]
+
+[ext_resource type="PackedScene" uid="uid://ddvyd21yrjma2" path="res://scenes/persistent/eye_hooker/eye_hooker_with_controller.tscn" id="1_26o0d"]
+[ext_resource type="Script" path="res://src/utils/SceneUnwrapper.cs" id="1_tvfch"]
+[ext_resource type="Script" path="res://src/objects/eye_hooker/EyeHooker.cs" id="2_ruyti"]
+[ext_resource type="PackedScene" uid="uid://iu1tq4rn0ys0" path="res://resources/objects/persistent/eye_hookers/eye_hooker_phy_collision_shape.tscn" id="3_61160"]
+[ext_resource type="Script" path="res://src/utils/PlayerDetectArea.cs" id="4_1wppk"]
+[ext_resource type="Script" path="res://src/utils/NodeToBoneConnector.cs" id="5_cuky4"]
+[ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="6_hpdl8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_modcq"]
+radius = 3.50408
+
+[node name="eye_hooker_container" type="Node3D"]
+transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 0, 0, 0)
+script = ExtResource("1_tvfch")
+
+[node name="eye_hooker_with_controller" parent="." instance=ExtResource("1_26o0d")]
+transform = Transform3D(-1, 0, -1.39091e-08, 0, 1, 0, 1.39091e-08, 0, -1, 0, 0, 0)
+
+[node name="EyeHooker" type="Area3D" parent="." node_paths=PackedStringArray("model", "objectInstantiator", "nodeToBoneConnector", "playerDetectArea")]
+script = ExtResource("2_ruyti")
+model = NodePath("../eye_hooker_with_controller")
+objectInstantiator = NodePath("../ObjectInstantiator")
+nodeToBoneConnector = NodePath("../NodeToBoneConnector")
+playerDetectArea = NodePath("../playerArea")
+
+[node name="eye_hooker_phy_collision_shape" parent="EyeHooker" instance=ExtResource("3_61160")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="playerArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("4_1wppk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="playerArea"]
+shape = SubResource("SphereShape3D_modcq")
+
+[node name="NodeToBoneConnector" type="Node3D" parent="."]
+script = ExtResource("5_cuky4")
+boneName = "eye"
+
+[node name="ObjectInstantiator" type="Node3D" parent="."]
+script = ExtResource("6_hpdl8")
+SpawnId = "eye_prop"

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cwvwa1jr52ig7"]
 
-[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_0hkv7"]
+[ext_resource type="Script" path="res://src/utils/SceneUnwrapper.cs" id="1_0hkv7"]
 [ext_resource type="PackedScene" uid="uid://cx8knhhxi7qvl" path="res://resources/objects/dungeon_leash/nards/nards.tscn" id="1_oqqmf"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_rn1oi"]
 [ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_8aiam"]

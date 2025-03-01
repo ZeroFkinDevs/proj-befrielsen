@@ -11,14 +11,20 @@ namespace Game
         APPLY,
         TOUCH,
     }
+    public interface IUser
+    {
+
+    }
     public interface IInteractable
     {
         public InteractionTypeEnum InteractionType { get; }
         public string InteractableDescription { get; }
         public void Interact(IUser user);
     }
-    public interface IUser
+    public interface IToolInteractable
     {
-
+        public InteractionTypeEnum GetInteractionType(ITool tool, ItemStack toolStack);
+        public string GetInteractableDescription(ITool tool, ItemStack toolStack);
+        public void Interact(ITool tool, ItemStack toolStack);
     }
 }

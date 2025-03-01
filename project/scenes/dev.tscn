@@ -39,6 +39,7 @@ expand_margin_bottom = 12.0
 [node name="SubViewport" type="SubViewport" parent="."]
 own_world_3d = true
 world_3d = SubResource("World3D_a5m2x")
+size = Vector2i(2, 2)
 
 [node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("locationLoader", "playersManager")]
 script = ExtResource("2_eog3n")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dk3dpg2iwkjf1"]
+
+[ext_resource type="Script" path="res://src/objects/effects/VolumeSphereEffect.cs" id="1_jbyor"]
+[ext_resource type="ArrayMesh" uid="uid://2sxqsci084dv" path="res://resources/effects/volumetric_sphere.obj" id="2_nah0d"]
+[ext_resource type="Shader" path="res://shaders/volumetric_sphere_effect.gdshader" id="3_2xw35"]
+
+[node name="volume_sphere_effect" type="Node3D"]
+script = ExtResource("1_jbyor")
+frameNameBase = "effect_1"
+LayersCount = 9
+framesDirectoryPath = "res://resources/effects/test_layered_effect/sphere_test/"
+CommonScale = 1.0
+LayerMesh = ExtResource("2_nah0d")
+shader = ExtResource("3_2xw35")

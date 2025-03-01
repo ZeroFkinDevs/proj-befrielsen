@@ -75,6 +75,10 @@ namespace Game
 				playerUI.Visible = false;
 				Controllable = false;
 			}
+			if (Multiplayer.IsServer())
+			{
+				playerUI.Visible = false;
+			}
 			SetupCamera();
 			LastGlobalPosition = GlobalPosition;
 		}

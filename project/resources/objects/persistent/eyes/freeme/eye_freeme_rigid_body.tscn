@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/objects/persistent/eyes/freeme/eye_freeme.tscn" type="PackedScene" id=1]
+
+[ext_resource path="res://resources/objects/persistent/eyes/freeme/eye_freeme_phy_collision_shape.tscn" type="PackedScene" id=2]
+
+[node name="eye_freeme_rigid_body" type="RigidBody"]
+
+[node name="eye_freeme" parent="." instance=ExtResource( 1 )]
+
+[node name="eye_freeme_phy_collision_shape" parent="." instance=ExtResource( 2 )]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtho6c745wuf2"]
+
+[ext_resource type="Script" path="res://src/objects/effects/LayeredEffect.cs" id="1_lrly5"]
+
+[node name="test_layered_effect" type="Node3D"]
+script = ExtResource("1_lrly5")
+frameNameBase = "effect_1"
+AnimationSpeed = 3.0
+FramesCount = 20
+LayersCount = 9
+LayersDistance = 0.3
+framesDirectoryPath = "res://resources/effects/test_layered_effect/"
+CommonScale = 1.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00316453, 1.19209e-07, 0.00200462)
+light_color = Color(0.94, 0.235, 0.2585, 1)
+light_energy = 5.0
+light_volumetric_fog_energy = 2.612
+light_specular = 0.0

@@ -3,9 +3,6 @@ using Godot.Collections;
 
 namespace Game
 {
-    // наверное важно не использовать для пропов MultiplayerSpawner,
-    // как минимум потому что они при создании будут синхронизировать позицию для всех клиентов
-    // не проблема, но все же
     public partial class Prop : RigidBody3D, IInteractable, IItemsStoring
     {
         class PhysicsPackStruct

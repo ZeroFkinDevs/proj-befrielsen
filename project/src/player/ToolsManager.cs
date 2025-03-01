@@ -9,6 +9,8 @@ namespace Game
 	{
 		[Export]
 		public InventoryContainer inventoryContainer;
+		[Export]
+		public RayInteractor rayInteractor;
 
 		[Export]
 		public string BoneName;
@@ -20,15 +22,56 @@ namespace Game
 		public ToolItemResource CurrentToolItem;
 
 		public Node3D CurrentTool;
+		public ITool CurrentITool
+		{
+			get
+			{
+				if (CurrentTool is ITool itool) return itool;
+				return null;
+			}
+		}
+		public bool HasActiveTool
+		{
+			get
+			{
+				return CurrentITool != null;
+			}
+		}
+		public ItemStack CurrentToolItemStack
+		{
+			get
+			{
+				if (!HasActiveTool) return null;
+				return storage.ItemsStacks[CurrentItemIndex];
+			}
+		}
 
 		private ItemsStorage storage { get { return inventoryContainer.storage; } }
 		public Player player { get { return inventoryContainer.inventoryManager.player; } }
+
+		private bool _enabled = true;
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				if (value)
+				{
+					SetupCurrentItem();
+				}
+				else
+				{
+					SetTool(null);
+				}
+			}
+		}
 
 		public override void _Ready()
 		{
 			boneId = player.model.skeleton3D.FindBone(BoneName);
 
-			// inventoryContainer.storage.OnUpdate += SetupCurrentItem;
+			inventoryContainer.storage.OnUpdate += SetupCurrentItem;
 			SetupCurrentItem();
 		}
 
@@ -39,6 +82,7 @@ namespace Game
 
 		public void SetupCurrentItem()
 		{
+			if (!Enabled) return;
 			SetCurrentItemIdx(CurrentItemIndex);
 		}
 
@@ -59,6 +103,10 @@ namespace Game
 			{
 				SetTool(toolItemRes);
 				return;
+			}
+			else
+			{
+				SetTool(null);
 			}
 		}
 

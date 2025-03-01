@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=36 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
@@ -20,12 +20,18 @@
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/cookerfire/cookerfire_static_body.tscn" id="17_ovy3j"]
 [ext_resource type="PackedScene" uid="uid://cxeocpxg8ccb4" path="res://scenes/effects/fire.tscn" id="18_1vsui"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/dungeon_enter/dungeon_enter_static_body.tscn" id="19_dny1g"]
+[ext_resource type="PackedScene" uid="uid://dtho6c745wuf2" path="res://scenes/effects/test_layered_effect.tscn" id="21_sxfgm"]
 [ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="21_yhgnv"]
 [ext_resource type="PackedScene" uid="uid://bfa3r5f05xrfc" path="res://resources/locations/swamp/lock/lock_static_body.tscn" id="22_p3pcr"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/dungeon_enter/dungeon_enter_door_rigid_body.tscn" id="22_q7kby"]
 [ext_resource type="Script" path="res://src/objects/locations/swamp/DoorLock.cs" id="24_vq4jk"]
-[ext_resource type="PackedScene" path="res://resources/locations/dungeon_leash/geometry/room_1_static_body.tscn" id="25_52ntw"]
-[ext_resource type="PackedScene" path="res://resources/locations/dungeon_sewer/geometry/room_1_static_body.tscn" id="26_8u0ec"]
+[ext_resource type="PackedScene" uid="uid://bwbep4il1eebf" path="res://resources/locations/dungeon_leash/geometry/room_1_static_body.tscn" id="25_52ntw"]
+[ext_resource type="PackedScene" uid="uid://b0ded0rt61awf" path="res://scenes/persistent/eye_hooker/eye_hooker.tscn" id="28_63x5m"]
+[ext_resource type="PackedScene" uid="uid://vblsq1jomhec" path="res://scenes/persistent/tools/eyes/eye_freeme/eye_freeme_prop.tscn" id="30_x2d3p"]
+[ext_resource type="PackedScene" uid="uid://cgeb785y45ti5" path="res://scenes/persistent/girl/girl_npc.tscn" id="31_yooto"]
+[ext_resource type="PackedScene" path="res://resources/locations/swamp/collider_1.tscn" id="32_ayw4l"]
+[ext_resource type="PackedScene" uid="uid://v4i7sdpojh5e" path="res://scenes/persistent/dream_adapters/circle_square_adapter.tscn" id="35_6x4u2"]
+[ext_resource type="Script" path="res://src/objects/dreams/DreamsManager.cs" id="35_q0r8o"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
 background_mode = 1
@@ -67,7 +73,6 @@ volumetric_fog_gi_inject = 0.82
 volumetric_fog_length = 10.11
 volumetric_fog_detail_spread = 2.19613
 volumetric_fog_ambient_inject = 0.54
-adjustment_enabled = true
 adjustment_brightness = 1.33
 adjustment_contrast = 1.33
 adjustment_saturation = 0.5
@@ -75,9 +80,13 @@ adjustment_saturation = 0.5
 [sub_resource type="BoxShape3D" id="BoxShape3D_s7pjl"]
 size = Vector3(1, 0.211914, 1.52124)
 
-[node name="swamp_location" type="Node3D"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d32ve"]
+points = PackedVector3Array(-4.98663, -1, 0.939945, -4.91669, -1, 0.301187, 4.93722, -1, -1.68378, -4.98663, 9.91426, 0.939945, -4.91669, 9.91426, 0.301187, 4.91488, -1, -2.19282, 4.93722, 9.91426, -1.68378, 4.91488, 9.91426, -2.19282)
+
+[node name="swamp_location" type="Node3D" node_paths=PackedStringArray("dreamsManager")]
 script = ExtResource("1_rvnvd")
 PlayerSpawners = [NodePath("PlayerSpawner")]
+dreamsManager = NodePath("DreamsManager")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qpcki")
@@ -91,17 +100,9 @@ transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.51490
 [node name="PlayerSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.66947, -3.05128, 20.9647)
 
-[node name="Portal" parent="." node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
-process_physics_priority = 1
-transform = Transform3D(0.0929186, 0, 1.66458, 0, 1.66717, 0, -1.66458, 0, 0.0929186, -5.36915, -3.6223, 21.6318)
-OtherPortal = NodePath("../Node3D/Portal2")
-CullLayer = 2
-
-[node name="Portal2" parent="." node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
+[node name="Portal2" parent="." instance=ExtResource("4_mscds")]
 process_physics_priority = 1
 transform = Transform3D(-0.0929187, 0, -1.66458, 0, 1.66717, 0, 1.66458, 0, -0.0929187, -14.0365, -3.6223, 21.148)
-OtherPortal = NodePath("../Node3D2/Portal3")
-CullLayer = 2
 
 [node name="vines_1" parent="." instance=ExtResource("10_m0jkx")]
 transform = Transform3D(0.582273, 0, 0.331449, 0, 0.67, 0, -0.331449, 0, 0.582273, -3.74239, 4.98322, 2.20406)
@@ -187,6 +188,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2179, 1.13148, -26.321)
 [node name="lighter" parent="." instance=ExtResource("16_0v5sm")]
 transform = Transform3D(0.709608, 0, 0.704597, 0, 1, 0, -0.704597, 0, 0.709608, -0.562052, 0.272897, 0.395108)
 
+[node name="lighter5" parent="." instance=ExtResource("16_0v5sm")]
+transform = Transform3D(-0.506711, 0, 0.862116, 0, 1, 0, -0.862116, 0, -0.506711, -11.6584, 0.371929, 2.42078)
+
+[node name="lighter6" parent="." instance=ExtResource("16_0v5sm")]
+transform = Transform3D(0.35558, 0, 0.934646, 0, 1, 0, -0.934646, 0, 0.35558, -11.759, 0.176031, -4.49034)
+
 [node name="lighter2" parent="." instance=ExtResource("16_0v5sm")]
 transform = Transform3D(-0.109977, -0.494274, 0.862322, 0.000296738, -0.867601, -0.497262, 0.993934, -0.0544316, 0.095563, 2.37435, 4.50334, -8.90995)
 
@@ -206,10 +213,12 @@ transform = Transform3D(-0.995118, 0, 0.0986945, 0, 1, 0, -0.0986945, 0, -0.9951
 transform = Transform3D(0.996376, -0.0841206, -0.0126085, -0.0551123, -0.525533, -0.848986, 0.0647911, 0.846604, -0.528265, -9.98712, -2.59383, 23.4294)
 
 [node name="anomaly_cube_prop4" parent="." instance=ExtResource("12_kq5fs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3618, -4.68422, 18.1967)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2276, -4.68422, 18.1967)
 
 [node name="anomaly_cube_prop5" parent="." instance=ExtResource("12_kq5fs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16114, -4.74458, 18.067)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.73205, -4.74458, 18.067)
+
+[node name="test_layered_effect" parent="anomaly_cube_prop5/anomaly_cube" index="0" instance=ExtResource("21_sxfgm")]
 
 [node name="door_target_2" type="Node3D" parent="."]
 transform = Transform3D(-0.674482, -0.0276949, 0.737772, 0.0186875, -0.999617, -0.0204405, 0.738055, 7.10178e-07, 0.67474, -8.30317, -2.23059, 21.3268)
@@ -264,14 +273,14 @@ InteractMessage = "открыть правый люк"
 Connector = NodePath("../door_connector2")
 TargetToSet = NodePath("../door2_target2")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="slope" type="StaticBody3D" parent="."]
 transform = Transform3D(0.964058, -0.265691, 0, 0.265691, 0.964058, 0, 0, 0, 1, -7.28006, -5.25103, 21.4761)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slope"]
 shape = SubResource("BoxShape3D_s7pjl")
 
 [node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3298, -6.16645, 23.4386)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0559, -6.16645, 23.4386)
 
 [node name="lighter5" parent="Node3D" instance=ExtResource("16_0v5sm")]
 transform = Transform3D(-0.14579, 0, -0.989316, 0, 1, 0, 0.989316, 0, -0.14579, 5.13022, 2.35439, -1.43054)
@@ -284,25 +293,49 @@ transform = Transform3D(0.0853299, 0, 0.996353, 0, 1, 0, -0.996353, 0, 0.0853299
 [node name="lighter6" parent="Node3D" instance=ExtResource("16_0v5sm")]
 transform = Transform3D(-0.349848, 0, -0.936807, 0, 1, 0, 0.936807, 0, -0.349848, -1.65764, 3.1948, -3.37011)
 
-[node name="Portal2" parent="Node3D" node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
+[node name="Portal2" parent="Node3D" instance=ExtResource("4_mscds")]
 process_physics_priority = 1
 transform = Transform3D(1.667, 0, 0, 0, 1.667, 0, 0, 0, 1.667, 1.86891, 1.48669, 4.69883)
-OtherPortal = NodePath("../../Portal")
 CullLayer = 3
+
+[node name="girl_character" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.526763, 0, -0.850012, 0, 1, 0, 0.850012, 0, 0.526763, -11.5601, -5.3107, 14.5708)
+
+[node name="eye_hooker" parent="." instance=ExtResource("28_63x5m")]
+transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -8.46081, -3.99893, 23.473)
+
+[node name="EyeHooker" parent="eye_hooker" index="1" node_paths=PackedStringArray("dreamAdapter")]
+dreamAdapter = NodePath("../../CircleSquareAdapter")
+
+[node name="eye_freeme_prop" parent="." instance=ExtResource("30_x2d3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98612, -4.97819, 19.8103)
+
+[node name="DreamsManager" type="Node3D" parent="."]
+script = ExtResource("35_q0r8o")
+SpawnId = "dream"
+
+[node name="CircleSquareAdapter" parent="." instance=ExtResource("35_6x4u2")]
+transform = Transform3D(0.0664654, 0, 0.997789, 0, 1, 0, -0.997789, 0, 0.0664654, -6.78042, -3.66923, 21.5044)
 
 [node name="Node3D2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6241, 126.897, 29.926)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55367, -5.11975, 12.8976)
 
-[node name="room_1_static_body" parent="Node3D2" instance=ExtResource("26_8u0ec")]
+[node name="GirlNpc" parent="Node3D2" instance=ExtResource("31_yooto")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="Portal3" parent="Node3D2" node_paths=PackedStringArray("OtherPortal") instance=ExtResource("4_mscds")]
-process_physics_priority = 1
-transform = Transform3D(-1.667, 0, 5.43178e-07, 0, 1.667, 0, -5.43178e-07, 0, -1.667, -4.56069, 1.7364, 5.24647)
-OtherPortal = NodePath("../../Portal2")
-CullLayer = 3
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
 
-[node name="lighter5" parent="Node3D2" instance=ExtResource("16_0v5sm")]
-transform = Transform3D(-0.410759, 0.828472, -0.380672, -0.745367, -0.0646807, 0.663509, 0.525077, 0.556283, 0.644084, -2.5468, -0.59056, 10.5682)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, -10.6158, -2.65707, -1.62712)
+shape = SubResource("ConvexPolygonShape3D_d32ve")
 
+[node name="collider_1" parent="StaticBody3D2" instance=ExtResource("32_ayw4l")]
+transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
+visible = false
+
+[editable path="anomaly_cube_prop4"]
+[editable path="anomaly_cube_prop4/anomaly_cube"]
 [editable path="anomaly_cube_prop5"]
 [editable path="anomaly_cube_prop5/anomaly_cube"]
+[editable path="eye_hooker"]
+[editable path="StaticBody3D2/collider_1"]

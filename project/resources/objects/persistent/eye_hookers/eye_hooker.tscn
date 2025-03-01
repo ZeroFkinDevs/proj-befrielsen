@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://djufh30qogpfy"]
+
+[ext_resource type="PackedScene" uid="uid://butk5eayx5h86" path="res://resources/objects/persistent/eye_hookers/eye_hooker.glb" id="1"]
+[ext_resource type="Script" path="res://src/utils/AnimWithEvents.cs" id="6"]
+
+[node name="eye_hooker" instance=ExtResource("1")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(0.498419, -0.501576, 0.498419, 0.501576)
+
+[node name="AnimationPlayer" parent="." index="4"]
+script = ExtResource("6")
+AnimationEvents = {
+"holding": [],
+"idle": [],
+"init": [],
+"take": [],
+"wake": []
+}

@@ -11,7 +11,7 @@ namespace Game
         [Export]
         public string SpawnId = "prop";
         public MultiplayerSpawner spawner;
-        public int PropsCount = 0;
+        public int ObjectsCount = 0;
 
         public override void _Ready()
         {
@@ -21,12 +21,12 @@ namespace Game
         public void RequestInstantiate(TmpStorage tmpStorage, PackedScene scene, Node3D cbNode, StringName cbMethod)
         {
             tmpStorage.BroadcastArrayOfResources<PackedScene>(new Godot.Collections.Array<PackedScene> { scene },
-            "instantiate_" + Name + SpawnId + "_" + PropsCount,
+            "instantiate_" + Name + SpawnId + "_" + ObjectsCount,
             this, MethodName.Instantiate,
                 new Godot.Collections.Array<string> { cbNode.GetPath(), cbMethod, tmpStorage.GetPath() });
-            PropsCount += 1;
+            ObjectsCount += 1;
         }
-        public void Instantiate(Godot.Collections.Array<PackedScene> scenes, Godot.Collections.Array<string> recieveArgs)
+        public virtual void Instantiate(Godot.Collections.Array<PackedScene> scenes, Godot.Collections.Array<string> recieveArgs)
         {
             var scene = scenes[0];
 
@@ -39,6 +39,28 @@ namespace Game
             var cbNode = this.GetMultiplayerNode<Node3D>(recieveArgs[0]);
             var cbMethod = recieveArgs[1];
             cbNode.Call(cbMethod, newNode);
+        }
+        public void RequestInstantiateProp(TmpStorage tmpStorage, ItemResource itemRes, Node3D cbNode, StringName cbMethod)
+        {
+            tmpStorage.BroadcastArrayOfResources<ItemResource>(new Godot.Collections.Array<ItemResource> { itemRes },
+            "instantiate_prop_" + Name + SpawnId + "_" + ObjectsCount,
+            this, MethodName.InstantiateProp,
+                new Godot.Collections.Array<string> { cbNode.GetPath(), cbMethod, tmpStorage.GetPath() });
+            ObjectsCount += 1;
+        }
+
+        public void InstantiateProp(Godot.Collections.Array<ItemResource> itemsResAr, Godot.Collections.Array<string> recieveArgs)
+        {
+            var itemRes = itemsResAr[0];
+
+            var parent = locationLoader.LocationInstance;
+            var (newNode, prop) = itemRes.InstantiateSimpleProp(parent);
+            newNode.Name = "Obj_" + Path.GetFileName(itemRes.ResourcePath);
+            newNode.Owner = parent;
+
+            var cbNode = this.GetMultiplayerNode<Node3D>(recieveArgs[0]);
+            var cbMethod = recieveArgs[1];
+            cbNode.Call(cbMethod, prop);
         }
     }
 }

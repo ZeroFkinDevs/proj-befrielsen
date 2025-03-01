@@ -51,6 +51,7 @@ size = Vector2i(910, 512)
 transform = Transform3D(-0.99462, 0, -0.103592, 0, 1, 0, 0.103592, 0, -0.99462, -0.311816, -0.191661, 1.20422)
 cull_mask = 1047551
 environment = ExtResource("3_1ge74")
+far = 100.0
 script = ExtResource("3_md4ce")
 
 [node name="PlayerPuppetArea" type="Area3D" parent="."]

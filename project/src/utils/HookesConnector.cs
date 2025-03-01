@@ -77,7 +77,7 @@ namespace Game
         /// <param name="stiffness"></param>
         /// <param name="damping"></param>
         /// <returns></returns>
-        private Vector3 HookesLaw(Vector3 displacement, Vector3 currentVelocity, float stiffness, float damping)
+        public static Vector3 HookesLaw(Vector3 displacement, Vector3 currentVelocity, float stiffness, float damping)
         {
             return (stiffness * displacement) - (damping * currentVelocity);
         }

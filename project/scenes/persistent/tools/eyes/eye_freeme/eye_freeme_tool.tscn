@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://ce8ng3ederxrv"]
+
+[ext_resource type="Script" path="res://src/player/tools/EyeTool.cs" id="1_nk7uc"]
+[ext_resource type="Script" path="res://src/objects/areas/DamageArea.cs" id="2_6ltn2"]
+[ext_resource type="PackedScene" uid="uid://cif31dwn40ijr" path="res://resources/objects/persistent/eyes/freeme/eye_freeme.tscn" id="3_2wyef"]
+[ext_resource type="Script" path="res://src/objects/effects/ModelWithFreeBone.cs" id="4_entrd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s2css"]
+size = Vector3(0.568481, 0.662109, 0.723663)
+
+[node name="eye_freeme_tool" type="Node3D" node_paths=PackedStringArray("model")]
+script = ExtResource("1_nk7uc")
+model = NodePath("eye_freeme")
+
+[node name="DamageArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("2_6ltn2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000427246, 0.424613, 0.0147501)
+shape = SubResource("BoxShape3D_s2css")
+
+[node name="eye_freeme" parent="." instance=ExtResource("3_2wyef")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.260281)
+script = ExtResource("4_entrd")
+BoneName = "brain"
+TargetOffset = Vector3(0, -0.44, 0)

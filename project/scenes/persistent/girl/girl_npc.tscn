@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgeb785y45ti5"]
+
+[ext_resource type="Script" path="res://src/objects/npc/controllers/NpcCharacterController.cs" id="1_v7dxf"]
+[ext_resource type="PackedScene" uid="uid://xirxu668save" path="res://scenes/persistent/girl/girl_model.tscn" id="2_hdyt8"]
+[ext_resource type="Script" path="res://src/player/tools/TmpStorage.cs" id="3_auyr5"]
+[ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="4_slhkc"]
+[ext_resource type="Script" path="res://src/objects/npc/movements/NpcWalkingUnit.cs" id="5_53uln"]
+[ext_resource type="Script" path="res://src/objects/npc/brains/PlayerFollowerBrain.cs" id="6_5fn1e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_to1s7"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f7806"]
+radius = 3.60132
+
+[node name="GirlNpc" type="CharacterBody3D" node_paths=PackedStringArray("_livingStateManager", "_currentBrain", "_movementUnit", "_characterModel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 512
+collision_mask = 513
+script = ExtResource("1_v7dxf")
+_livingStateManager = NodePath("LivingState")
+_currentBrain = NodePath("Brain")
+_movementUnit = NodePath("WalkingUnit")
+_characterModel = NodePath("girl_model")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.526763, 0, -0.850012, 0, 1, 0, 0.850012, 0, 0.526763, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_to1s7")
+
+[node name="girl_model" parent="." instance=ExtResource("2_hdyt8")]
+
+[node name="TmpStorage" type="Node3D" parent="."]
+script = ExtResource("3_auyr5")
+
+[node name="LivingState" type="Node3D" parent="." node_paths=PackedStringArray("tmpStorage")]
+script = ExtResource("4_slhkc")
+MaxStatesCount = 1
+tmpStorage = NodePath("../TmpStorage")
+
+[node name="WalkingUnit" type="Node3D" parent="." node_paths=PackedStringArray("npc")]
+script = ExtResource("5_53uln")
+npc = NodePath("..")
+
+[node name="Brain" type="Node3D" parent="." node_paths=PackedStringArray("playerCheckArea")]
+script = ExtResource("6_5fn1e")
+playerCheckArea = NodePath("Area3D")
+
+[node name="Area3D" type="Area3D" parent="Brain"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Brain/Area3D"]
+shape = SubResource("SphereShape3D_f7806")

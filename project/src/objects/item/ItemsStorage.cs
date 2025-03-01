@@ -14,18 +14,9 @@ namespace Game
 
         public event Action OnUpdate;
 
-
         public void AddItemStack(ItemStack stack)
         {
-            ItemStack foundStack = null;
-            foreach (var st in ItemsStacks)
-            {
-                if (st.ItemRes == stack.ItemRes)
-                {
-                    foundStack = st;
-                    break;
-                }
-            }
+            ItemStack foundStack = FindStack(stack.ItemRes);
             if (foundStack == null)
             {
                 foundStack = new ItemStack();
@@ -51,6 +42,43 @@ namespace Game
             {
                 AddItemStack(stack);
             }
+        }
+        public ItemStack FindStack(ItemResource itemResource)
+        {
+            ItemStack foundStack = null;
+            foreach (var st in ItemsStacks)
+            {
+                if (st.ItemRes == itemResource)
+                {
+                    foundStack = st;
+                    break;
+                }
+            }
+            return foundStack;
+        }
+        public bool HasItem(ItemResource itemResource, int amount = 1)
+        {
+            ItemStack foundStack = FindStack(itemResource);
+            if (foundStack != null)
+            {
+                if (foundStack.Quantity < amount) return false;
+                return true;
+            }
+            return false;
+        }
+        public bool ConsumeItem(ItemResource itemResource, int amount)
+        {
+            if (!HasItem(itemResource, amount)) return false;
+
+            ItemStack foundStack = FindStack(itemResource);
+            foundStack.Quantity -= amount;
+            if (foundStack.Quantity == 0)
+            {
+                RemoveItemStack(foundStack);
+                return true;
+            }
+            OnUpdate?.Invoke();
+            return true;
         }
         public void SetItemsStacks(Godot.Collections.Array<ItemStack> stacks)
         {

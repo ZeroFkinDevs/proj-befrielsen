@@ -1,4 +1,5 @@
 using System;
+using Game.Utils;
 using Godot;
 
 namespace Game
@@ -85,12 +86,16 @@ namespace Game
 
             itemInstance = itemStack.ItemRes.MeshScene.Instantiate<Node3D>();
             AddChild(itemInstance);
-            if (itemInstance.GetChild<Node3D>(0) is VisualInstance3D visInstance)
+            foreach (var node in itemInstance.GetChildrenRecursively())
             {
-                var aabb = visInstance.GetAabb();
-                var size = aabb.Size;
-                var scale = 0.1f / size[(int)size.MaxAxisIndex()];
-                itemInstance.Scale = Vector3.One * scale;
+                if (node is VisualInstance3D visInstance)
+                {
+                    var aabb = visInstance.GetAabb();
+                    var size = aabb.Size;
+                    var scale = 0.1f / size[(int)size.MaxAxisIndex()];
+                    itemInstance.Scale = Vector3.One * scale;
+                    break;
+                }
             }
 
             AreaEntered += OnAreaEntered;

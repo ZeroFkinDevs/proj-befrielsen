@@ -1,0 +1,90 @@
+[gd_scene load_steps=11 format=3 uid="uid://ddvyd21yrjma2"]
+
+[ext_resource type="PackedScene" uid="uid://djufh30qogpfy" path="res://resources/objects/persistent/eye_hookers/eye_hooker.tscn" id="1_c2qwb"]
+[ext_resource type="Script" path="res://src/objects/eye_hooker/EyeHookerAnimationController.cs" id="2_26t3v"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_08gkv"]
+animation = &"wake"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xahdv"]
+animation = &"holding"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_udyci"]
+animation = &"take"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m7ypu"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_y3xwg"]
+xfade_time = 0.1
+input_0/name = "holding"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "idle"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_426fl"]
+xfade_time = 0.1
+input_0/name = "init"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "take"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_tlgpm"]
+xfade_time = 0.1
+input_0/name = "init"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "wake"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_3ppt7"]
+graph_offset = Vector2(-519.602, -49.1446)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_m7ypu")
+nodes/Animation/position = Vector2(-320, 160)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_08gkv")
+"nodes/Animation 2/position" = Vector2(-180, 260)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_xahdv")
+"nodes/Animation 3/position" = Vector2(-160, -80)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_udyci")
+"nodes/Animation 4/position" = Vector2(-300, 0)
+nodes/output/position = Vector2(460, 140)
+nodes/state/node = SubResource("AnimationNodeTransition_y3xwg")
+nodes/state/position = Vector2(280, 80)
+nodes/take_state/node = SubResource("AnimationNodeTransition_426fl")
+nodes/take_state/position = Vector2(20, -20)
+nodes/wake_state/node = SubResource("AnimationNodeTransition_tlgpm")
+nodes/wake_state/position = Vector2(20, 200)
+node_connections = [&"output", 0, &"state", &"state", 0, &"take_state", &"state", 1, &"wake_state", &"take_state", 0, &"Animation 3", &"take_state", 1, &"Animation 4", &"wake_state", 0, &"Animation", &"wake_state", 1, &"Animation 2"]
+
+[node name="eye_hooker_with_controller" node_paths=PackedStringArray("skeleton3D") instance=ExtResource("1_c2qwb")]
+script = ExtResource("2_26t3v")
+skeleton3D = NodePath("Armature/Skeleton3D")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(-0.5, 0.5, 0.5, -0.5)
+bones/2/position = Vector3(0.020418, 0.116809, -0.348558)
+bones/2/rotation = Quaternion(-0.503983, 0.497038, -0.517083, 0.481228)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="5"]
+tree_root = SubResource("AnimationNodeBlendTree_3ppt7")
+anim_player = NodePath("../AnimationPlayer")
+parameters/state/current_state = "idle"
+parameters/state/transition_request = ""
+parameters/state/current_index = 1
+parameters/take_state/current_state = "init"
+parameters/take_state/transition_request = ""
+parameters/take_state/current_index = 0
+parameters/wake_state/current_state = "init"
+parameters/wake_state/transition_request = ""
+parameters/wake_state/current_index = 0

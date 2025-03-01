@@ -1,0 +1,135 @@
+[gd_scene load_steps=14 format=3 uid="uid://xirxu668save"]
+
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/girl/girl.tscn" id="1_juf4p"]
+[ext_resource type="Script" path="res://src/objects/npc/visual_models/NpcWalkableModel.cs" id="2_uwq0o"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qtbj1"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_20o63"]
+input_0/name = "idle"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "walk"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+input_2/name = "air"
+input_2/auto_advance = false
+input_2/break_loop_at_end = false
+input_2/reset = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s27ih"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_praty"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_170iv"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5n1l5"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_p6jsr"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_m7enp"]
+graph_offset = Vector2(-190.797, 40.636)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_5n1l5")
+nodes/Animation/position = Vector2(9.20298, 193.636)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_p6jsr")
+nodes/TimeScale/position = Vector2(160, 220)
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a1dfq"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_epgrj"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_s27ih")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_praty")
+blend_point_1/pos = Vector2(1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_170iv")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeBlendTree_m7enp")
+blend_point_3/pos = Vector2(0, -1)
+blend_point_4/node = SubResource("AnimationNodeAnimation_a1dfq")
+blend_point_4/pos = Vector2(0, 0)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wbpw7"]
+graph_offset = Vector2(-479.093, 62.5665)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_qtbj1")
+nodes/Animation/position = Vector2(-160, 180)
+nodes/legs_state/node = SubResource("AnimationNodeTransition_20o63")
+nodes/legs_state/position = Vector2(180, 180)
+nodes/movement_blend/node = SubResource("AnimationNodeBlendSpace2D_epgrj")
+nodes/movement_blend/position = Vector2(-220, 340)
+nodes/output/position = Vector2(480, 140)
+node_connections = [&"legs_state", 0, &"Animation", &"legs_state", 1, &"movement_blend", &"output", 0, &"legs_state"]
+
+[node name="girl_model" node_paths=PackedStringArray("skeleton3D") instance=ExtResource("1_juf4p")]
+script = ExtResource("2_uwq0o")
+skeleton3D = NodePath("girl_bones/Skeleton3D")
+
+[node name="Skeleton3D" parent="girl_bones" index="0"]
+bones/0/position = Vector3(0.0447064, 1.04993, 9.31125e-05)
+bones/0/rotation = Quaternion(-0.00152607, -0.00152743, -0.706762, 0.707448)
+bones/1/rotation = Quaternion(0.00144896, 0.00157997, 0.675864, 0.737023)
+bones/2/rotation = Quaternion(-2.40515e-05, 2.08145e-06, 0.0973456, 0.995251)
+bones/3/rotation = Quaternion(-5.40894e-09, 1.57524e-07, -0.0303417, 0.99954)
+bones/4/rotation = Quaternion(8.19203e-10, 3.42798e-08, -0.0137575, 0.999905)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(-0.0788745, -0.162653, -0.0133837, 0.983435)
+bones/6/rotation = Quaternion(3.48786e-09, -2.53663e-09, -0.0444147, 0.999013)
+bones/7/rotation = Quaternion(0.747088, -0.0198732, 0.00794421, 0.66438)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(0.48161, -0.108816, -0.257974, 0.830458)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(0.469458, 0.299656, 0.639751, 0.529655)
+bones/10/rotation = Quaternion(0.360374, 0.702007, 0.0692182, 0.610349)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.127672, 0.0249923, 0.180637, 0.974908)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/rotation = Quaternion(0.0187967, -0.00897648, 0.465429, 0.88484)
+bones/13/rotation = Quaternion(0.164177, 0.815445, 0.402991, 0.381699)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(0.157684, 0.01099, 0.26454, 0.951333)
+bones/15/rotation = Quaternion(-0.747388, 0.0185393, 0.00758823, 0.664086)
+bones/15/scale = Vector3(1, 1, 1)
+bones/16/rotation = Quaternion(-0.479644, -0.186245, -0.115564, 0.849646)
+bones/17/rotation = Quaternion(0.34785, -0.379692, 0.798255, 0.312447)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(-0.268603, -0.150079, 0.060288, 0.949576)
+bones/19/rotation = Quaternion(-0.0999727, -0.0396527, 0.227842, 0.96774)
+bones/20/rotation = Quaternion(-0.0102414, 0.00681135, 0.531923, 0.846704)
+bones/20/scale = Vector3(1, 1, 1)
+bones/21/rotation = Quaternion(0.00967413, -0.263653, 0.233222, 0.935949)
+bones/22/rotation = Quaternion(-0.245453, 0.0587094, 0.281681, 0.925722)
+bones/24/rotation = Quaternion(-0.697087, 0.0617239, 0.0639533, 0.711457)
+bones/25/rotation = Quaternion(-0.0102622, -3.42623e-05, -0.297282, 0.954735)
+bones/25/scale = Vector3(1, 1, 1)
+bones/26/rotation = Quaternion(-0.000106271, -0.000598585, 0.496729, 0.867905)
+bones/27/rotation = Quaternion(0.498927, -0.498927, -0.501071, 0.501071)
+bones/27/scale = Vector3(1, 1, 1)
+bones/28/rotation = Quaternion(-0.69698, -0.0620888, -0.0644619, 0.711483)
+bones/29/rotation = Quaternion(-0.0105799, -8.35823e-06, 0.298495, 0.954353)
+bones/29/scale = Vector3(1, 1, 1)
+bones/30/rotation = Quaternion(8.17072e-05, 0.000596817, -0.480743, 0.876861)
+bones/30/scale = Vector3(1, 1, 1)
+bones/31/position = Vector3(0.133751, 0.155135, -0.0904201)
+bones/32/position = Vector3(0.134058, 0.155371, 0.0871577)
+bones/32/scale = Vector3(1, 1, 1)
+bones/34/position = Vector3(-0.00490061, 0, -7.91244e-11)
+
+[node name="Cube_006" parent="girl_bones/Skeleton3D" index="0"]
+transform = Transform3D(0.0863698, 0.0105544, -0.0295038, -0.00627425, 0.0905826, 0.0140368, 0.0307002, -0.0111805, 0.0858726, -0.0997831, 1.90514, -0.0835375)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeBlendTree_wbpw7")
+anim_player = NodePath("../AnimationPlayer")
+parameters/legs_state/current_state = "walk"
+parameters/legs_state/transition_request = ""
+parameters/legs_state/current_index = 1
+parameters/movement_blend/blend_position = Vector2(-0.00364965, -0.00369)
+parameters/movement_blend/3/TimeScale/scale = -1.0

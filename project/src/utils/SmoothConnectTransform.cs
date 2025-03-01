@@ -49,6 +49,11 @@ namespace Game
 		public void Teleport()
 		{
 			trans = Target.GlobalTransform;
+			Object.GlobalTransform = trans;
+			if (Object is ModelWithFreeBone modelWithFreeBone)
+			{
+				modelWithFreeBone.ResetPose();
+			}
 		}
 	}
 }

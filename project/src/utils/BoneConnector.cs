@@ -12,15 +12,18 @@ namespace Game
         [Export]
         public string boneName;
 
-        int boneId;
+        int boneId = -1;
 
         public override void _Ready()
         {
-            boneId = skeleton.FindBone(boneName);
+
         }
 
         public override void _Process(double delta)
         {
+            if (skeleton == null) return;
+            if (boneId == -1) boneId = skeleton.FindBone(boneName);
+
             var transform = targetNode.GlobalTransform;
             skeleton.SetBoneGlobalPoseOverride(boneId, skeleton.GlobalTransform.AffineInverse() * transform, 1.0f, true);
         }

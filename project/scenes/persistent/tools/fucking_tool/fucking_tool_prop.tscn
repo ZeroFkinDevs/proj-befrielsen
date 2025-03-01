@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cdaqwrjcqiye1"]
 
-[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_b6vof"]
-[ext_resource type="PackedScene" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_mmokl"]
+[ext_resource type="Script" path="res://src/utils/SceneUnwrapper.cs" id="1_b6vof"]
+[ext_resource type="PackedScene" uid="uid://crl43voyjemqv" path="res://resources/objects/persistent/tools/fucking_tool/fucking_tool.tscn" id="1_mmokl"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="2_iuxf4"]
 [ext_resource type="Script" path="res://src/objects/Prop.cs" id="3_gabjc"]
 [ext_resource type="Resource" uid="uid://cebg2l53g1fh6" path="res://scenes/persistent/tools/fucking_tool/fucking_tool_single_storage.tres" id="4_8it2v"]

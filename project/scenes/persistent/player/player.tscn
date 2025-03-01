@@ -240,10 +240,11 @@ player = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PropsPusher"]
 shape = SubResource("CapsuleShape3D_x1dyq")
 
-[node name="ToolsManager" type="Node3D" parent="." node_paths=PackedStringArray("inventoryContainer")]
+[node name="ToolsManager" type="Node3D" parent="." node_paths=PackedStringArray("inventoryContainer", "rayInteractor")]
 transform = Transform3D(0.462569, -0.886583, 1.25101e-07, 9.27259e-08, -9.27255e-08, -1, 0.886583, 0.462569, 3.93171e-08, 0.0883649, 0.563922, -0.663721)
 script = ExtResource("8_yuepf")
 inventoryContainer = NodePath("../InventoryManager/ToolsInventoryContainer")
+rayInteractor = NodePath("../Camera3D/RayInteractor")
 BoneName = "arm_r_tool"
 
 [node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player", "toolsManager", "InventoryContainer", "ToolsInventoryContainer")]
@@ -500,6 +501,7 @@ offset_left = -72.0
 offset_top = 18.0
 offset_right = 73.0
 offset_bottom = 41.0
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 10
 text = "text"
 horizontal_alignment = 1
