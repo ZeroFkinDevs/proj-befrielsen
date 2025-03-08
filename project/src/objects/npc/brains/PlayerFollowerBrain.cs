@@ -14,7 +14,7 @@ namespace Game
 			get
 			{
 				if (!IsActive) return null;
-				return npc.GetMovementUnit<NpcWalkingUnit>();
+				return npc.MovementUnit as NpcWalkingUnit;
 			}
 		}
 
@@ -36,18 +36,22 @@ namespace Game
 		public override void _Process(double delta)
 		{
 			if (walkingUnit == null) return;
-			walkingUnit.ControlMovement = Vector2.Zero;
+			walkingUnit.ControlMovement = Vector3.Zero;
 
 			if (!IsActive) return;
 			if (player == null) return;
 
-			walkingUnit.LookAtPoint(player.GlobalPosition);
-
-			if (player.GlobalPosition.DistanceTo(npc.GlobalPosition) > 2.0f)
+			var distance = player.GlobalPosition.DistanceTo(npc.GlobalPosition);
+			if (distance > 2.5f)
 			{
-				walkingUnit.ControlMovement = Vector2.Down;
+				walkingUnit.ControlMovement = Vector3.Forward;
+				walkingUnit.LookAtPoint(player.GlobalPosition);
 			}
-
+			else if (distance <= 1.4f)
+			{
+				walkingUnit.ControlMovement = Vector3.Back * 2;
+				walkingUnit.LookAtPoint(player.GlobalPosition);
+			}
 		}
 	}
 }

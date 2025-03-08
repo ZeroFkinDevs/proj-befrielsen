@@ -3,6 +3,10 @@ using Godot;
 
 namespace Game
 {
+	public interface IAnimationControllerUser
+	{
+		public AnimationController animationController { get; }
+	}
 	public partial class AnimationController : Node3D
 	{
 		[Export]
@@ -26,7 +30,7 @@ namespace Game
 		public override void _Ready()
 		{
 			_animationThree = GetNode<AnimationTree>("AnimationTree");
-			AnimTree.AnimationFinished += OnAnimationFinished;
+			if (_animationThree != null) AnimTree.AnimationFinished += OnAnimationFinished;
 
 			_animWithEvents = GetNode<AnimWithEvents>("AnimationPlayer");
 		}

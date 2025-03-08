@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace Game
 {
-	public partial class Player : CharacterBody3D, IUser, ILiving
+	public partial class Player : CharacterBody3D, IUser, ILiving, IProvidingTeleportPoint
 	{
 		public enum ControlGroupEnum
 		{
@@ -257,6 +257,11 @@ namespace Game
 		public void QueueFreeRecieve()
 		{
 			QueueFree();
+		}
+
+		public Vector3 GetTeleportPoint()
+		{
+			return Camera.GlobalPosition;
 		}
 	}
 }

@@ -50,7 +50,9 @@ AnimationEvents = {
 "init": [  ],
 "locked_idle": [  ],
 "locked_idle_act_1": [  ],
+"locked_talk_end": [  ],
 "locked_talk_start": [  ],
 "Plane.003Action": [  ],
-"walk": [  ]
+"walk": [  ],
+"walk_back": [  ]
 }

@@ -151,6 +151,7 @@ namespace Game
 
             Camera.GlobalTransform = movedToOtherPortal;
             Camera.Fov = curCamera.Fov;
+            Camera.Far = curCamera.Far;
 
             Camera.CullMask = curCamera.CullMask;
             Camera.SetCullMaskValue(OtherPortal.CullLayer, false);
@@ -182,13 +183,11 @@ namespace Game
                 var localPos = ToLocal(body.GlobalPosition);
                 var posOffset = Vector3.Zero;
 
-                foreach (var child in body.GetChildren(true))
+                if (body is IProvidingTeleportPoint providingTeleportPoint)
                 {
-                    if (child is Camera3D camera)
-                    {
-                        localPos = ToLocal(camera.GlobalPosition);
-                        posOffset = body.ToLocal(camera.GlobalPosition);
-                    }
+                    var point = providingTeleportPoint.GetTeleportPoint();
+                    localPos = ToLocal(point);
+                    posOffset = body.ToLocal(point);
                 }
 
                 if (body.HasMeta("portal_pos"))
@@ -279,7 +278,9 @@ namespace Game
                                 }
                             }
                         }
-                        foreach (var node in body.GetChildrenRecursively())
+                        var checlbodies = body.GetChildrenRecursively();
+                        checlbodies.Add(body);
+                        foreach (var node in checlbodies)
                         {
                             if (node is ITeleportableTransform teleportableTransform)
                             {

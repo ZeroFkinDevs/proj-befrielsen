@@ -1,4 +1,5 @@
 using System;
+using Game.Dialog;
 using Godot;
 using Godot.Collections;
 
@@ -6,7 +7,7 @@ namespace Game
 {
 	// это класс аггрегатор, собирает компоненты, перенаправляет взаимодействия
 	// это самостоятельный законченный класс который не нужно расширять и наследовать. он лишь связывает все компоненты воедино
-	public partial class NpcCharacterController : CharacterBody3D, ILiving, IInteractable, IToolInteractable, ITeleportableTransform, ITeleportablePoint
+	public partial class NpcCharacterController : CharacterBody3D, ILiving, IInteractable, IToolInteractable, ITeleportableTransform, ITeleportablePoint, IAnimationControllerUser
 	{
 		// living state
 		[Export]
@@ -43,9 +44,25 @@ namespace Game
 		{
 			get { return _movementUnit; }
 		}
-		public T GetMovementUnit<T>() where T : NpcMovementUnit
+		#endregion
+
+		// Memory
+		#region Memory
+		[Export]
+		public NpcMemory _memory;
+		public NpcMemory Memory
 		{
-			return MovementUnit as T;
+			get { return _memory; }
+		}
+		#endregion
+
+		// Dialogue
+		#region Dialogue
+		[Export]
+		public DialogueTree _dialogue;
+		public DialogueTree Dialogue
+		{
+			get { return _dialogue; }
 		}
 		#endregion
 
@@ -53,9 +70,16 @@ namespace Game
 		#region CharacterModel
 		[Export]
 		public NpcCharacterModel _characterModel;
+		public AnimationController animationController => _characterModel;
 		public NpcCharacterModel CharacterModel
 		{
 			get { return _characterModel; }
+			set
+			{
+				if (_characterModel != null) _characterModel.Visible = false;
+				_characterModel = value;
+				if (_characterModel != null) _characterModel.Visible = true;
+			}
 		}
 		#endregion
 
@@ -138,6 +162,15 @@ namespace Game
 		public override void _Ready()
 		{
 			if (_currentBrain != null) SetBrain(_currentBrain);
+			if (_dialogue != null)
+			{
+				_dialogue.npc = this;
+				_dialogue.SetupNodes();
+			}
+			if (_characterModel != null)
+			{
+				CharacterModel = _characterModel;
+			}
 		}
 	}
 }

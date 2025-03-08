@@ -12,4 +12,8 @@ namespace Game
     {
         void RecieveTransformTeleportation(Func<Transform3D, Transform3D> teleportTransform);
     }
+    public interface IProvidingTeleportPoint
+    {
+        Vector3 GetTeleportPoint();
+    }
 }

@@ -10,11 +10,11 @@ namespace Game
 		[Export]
 		public float Gravity = 10.0f;
 		[Export]
-		public float Speed = 0.05f;
+		public float Speed = 1.5f;
 
 		public float StabilizeTimer = 0.5f;
 
-		public Vector2 ControlMovement = Vector2.Zero;
+		public Vector3 ControlMovement = Vector3.Zero;
 
 		private Vector3 _smoothMotion = Vector3.Zero;
 		public Vector3 MovementTarget = Vector3.Zero;
@@ -42,6 +42,7 @@ namespace Game
 
 		public void LookAtPoint(Vector3 point, float speed = 0.05f)
 		{
+			if (!IsActive) return;
 			var trans = npc.GlobalTransform;
 			point.Y = trans.Origin.Y;
 			trans.Basis = new Basis(new Quaternion(trans.Basis).Normalized()).Slerp(new Basis(new Quaternion(trans.LookingAt(point).Basis).Normalized()), speed);
@@ -52,7 +53,6 @@ namespace Game
 		{
 			if (!IsActive) return;
 			UpdatePhysics((float)delta);
-			ListenNpc((float)delta);
 		}
 
 		public void UpdatePhysics(float delta)
@@ -61,15 +61,34 @@ namespace Game
 			newVelocity.Y -= Gravity * delta;
 
 			Vector3 movementApplied = Vector3.Zero;
-			movementApplied -= npc.GlobalTransform.Basis.Z * ControlMovement.Y;
-			movementApplied += npc.GlobalTransform.Basis.X * ControlMovement.X;
+			Vector3 movement = ControlMovement;
+			if (WalkableModel != null)
+			{
+				// передает контроль модели
+				WalkableModel.RecieveMotion(movement);
+				movement = WalkableModel.GetMovementVector();
+			}
+
+			movementApplied += npc.GlobalTransform.Basis.Z * movement.Z;
+			movementApplied += npc.GlobalTransform.Basis.X * movement.X;
 			movementApplied.Y = 0;
 
-			newVelocity += movementApplied * Speed;
-			var stopForce = 0.05f;
+			if (WalkableModel != null)
+			{
+				newVelocity = new Vector3(movementApplied.X * Speed, newVelocity.Y, movementApplied.Z * Speed);
+			}
+			else
+			{
+				movementApplied += npc.GlobalTransform.Basis.Z * movement.Z;
+				movementApplied += npc.GlobalTransform.Basis.X * movement.X;
+				movementApplied.Y = 0;
+				newVelocity += movementApplied * Speed;
 
-			newVelocity.X = Mathf.Lerp(newVelocity.X, 0.0f, stopForce);
-			newVelocity.Z = Mathf.Lerp(newVelocity.Z, 0.0f, stopForce);
+				var stopForce = 0.05f;
+				newVelocity.X = Mathf.Lerp(newVelocity.X, 0.0f, stopForce);
+				newVelocity.Z = Mathf.Lerp(newVelocity.Z, 0.0f, stopForce);
+			}
+
 
 			if (npc.IsOnFloor())
 			{
@@ -90,22 +109,6 @@ namespace Game
 		public void UpdateMotion(float delta)
 		{
 			if (WalkableModel != null) WalkableModel.RecieveMotion(MovementTarget);
-		}
-		public void ListenNpc(float delta)
-		{
-			var modelMovement = (npc.GlobalPosition - LastGlobalPosition) / delta;
-			modelMovement = npc.ToLocal(npc.GlobalPosition + modelMovement);
-			if (npc.IsOnFloor())
-			{
-				modelMovement.Y = 0.0f;
-			}
-			else
-			{
-				modelMovement.Y = 100.0f;
-			}
-
-			MovementTarget = modelMovement;
-			LastGlobalPosition = npc.GlobalPosition;
 		}
 	}
 }

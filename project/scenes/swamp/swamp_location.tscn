@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=39 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
@@ -27,7 +27,9 @@
 [ext_resource type="Script" path="res://src/objects/locations/swamp/DoorLock.cs" id="24_vq4jk"]
 [ext_resource type="PackedScene" uid="uid://bwbep4il1eebf" path="res://resources/locations/dungeon_leash/geometry/room_1_static_body.tscn" id="25_52ntw"]
 [ext_resource type="PackedScene" uid="uid://b0ded0rt61awf" path="res://scenes/persistent/eye_hooker/eye_hooker.tscn" id="28_63x5m"]
+[ext_resource type="Script" path="res://src/utils/NpcInteractReroute.cs" id="30_bawpi"]
 [ext_resource type="PackedScene" uid="uid://vblsq1jomhec" path="res://scenes/persistent/tools/eyes/eye_freeme/eye_freeme_prop.tscn" id="30_x2d3p"]
+[ext_resource type="Script" path="res://src/utils/BoneToBone.cs" id="31_5ojmy"]
 [ext_resource type="PackedScene" uid="uid://cgeb785y45ti5" path="res://scenes/persistent/girl/girl_npc.tscn" id="31_yooto"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/collider_1.tscn" id="32_ayw4l"]
 [ext_resource type="PackedScene" uid="uid://v4i7sdpojh5e" path="res://scenes/persistent/dream_adapters/circle_square_adapter.tscn" id="35_6x4u2"]
@@ -80,6 +82,9 @@ adjustment_saturation = 0.5
 [sub_resource type="BoxShape3D" id="BoxShape3D_s7pjl"]
 size = Vector3(1, 0.211914, 1.52124)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_yieal"]
+size = Vector3(1, 1, 0.416992)
+
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d32ve"]
 points = PackedVector3Array(-4.98663, -1, 0.939945, -4.91669, -1, 0.301187, 4.93722, -1, -1.68378, -4.98663, 9.91426, 0.939945, -4.91669, 9.91426, 0.301187, 4.91488, -1, -2.19282, 4.93722, 9.91426, -1.68378, 4.91488, 9.91426, -2.19282)
 
@@ -91,14 +96,11 @@ dreamsManager = NodePath("DreamsManager")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qpcki")
 
-[node name="swamp_geometry" parent="." instance=ExtResource("3_h4bbn")]
-transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
-
 [node name="tree_1_static_body" parent="." instance=ExtResource("4_wpwhh")]
 transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.514906, 1.08627, 0.225359, 0.753673, -6.76312, -3.42062, 1.23841)
 
 [node name="PlayerSpawner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.66947, -3.05128, 20.9647)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5412, -2.4472, 0.705765)
 
 [node name="Portal2" parent="." instance=ExtResource("4_mscds")]
 process_physics_priority = 1
@@ -298,9 +300,6 @@ process_physics_priority = 1
 transform = Transform3D(1.667, 0, 0, 0, 1.667, 0, 0, 0, 1.667, 1.86891, 1.48669, 4.69883)
 CullLayer = 3
 
-[node name="girl_character" type="CharacterBody3D" parent="."]
-transform = Transform3D(0.526763, 0, -0.850012, 0, 1, 0, 0.850012, 0, 0.526763, -11.5601, -5.3107, 14.5708)
-
 [node name="eye_hooker" parent="." instance=ExtResource("28_63x5m")]
 transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -8.46081, -3.99893, 23.473)
 
@@ -317,11 +316,37 @@ SpawnId = "dream"
 [node name="CircleSquareAdapter" parent="." instance=ExtResource("35_6x4u2")]
 transform = Transform3D(0.0664654, 0, 0.997789, 0, 1, 0, -0.997789, 0, 0.0664654, -6.78042, -3.66923, 21.5044)
 
-[node name="Node3D2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55367, -5.11975, 12.8976)
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("npc")]
+transform = Transform3D(-0.984112, 0, -0.177548, 0, 1, 0, 0.177548, 0, -0.984112, -11.0567, -0.994349, -1.5082)
+script = ExtResource("30_bawpi")
+npc = NodePath("../GirlNpc")
 
-[node name="GirlNpc" parent="Node3D2" instance=ExtResource("31_yooto")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_yieal")
+
+[node name="GirlNpc" parent="." instance=ExtResource("31_yooto")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -11.0567, -1.59059, -2.5719)
+
+[node name="BoneToBoneWiresLeft" type="Node3D" parent="." node_paths=PackedStringArray("animationControllerOrUserA", "animationControllerOrUserB")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -11.0567, -1.6015, -2.55326)
+script = ExtResource("31_5ojmy")
+animationControllerOrUserA = NodePath("../swamp_geometry")
+boneNameA = "arm_left"
+animationControllerOrUserB = NodePath("../GirlNpc")
+boneNameB = "hand_l_1"
+syncPosition = true
+
+[node name="BoneToBoneWiresRight" type="Node3D" parent="." node_paths=PackedStringArray("animationControllerOrUserA", "animationControllerOrUserB")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -11.0567, -1.6015, -2.55326)
+script = ExtResource("31_5ojmy")
+animationControllerOrUserA = NodePath("../swamp_geometry")
+boneNameA = "arm_right"
+animationControllerOrUserB = NodePath("../GirlNpc")
+boneNameB = "hand_r_1"
+syncPosition = true
+
+[node name="swamp_geometry" parent="." instance=ExtResource("3_h4bbn")]
+transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 0, 0, 0)
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="."]
 
