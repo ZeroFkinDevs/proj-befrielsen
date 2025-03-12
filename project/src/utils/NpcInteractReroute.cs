@@ -3,7 +3,7 @@ using System;
 
 namespace Game
 {
-    public partial class NpcInteractReroute : Node3D, ILiving, IInteractable, IToolInteractable
+    public partial class NpcInteractReroute : Area3D, ILiving, IInteractable, IToolInteractable
     {
         [Export]
         public NpcCharacterController npc;

@@ -2,6 +2,7 @@ using System;
 using Godot;
 using Game.Utils;
 using System.Collections;
+using Game.Dialog;
 
 namespace Game
 {
@@ -33,6 +34,8 @@ namespace Game
 		public Camera3D Camera;
 		[Export]
 		public PlayerUI playerUI;
+		[Export]
+		public PlayerChattingMember chattingMember;
 		[Export]
 		public SmoothConnectTransform ModelSmoothConnector;
 		[Export]

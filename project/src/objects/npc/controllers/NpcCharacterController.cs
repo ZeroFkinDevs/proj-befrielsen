@@ -56,16 +56,6 @@ namespace Game
 		}
 		#endregion
 
-		// Dialogue
-		#region Dialogue
-		[Export]
-		public DialogueTree _dialogue;
-		public DialogueTree Dialogue
-		{
-			get { return _dialogue; }
-		}
-		#endregion
-
 		// characterModel
 		#region CharacterModel
 		[Export]
@@ -162,11 +152,6 @@ namespace Game
 		public override void _Ready()
 		{
 			if (_currentBrain != null) SetBrain(_currentBrain);
-			if (_dialogue != null)
-			{
-				_dialogue.npc = this;
-				_dialogue.SetupNodes();
-			}
 			if (_characterModel != null)
 			{
 				CharacterModel = _characterModel;

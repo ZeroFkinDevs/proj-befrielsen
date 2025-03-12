@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "C:/Users/hermit/gamedev/godot-vsk-override-projection-4.3/bin/godot.windows.editor.x86_64.mono.exe",
+      "type": "process",
+      "args": [
+        "--build-solutions",
+        "--path",
+        "${workspaceRoot}",
+        "--no-window",
+        "-q"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

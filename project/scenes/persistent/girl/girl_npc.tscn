@@ -7,9 +7,9 @@
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="4_slhkc"]
 [ext_resource type="Script" path="res://src/objects/npc/movements/NpcWalkingUnit.cs" id="5_53uln"]
 [ext_resource type="Script" path="res://src/objects/npc/brains/PlayerFollowerBrain.cs" id="6_5fn1e"]
-[ext_resource type="Script" path="res://src/objects/npc/dialogs/DialogueTree.cs" id="7_egvda"]
 [ext_resource type="Script" path="res://src/objects/npc/memory/NpcMemory.cs" id="8_c1dyk"]
 [ext_resource type="Script" path="res://src/objects/npc/brains/GirlLockedBrain.cs" id="8_xt361"]
+[ext_resource type="Script" path="res://src/objects/npc/dialogs/GirlChattingMember.cs" id="11_3ybvn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_to1s7"]
 radius = 0.3
@@ -18,7 +18,7 @@ height = 1.8
 [sub_resource type="SphereShape3D" id="SphereShape3D_f7806"]
 radius = 3.60132
 
-[node name="GirlNpc" type="CharacterBody3D" node_paths=PackedStringArray("_livingStateManager", "_currentBrain", "_movementUnit", "_memory", "_dialogue", "_characterModel")]
+[node name="GirlNpc" type="CharacterBody3D" node_paths=PackedStringArray("_livingStateManager", "_currentBrain", "_movementUnit", "_memory", "_characterModel")]
 collision_layer = 512
 collision_mask = 513
 script = ExtResource("1_v7dxf")
@@ -26,7 +26,6 @@ _livingStateManager = NodePath("LivingState")
 _currentBrain = NodePath("LockedBrain")
 _movementUnit = NodePath("WalkingUnit")
 _memory = NodePath("Memory")
-_dialogue = NodePath("DialogueTree")
 _characterModel = NodePath("girl_locked_model")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
@@ -51,9 +50,6 @@ script = ExtResource("5_53uln")
 npc = NodePath("..")
 IsActive = false
 
-[node name="DialogueTree" type="Node3D" parent="."]
-script = ExtResource("7_egvda")
-
 [node name="Memory" type="Node3D" parent="."]
 script = ExtResource("8_c1dyk")
 
@@ -77,4 +73,15 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LockedBrain/Area3D"]
+shape = SubResource("SphereShape3D_f7806")
+
+[node name="Chatting" type="Node3D" parent="."]
+
+[node name="GirlChattingMember" type="Area3D" parent="Chatting"]
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("11_3ybvn")
+Code = "sheril"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chatting/GirlChattingMember"]
 shape = SubResource("SphereShape3D_f7806")

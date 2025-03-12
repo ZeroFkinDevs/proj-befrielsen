@@ -70,10 +70,7 @@ namespace Game
 
 		public void Interact(IUser user)
 		{
-			if (npc.Dialogue != null)
-			{
-				npc.Dialogue.Goto("_");
-			}
+
 		}
 	}
 }
