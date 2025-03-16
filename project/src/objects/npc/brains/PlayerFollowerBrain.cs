@@ -9,12 +9,12 @@ namespace Game
 		public Area3D playerCheckArea;
 		Player player;
 
-		public NpcWalkingUnit walkingUnit
+		public NpcWalkingController walkingUnit
 		{
 			get
 			{
 				if (!IsActive) return null;
-				return npc.MovementUnit as NpcWalkingUnit;
+				return npc.MovementUnit as NpcWalkingController;
 			}
 		}
 

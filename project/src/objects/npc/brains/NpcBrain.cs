@@ -5,14 +5,14 @@ namespace Game
 {
 	public partial class NpcBrain : Node3D
 	{
-		public NpcCharacterController _npcController;
-		public NpcCharacterController npc
+		public NpcCharacterUnit _npcUnit;
+		public NpcCharacterUnit npc
 		{
-			get { return _npcController; }
+			get { return _npcUnit; }
 			set
 			{
 				if (value == null) BeforeDeactivate();
-				_npcController = value;
+				_npcUnit = value;
 				if (value != null) OnActivate();
 			}
 		}

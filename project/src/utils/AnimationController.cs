@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using Game.Utils;
 using Godot;
 
 namespace Game
@@ -19,6 +21,8 @@ namespace Game
 
 		private AnimWithEvents _animWithEvents;
 		public AnimWithEvents animWithEvents { get { return _animWithEvents; } }
+
+		public event Action<string> AnimationFinished;
 
 		public Transform3D GetBoneGlobalPose(int boneId)
 		{
@@ -42,7 +46,16 @@ namespace Game
 
 		public virtual void OnAnimationFinished(StringName animationName)
 		{
+			AnimationFinished?.Invoke(animationName);
+		}
 
+		public Task WaitForAnimationToFinish(string animationName)
+		{
+			var eventAwait = new EventAwait<string>()
+			.OnConnect((func) => AnimationFinished += func)
+			.OnDisconnect((func) => AnimationFinished -= func)
+			.WithCondition((result) => result == animationName);
+			return eventAwait.Await();
 		}
 
 		public void SetState(string transitionNodeName, string stateName)

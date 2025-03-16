@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=43 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
@@ -27,6 +27,7 @@
 [ext_resource type="Script" path="res://src/objects/locations/swamp/DoorLock.cs" id="24_vq4jk"]
 [ext_resource type="PackedScene" uid="uid://bwbep4il1eebf" path="res://resources/locations/dungeon_leash/geometry/room_1_static_body.tscn" id="25_52ntw"]
 [ext_resource type="PackedScene" uid="uid://b0ded0rt61awf" path="res://scenes/persistent/eye_hooker/eye_hooker.tscn" id="28_63x5m"]
+[ext_resource type="PackedScene" uid="uid://fhfdt4uh6s5s" path="res://scenes/dreams/girl_cell/girl_cell.tscn" id="29_3sg6b"]
 [ext_resource type="Script" path="res://src/utils/NpcInteractReroute.cs" id="30_bawpi"]
 [ext_resource type="PackedScene" uid="uid://vblsq1jomhec" path="res://scenes/persistent/tools/eyes/eye_freeme/eye_freeme_prop.tscn" id="30_x2d3p"]
 [ext_resource type="Script" path="res://src/utils/BoneToBone.cs" id="31_5ojmy"]
@@ -35,6 +36,7 @@
 [ext_resource type="PackedScene" uid="uid://v4i7sdpojh5e" path="res://scenes/persistent/dream_adapters/circle_square_adapter.tscn" id="35_6x4u2"]
 [ext_resource type="Script" path="res://src/objects/dreams/DreamsManager.cs" id="35_q0r8o"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/padic/padic.tscn" id="35_xobr3"]
+[ext_resource type="AudioStream" uid="uid://ci2yy2i81kl2q" path="res://resources/audio/locations/underground_rain.ogg" id="37_obrm5"]
 
 [sub_resource type="Environment" id="Environment_qpcki"]
 background_mode = 1
@@ -84,7 +86,7 @@ adjustment_saturation = 0.5
 size = Vector3(1, 0.211914, 1.52124)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yieal"]
-size = Vector3(1, 1, 0.416992)
+size = Vector3(1, 0.740723, 0.416992)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d32ve"]
 points = PackedVector3Array(-4.98663, -1, 0.939945, -4.91669, -1, 0.301187, 4.93722, -1, -1.68378, -4.98663, 9.91426, 0.939945, -4.91669, 9.91426, 0.301187, 4.91488, -1, -2.19282, 4.93722, 9.91426, -1.68378, 4.91488, 9.91426, -2.19282)
@@ -105,10 +107,6 @@ transform = Transform3D(0.78011, -0.4739, -0.982666, 0.101189, 1.23427, -0.51490
 
 [node name="PlayerSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5412, -2.4472, 0.705765)
-
-[node name="Portal2" parent="." instance=ExtResource("4_mscds")]
-process_physics_priority = 1
-transform = Transform3D(-0.0929187, 0, -1.66458, 0, 1.66717, 0, 1.66458, 0, -0.0929187, -14.0365, -3.6223, 21.148)
 
 [node name="vines_1" parent="." instance=ExtResource("10_m0jkx")]
 transform = Transform3D(0.582273, 0, 0.331449, 0, 0.67, 0, -0.331449, 0, 0.582273, -3.74239, 4.98322, 2.20406)
@@ -310,6 +308,12 @@ transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -8.46081
 [node name="EyeHooker" parent="eye_hooker" index="1" node_paths=PackedStringArray("dreamAdapter")]
 dreamAdapter = NodePath("../../CircleSquareAdapter")
 
+[node name="eye_hooker2" parent="." instance=ExtResource("28_63x5m")]
+transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -11.4811, -3.99893, 23.3363)
+
+[node name="EyeHooker" parent="eye_hooker2" index="1" node_paths=PackedStringArray("dreamAdapter")]
+dreamAdapter = NodePath("../../CircleSquareAdapter2")
+
 [node name="eye_freeme_prop" parent="." instance=ExtResource("30_x2d3p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98612, -4.97819, 19.8103)
 
@@ -317,8 +321,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98612, -4.97819, 19.8103)
 script = ExtResource("35_q0r8o")
 SpawnId = "dream"
 
+[node name="girl_cell_container" parent="DreamsManager" instance=ExtResource("29_3sg6b")]
+
 [node name="CircleSquareAdapter" parent="." instance=ExtResource("35_6x4u2")]
 transform = Transform3D(0.0664654, 0, 0.997789, 0, 1, 0, -0.997789, 0, 0.0664654, -6.78042, -3.66923, 21.5044)
+
+[node name="CircleSquareAdapter2" parent="." instance=ExtResource("35_6x4u2")]
+transform = Transform3D(-0.0662739, 0, -0.997801, 0, 1, 0, 0.997801, 0, -0.0662739, -12.8101, -3.60319, 21.1072)
 
 [node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("npc")]
 transform = Transform3D(-0.984112, 0, -0.177548, 0, 1, 0, 0.177548, 0, -0.984112, -11.0567, -0.994349, -1.5082)
@@ -326,6 +335,7 @@ script = ExtResource("30_bawpi")
 npc = NodePath("../GirlNpc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0195208, 0.129639, 0.108202)
 shape = SubResource("BoxShape3D_yieal")
 
 [node name="GirlNpc" parent="." instance=ExtResource("31_yooto")]
@@ -371,9 +381,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.77929, 1.81407, -10.0131)
 transform = Transform3D(5.51589, 0, 0, 0, 5.51589, 0, 0, 0, 5.51589, -1.94846, 3.46105, -1.6598)
 shape = SubResource("ConcavePolygonShape3D_abgyk")
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.62243, -0.574854, 6.91369)
+stream = ExtResource("37_obrm5")
+unit_size = 5.0
+max_db = 1.0
+autoplay = true
+panning_strength = 0.14
+parameters/looping = true
+
 [editable path="anomaly_cube_prop4"]
 [editable path="anomaly_cube_prop4/anomaly_cube"]
 [editable path="anomaly_cube_prop5"]
 [editable path="anomaly_cube_prop5/anomaly_cube"]
 [editable path="eye_hooker"]
+[editable path="eye_hooker2"]
 [editable path="StaticBody3D2/collider_1"]

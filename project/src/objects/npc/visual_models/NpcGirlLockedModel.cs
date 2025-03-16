@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 
@@ -8,6 +10,8 @@ namespace Game
 		public void Greet();
 		public void Leave();
 		public void Alone();
+		public Task Give(Action onInstantiate);
+		public Task Release();
 		public void SetLookTarget(Vector3 target);
 	}
 
@@ -29,9 +33,11 @@ namespace Game
 			headRelativeTransform = skeleton3D.GetBonePose(HeadBoneId);
 		}
 
-		public void Greet()
+		public async void Greet()
 		{
 			CanLookAtTarget = true;
+			SetState("base_state", "greet");
+			await WaitForAnimationToFinish("locked_talk_start");
 			SetState("base_state", "ready_to_talk");
 		}
 
@@ -44,6 +50,21 @@ namespace Game
 		{
 			CanLookAtTarget = false;
 			SetState("base_state", "alone");
+		}
+		public async Task Give(Action onInstantiate)
+		{
+			CanLookAtTarget = false;
+			SetState("action_state", "give");
+			await animWithEvents.WaitForEvent("instantiate");
+			onInstantiate();
+			await animWithEvents.WaitForEvent("continue_looking");
+			CanLookAtTarget = true;
+		}
+		public async Task Release()
+		{
+			SetState("action_state", "release");
+			await WaitForAnimationToFinish("locked_talk_release");
+			SetState("action_state", "default");
 		}
 
 		public override void OnAnimationFinished(StringName animationName)

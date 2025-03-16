@@ -9,12 +9,19 @@ namespace Game
 	public partial class ChattingResponseButton : Button
 	{
 		private ChattingResponse response;
+		private ChattingMember _member;
 
 		public void SetResponse(ChattingResponse res)
 		{
 			response = res;
 			Text = response.Text;
+			AddThemeFontSizeOverride("font_size", 12);
 			FocusMode = FocusModeEnum.None;
+		}
+
+		public void SetMember(ChattingMember member)
+		{
+			_member = member;
 		}
 
 		public override void _EnterTree()
@@ -27,11 +34,15 @@ namespace Game
 			base._ExitTree();
 			Pressed -= OnClick;
 		}
+		public override void _Ready()
+		{
+
+		}
 
 		private void OnClick()
 		{
 			if (response == null) return;
-			response.Execute();
+			_member.ExecuteResponse(response.Code);
 		}
 	}
 }

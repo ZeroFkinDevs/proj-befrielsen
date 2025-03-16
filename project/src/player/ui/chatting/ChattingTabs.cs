@@ -47,17 +47,19 @@ namespace Game
 			var tab = GetOrCreateTab(member.Name);
 			var responses = responsesCollection.GetForMember(member);
 			var list = tab.GetNode<Control>("list");
-
 			foreach (var child in list.GetChildren())
 			{
 				child.QueueFree();
 			}
-
-			foreach (var res in responses)
+			if (responses != null)
 			{
-				var button = new ChattingResponseButton();
-				button.SetResponse(res);
-				list.AddChild(button);
+				foreach (var res in responses)
+				{
+					var button = new ChattingResponseButton();
+					button.SetResponse(res);
+					button.SetMember(chattingMember);
+					list.AddChild(button);
+				}
 			}
 		}
 

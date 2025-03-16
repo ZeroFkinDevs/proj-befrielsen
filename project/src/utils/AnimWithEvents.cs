@@ -7,6 +7,7 @@ using Dictionary = Godot.Collections.Dictionary<string, Godot.Variant>;
 using ArrayOfDicts = Godot.Collections.Array<Godot.Collections.Dictionary<string, Godot.Variant>>;
 using ArrayOfStrings = Godot.Collections.Array<string>;
 using Microsoft.VisualBasic;
+using System.Threading.Tasks;
 
 namespace Game
 {
@@ -76,6 +77,15 @@ namespace Game
                     _registeredEvents.Add(regKey);
                 }
             }
+        }
+
+        public Task WaitForEvent(string event_key)
+        {
+            var eventAwait = new EventAwait<string>()
+            .OnConnect((func) => OnEventInvoked += func)
+            .OnDisconnect((func) => OnEventInvoked -= func)
+            .WithCondition((result) => result == event_key);
+            return eventAwait.Await();
         }
 
         public void HandleEvent(string event_key, ArrayOfStrings args)

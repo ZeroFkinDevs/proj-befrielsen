@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://dj0pa7vf18da6"]
+
+[ext_resource type="PackedScene" uid="uid://cif31dwn40ijr" path="res://resources/objects/persistent/eyes/freeme/eye_freeme.tscn" id="1_8vsnr"]
+[ext_resource type="PackedScene" uid="uid://cm2xskjr2aivw" path="res://scenes/persistent/tools/eyes/eye_digital/eye_digital_tool.tscn" id="2_idni2"]
+[ext_resource type="PackedScene" uid="uid://tejgq50bdj3r" path="res://scenes/dreams/digital/computer_room.tscn" id="3_af78u"]
+[ext_resource type="Script" path="res://src/objects/item/EyeToolItemResource.cs" id="4_pa038"]
+
+[resource]
+script = ExtResource("4_pa038")
+dreams = Array[PackedScene]([ExtResource("3_af78u")])
+ToolScene = ExtResource("2_idni2")
+MeshScene = ExtResource("1_8vsnr")
+PropScenePath = "res://scenes/persistent/tools/eyes/eye_digital/eye_digital_prop.tscn"
+Name = "eye digital"

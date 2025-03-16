@@ -7,8 +7,8 @@ namespace Game
 {
     public partial class DreamsManager : ObjectInstantiator
     {
-        private float DreamHeight = 100.0f;
-        private float DreamDistance = 100.0f;
+        private float DreamHeight = 50.0f;
+        private float DreamDistance = 50.0f;
 
         public override void _Ready()
         {
@@ -33,6 +33,8 @@ namespace Game
             }
             return null;
         }
+
+        // кастомизируем Instantiate от ObjectInstantiator
         public override void Instantiate(Array<PackedScene> scenes, Array<string> recieveArgs)
         {
             var scene = scenes[0];
@@ -55,7 +57,7 @@ namespace Game
             parent.AddChild(newNode);
             newNode.Owner = parent.GetParent();
             newNode.SetEditableInstance(newNode, true);
-            newNode.GlobalPosition = Vector3.Up * DreamHeight;
+            newNode.GlobalPosition = Vector3.Down * DreamHeight;
 
             cbNode.Call(cbMethod, newNode);
 

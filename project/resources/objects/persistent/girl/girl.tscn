@@ -51,6 +51,17 @@ AnimationEvents = {
 "locked_idle": [  ],
 "locked_idle_act_1": [  ],
 "locked_talk_end": [  ],
+"locked_talk_give": [ {
+"event": "instantiate",
+"args": [  ],
+"time": 1.2666666666666666
+}, {
+"event": "continue_looking",
+"args": [  ],
+"time": 4.65
+} ],
+"locked_talk_idle": [  ],
+"locked_talk_release": [  ],
 "locked_talk_start": [  ],
 "Plane.003Action": [  ],
 "walk": [  ],

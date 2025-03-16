@@ -48,13 +48,13 @@ namespace Game
             DisconnectFromAdapter();
         }
 
-        public void RecieveDreamContainer(DreamContainer dreamContainer)
+        public async void RecieveDreamContainer(DreamContainer dreamContainer)
         {
             var freeAdapters = dreamContainer.GetFreeAdapters();
 
             if (freeAdapters.Count > 0)
             {
-                var adapter = freeAdapters.PickRandom();
+                var adapter = await dreamContainer.GetRandomFreeAdapter();
                 portal.SetCullMask(3);
                 adapter.portal.SetCullMask(4);
                 ConnectToAdapter(adapter);

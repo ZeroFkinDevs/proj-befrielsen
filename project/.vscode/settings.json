@@ -1,4 +1,29 @@
 {
   "editor.formatOnSave": true,
-  "git.autofetch": true
+  "git.autofetch": true,
+  "folder-color.pathColors": [
+    {
+      "folderPath": "project\\src\\player\\",
+      "color": "foldercolorizer.color_33ccff",
+      "badge": "🎮"
+    },
+    {
+      "folderPath": "project\\src\\objects\\npc\\",
+      "color": "foldercolorizer.color_ffff99",
+      "badge": "🤖"
+    },
+    {
+      "folderPath": "project\\src\\player\\ui\\",
+      "color": "foldercolorizer.color_cc33ff"
+    },
+    {
+      "folderPath": "project\\src\\ui\\main_menu\\",
+      "color": "foldercolorizer.color_cc33ff"
+    },
+    {
+      "folderPath": "project\\src\\utils\\",
+      "color": "foldercolorizer.color_cc9966",
+      "badge": "🔩"
+    }
+  ]
 }

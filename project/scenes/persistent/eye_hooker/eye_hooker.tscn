@@ -3,10 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://ddvyd21yrjma2" path="res://scenes/persistent/eye_hooker/eye_hooker_with_controller.tscn" id="1_26o0d"]
 [ext_resource type="Script" path="res://src/utils/SceneUnwrapper.cs" id="1_tvfch"]
 [ext_resource type="Script" path="res://src/objects/eye_hooker/EyeHooker.cs" id="2_ruyti"]
-[ext_resource type="PackedScene" uid="uid://iu1tq4rn0ys0" path="res://resources/objects/persistent/eye_hookers/eye_hooker_phy_collision_shape.tscn" id="3_61160"]
 [ext_resource type="Script" path="res://src/utils/PlayerDetectArea.cs" id="4_1wppk"]
 [ext_resource type="Script" path="res://src/utils/NodeToBoneConnector.cs" id="5_cuky4"]
 [ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="6_hpdl8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hmnhn"]
+size = Vector3(0.551758, 1.40332, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_modcq"]
 radius = 3.50408
@@ -25,8 +27,8 @@ objectInstantiator = NodePath("../ObjectInstantiator")
 nodeToBoneConnector = NodePath("../NodeToBoneConnector")
 playerDetectArea = NodePath("../playerArea")
 
-[node name="eye_hooker_phy_collision_shape" parent="EyeHooker" instance=ExtResource("3_61160")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EyeHooker"]
+shape = SubResource("BoxShape3D_hmnhn")
 
 [node name="playerArea" type="Area3D" parent="."]
 collision_layer = 0

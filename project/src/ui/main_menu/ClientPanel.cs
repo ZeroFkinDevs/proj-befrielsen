@@ -12,8 +12,19 @@ namespace Game.UI
 		public Control HideMenu;
 		[Export]
 		public Label InfoLabel;
+		[Export]
+		public Button JoinButton;
 
-		public void _on_button_pressed()
+		public override void _Ready()
+		{
+			JoinButton.Pressed += OnJoinButtonPressed;
+		}
+
+		public void OnJoinButtonPressed()
+		{
+			Join();
+		}
+		public void Join()
 		{
 			var ipAddress = IpAddressInput.Text;
 			var res = ClientNode.Join(ipAddress);

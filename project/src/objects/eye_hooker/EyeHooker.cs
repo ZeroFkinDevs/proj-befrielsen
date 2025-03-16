@@ -21,6 +21,15 @@ namespace Game
         [Export]
         public Prop currentEyeToolProp = null;
 
+        public void DisableArea()
+        {
+            SetCollisionLayerValue(1, false);
+        }
+        public void EnableArea()
+        {
+            SetCollisionLayerValue(1, true);
+        }
+
         public void TakeEye(Prop eyeProp)
         {
             currentEyeToolProp = eyeProp;
@@ -28,6 +37,7 @@ namespace Game
             nodeToBoneConnector.node = eyeProp;
             eyeProp.GravityScale = 0.0f;
             model.Take();
+            DisableArea();
 
             nodeToBoneConnector.Sync();
             if (eyeProp.ModelSmoothConnector.Object != null)
@@ -65,6 +75,7 @@ namespace Game
             nodeToBoneConnector.node = null;
             currentEyeToolProp = null;
             model.Idle();
+            EnableArea();
 
             if (Multiplayer.IsServer())
             {

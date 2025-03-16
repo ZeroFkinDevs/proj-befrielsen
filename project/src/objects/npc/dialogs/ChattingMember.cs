@@ -38,11 +38,12 @@ namespace Game.Dialog
 
         }
 
-        protected virtual void TryExecuteNode(string code)
+        protected virtual void TryExecuteNodeDeffered(string code)
         {
-            CallDeferred(MethodName.ExecuteNodeNotDeffered);
+            CallDeferred(MethodName.TryExecuteNode, code);
         }
-        private void ExecuteNodeNotDeffered(string code)
+
+        public void TryExecuteNode(string code)
         {
             var node = NodesCollection.Fetch(code);
             if (node != null)
@@ -51,6 +52,26 @@ namespace Game.Dialog
                 return;
             }
             GD.Print($"node not found '{code}'");
+        }
+
+        public void ExecuteResponse(string code)
+        {
+            RpcId(1, MethodName.ServerExecuteResponse, code);
+        }
+
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void ServerExecuteResponse(string code)
+        {
+            Rpc(MethodName.RecieveExecuteResponse, code);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RecieveExecuteResponse(string code)
+        {
+            var response = ResponsesCollection.GetByCode(code);
+            if (response != null)
+            {
+                response.Execute();
+            }
         }
 
         protected void OnAreaEntered(Node body)

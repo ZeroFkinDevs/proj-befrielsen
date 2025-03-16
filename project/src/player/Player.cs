@@ -86,9 +86,11 @@ namespace Game
 			LastGlobalPosition = GlobalPosition;
 		}
 
+		public bool Current => Controllable && !IsPuppet;
+
 		public void SetupCamera()
 		{
-			Camera.Current = Controllable && !IsPuppet;
+			Camera.Current = Current;
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -35,6 +35,17 @@ namespace Game.Dialog
             }
             return null;
         }
+        public ChattingResponse GetByCode(string code)
+        {
+            foreach (var memberCode in ResponsesMap.Keys)
+            {
+                foreach (var response in ResponsesMap[memberCode])
+                {
+                    if (response.Code == code) return response;
+                }
+            }
+            return null;
+        }
         public List<string> GetMembersCodes()
         {
             return ResponsesMap.Keys.ToList();

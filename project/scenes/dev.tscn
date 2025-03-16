@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dba88xnme7bjk"]
+[gd_scene load_steps=20 format=3 uid="uid://dba88xnme7bjk"]
 
 [ext_resource type="PackedScene" uid="uid://bvjwwppbx8r6r" path="res://scenes/persistent/player/player.tscn" id="1_a5rwg"]
 [ext_resource type="PackedScene" uid="uid://d3r5ljjf2hhvb" path="res://scenes/multiplayer/PlayersManager.tscn" id="2_27dx1"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://src/ui/main_menu/ServerPanel.cs" id="5_wfr22"]
 [ext_resource type="FontFile" uid="uid://b0ye61uomc58p" path="res://resources/ui/ofont.ru_Xenia.ttf" id="6_0ac58"]
 [ext_resource type="Texture2D" uid="uid://ce0dl70ie2yon" path="res://resources/ui/lulz/zobny.png" id="6_8qy6k"]
+[ext_resource type="Script" path="res://src/ui/main_menu/MainMenu.cs" id="7_q5qtw"]
 [ext_resource type="Script" path="res://src/ui/main_menu/ClientPanel.cs" id="8_koygl"]
 [ext_resource type="Texture2D" uid="uid://bxcfwjdd0jln6" path="res://resources/ui/lulz/kit.png" id="10_t3nvg"]
 [ext_resource type="Texture2D" uid="uid://b88jcyu4twbqm" path="res://resources/ui/lulz/fairy.png" id="12_eqg4x"]
@@ -72,7 +73,7 @@ grow_vertical = 2
 mouse_filter = 1
 theme = SubResource("Theme_qjc7e")
 
-[node name="MainMenu" type="Control" parent="UI"]
+[node name="MainMenu" type="Control" parent="UI" node_paths=PackedStringArray("clientPanel", "serverPanel")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,6 +81,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = ExtResource("7_q5qtw")
+clientPanel = NodePath("CenterContainer/MultiplayerForm/ClientPanel")
+serverPanel = NodePath("CenterContainer/MultiplayerForm/ServerPanel")
 
 [node name="ColorRect" type="ColorRect" parent="UI/MainMenu"]
 layout_mode = 1
@@ -314,8 +318,8 @@ layout_mode = 2
 layout_mode = 2
 script = ExtResource("5_13d81")
 Bindings = {
-"Key1": NodePath("../ServerPanel2/VBoxContainer/ServerButton_One"),
-"Key2": NodePath("../ClientPanel/VBoxContainer/HBoxContainer/ClientButton_Two")
+"Key1": NodePath("../ServerPanel/VBoxContainer/NewWorldButton"),
+"Key2": NodePath("../ClientPanel/VBoxContainer/HBoxContainer/JoinButton")
 }
 
 [node name="InfoPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm"]
@@ -440,39 +444,40 @@ text = "[TAB] - Инвентарь
 [ЛКМ] - Атака, бросить проп
 [ПКМ] - Отпустить проп"
 
-[node name="ServerPanel2" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ServerNode", "InfoLabel", "LoadButtonsContainer")]
+[node name="ServerPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ServerNode", "InfoLabel", "LoadButtonsContainer", "NewWorldButton")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m4mai")
 script = ExtResource("5_wfr22")
 ServerNode = NodePath("../../../../../SubViewport/Server")
 InfoLabel = NodePath("VBoxContainer/InfoLabel")
 LoadButtonsContainer = NodePath("VBoxContainer/LoadButtonsContainer")
+NewWorldButton = NodePath("VBoxContainer/NewWorldButton")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer"]
+[node name="Label" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 15
 text = "ЗАХОСТИТЬ"
 horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel/VBoxContainer"]
 layout_mode = 2
 text = "world0"
 
-[node name="ServerButton_One" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer"]
+[node name="NewWorldButton" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel/VBoxContainer"]
 layout_mode = 2
 text = "[1] новый мир"
 
-[node name="LoadButtonsContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer"]
+[node name="LoadButtonsContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel/VBoxContainer"]
 layout_mode = 2
 
-[node name="InfoLabel" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer"]
+[node name="InfoLabel" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel/VBoxContainer"]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="ClientPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ClientNode", "IpAddressInput", "HideMenu", "InfoLabel")]
+[node name="ClientPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ClientNode", "IpAddressInput", "HideMenu", "InfoLabel", "JoinButton")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m4mai")
 script = ExtResource("8_koygl")
@@ -480,6 +485,7 @@ ClientNode = NodePath("../../../../../Client")
 IpAddressInput = NodePath("VBoxContainer/HBoxContainer/IpAddressInput")
 HideMenu = NodePath("../../..")
 InfoLabel = NodePath("VBoxContainer/InfoLabel")
+JoinButton = NodePath("VBoxContainer/HBoxContainer/JoinButton")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel"]
 layout_mode = 2
@@ -498,9 +504,6 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "localhost"
 
-[node name="ClientButton_Two" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer"]
+[node name="JoinButton" type="Button" parent="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "[2] го"
-
-[connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2/VBoxContainer/ServerButton_One" to="UI/MainMenu/CenterContainer/MultiplayerForm/ServerPanel2" method="_on_button_pressed"]
-[connection signal="pressed" from="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel/VBoxContainer/HBoxContainer/ClientButton_Two" to="UI/MainMenu/CenterContainer/MultiplayerForm/ClientPanel" method="_on_button_pressed"]

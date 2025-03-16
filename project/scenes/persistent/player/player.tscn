@@ -126,7 +126,7 @@ script = ExtResource("14_j8e2n")
 
 [node name="ObjectInstantiator" type="Node3D" parent="."]
 script = ExtResource("18_0dw4w")
-SpawnId = "playerObjectSpawner"
+SpawnId = "player_object_spawner"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
@@ -140,10 +140,11 @@ script = ExtResource("2_ru2q0")
 MaxStatesCount = 10
 tmpStorage = NodePath("../TmpStorage")
 
-[node name="PlayerChattingMember" type="Area3D" parent="."]
+[node name="PlayerChattingMember" type="Area3D" parent="." node_paths=PackedStringArray("player")]
 collision_layer = 512
 collision_mask = 512
 script = ExtResource("5_owedh")
+player = NodePath("..")
 Code = "player"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerChattingMember"]
@@ -492,18 +493,24 @@ texture = SubResource("ViewportTexture_g17h4")
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.816
-anchor_right = 0.244
+anchor_right = 0.339
 anchor_bottom = 1.0
 offset_top = 0.231995
-offset_right = -0.0880127
+offset_right = -0.528015
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 2
+current_tab = 0
 tab_focus_mode = 0
 script = ExtResource("30_u0ory")
 playerUI = NodePath("..")
+
+[node name="Button" type="Button" parent="UI/TabContainer"]
+layout_mode = 2
+text = "asd"
+metadata/_tab_index = 0
 
 [node name="Cursor" type="Control" parent="UI" node_paths=PackedStringArray("playerUI", "rayInteractor", "textureRect", "descriptionLabel")]
 layout_mode = 2

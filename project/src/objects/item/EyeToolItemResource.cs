@@ -7,5 +7,7 @@ namespace Game
     {
         [Export]
         public Array<PackedScene> dreams;
+        [Export]
+        public string DreamCode = "";
     }
 }

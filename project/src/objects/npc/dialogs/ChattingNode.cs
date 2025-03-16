@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 
 namespace Game.Dialog
@@ -13,14 +14,18 @@ namespace Game.Dialog
     {
         public string Code { get; }
         private Func<bool> condition;
-        private Action characterAction;
+        private Func<Task> characterAction;
 
-        public ChattingNode(string code, Action charAction)
+        public ChattingNode(string code)
         {
             Code = code;
-            characterAction = charAction;
         }
 
+        public ChattingNode WithAction(Func<Task> charAction)
+        {
+            characterAction = charAction;
+            return this;
+        }
         public ChattingNode WithCondition(Func<bool> condition)
         {
             this.condition = condition;
@@ -35,9 +40,9 @@ namespace Game.Dialog
             return this;
         }
 
-        public void Execute()
+        public async void Execute()
         {
-            characterAction();
+            if (characterAction != null) await characterAction();
         }
     }
 }

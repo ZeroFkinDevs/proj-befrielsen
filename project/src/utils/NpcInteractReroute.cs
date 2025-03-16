@@ -6,7 +6,7 @@ namespace Game
     public partial class NpcInteractReroute : Area3D, ILiving, IInteractable, IToolInteractable
     {
         [Export]
-        public NpcCharacterController npc;
+        public NpcCharacterUnit npc;
 
         public LivingStateManager livingStateManager => npc.livingStateManager;
 
