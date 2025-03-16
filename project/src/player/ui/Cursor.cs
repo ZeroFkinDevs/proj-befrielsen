@@ -32,27 +32,27 @@ namespace Game
 
 			descriptionLabel.Text = "";
 
-			if (rayInteractor.Interactable != null)
+			if (rayInteractor.CurrentInteractionType != InteractionTypeEnum.NONE)
 			{
-				descriptionLabel.Text = rayInteractor.Interactable.InteractableDescription;
+				descriptionLabel.Text = rayInteractor.CurrentInteractionDescription;
 
-				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.GRAB)
+				if (rayInteractor.CurrentInteractionType == InteractionTypeEnum.GRAB)
 				{
 					textureRect.Texture = cursorIconsBank.Grab;
 				}
-				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.PICKUP)
+				if (rayInteractor.CurrentInteractionType == InteractionTypeEnum.PICKUP)
 				{
 					textureRect.Texture = cursorIconsBank.PICKUP;
 				}
-				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.INVENTORY_DRAG)
+				if (rayInteractor.CurrentInteractionType == InteractionTypeEnum.INVENTORY_DRAG)
 				{
 					textureRect.Texture = cursorIconsBank.InventoryDrag;
 				}
-				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.APPLY)
+				if (rayInteractor.CurrentInteractionType == InteractionTypeEnum.APPLY)
 				{
 					textureRect.Texture = cursorIconsBank.Apply;
 				}
-				if (rayInteractor.Interactable.InteractionType == InteractionTypeEnum.TOUCH)
+				if (rayInteractor.CurrentInteractionType == InteractionTypeEnum.TOUCH)
 				{
 					textureRect.Texture = cursorIconsBank.Touch;
 				}

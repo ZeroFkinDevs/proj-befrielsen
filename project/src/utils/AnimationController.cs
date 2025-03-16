@@ -1,8 +1,14 @@
 using System;
+using System.Threading.Tasks;
+using Game.Utils;
 using Godot;
 
 namespace Game
 {
+	public interface IAnimationControllerUser
+	{
+		public AnimationController animationController { get; }
+	}
 	public partial class AnimationController : Node3D
 	{
 		[Export]
@@ -16,6 +22,8 @@ namespace Game
 		private AnimWithEvents _animWithEvents;
 		public AnimWithEvents animWithEvents { get { return _animWithEvents; } }
 
+		public event Action<string> AnimationFinished;
+
 		public Transform3D GetBoneGlobalPose(int boneId)
 		{
 			var pose = skeleton3D.GlobalTransform * skeleton3D.GetBoneGlobalPose(boneId);
@@ -26,7 +34,7 @@ namespace Game
 		public override void _Ready()
 		{
 			_animationThree = GetNode<AnimationTree>("AnimationTree");
-			AnimTree.AnimationFinished += OnAnimationFinished;
+			if (_animationThree != null) AnimTree.AnimationFinished += OnAnimationFinished;
 
 			_animWithEvents = GetNode<AnimWithEvents>("AnimationPlayer");
 		}
@@ -38,7 +46,16 @@ namespace Game
 
 		public virtual void OnAnimationFinished(StringName animationName)
 		{
+			AnimationFinished?.Invoke(animationName);
+		}
 
+		public Task WaitForAnimationToFinish(string animationName)
+		{
+			var eventAwait = new EventAwait<string>()
+			.OnConnect((func) => AnimationFinished += func)
+			.OnDisconnect((func) => AnimationFinished -= func)
+			.WithCondition((result) => result == animationName);
+			return eventAwait.Await();
 		}
 
 		public void SetState(string transitionNodeName, string stateName)

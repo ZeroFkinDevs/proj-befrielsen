@@ -46,6 +46,13 @@ namespace Game
             storage.RemoveItemStack(stack);
             BroadcastItemStacks();
         }
+        public void ConsumeItem(ItemResource itemResource, int amount)
+        {
+            if (storage.ConsumeItem(itemResource, amount))
+            {
+                BroadcastItemStacks();
+            }
+        }
         public void RecieveItems(Godot.Collections.Array<ItemStack> stacks, Godot.Collections.Array<string> args = null)
         {
             storage.SetItemsStacks(stacks);

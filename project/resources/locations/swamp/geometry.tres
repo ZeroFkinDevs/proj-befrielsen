@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://b3bs0wg3jlqr2"]
+
+[ext_resource type="Shader" path="res://shaders/ground_shader.gdshader" id="1_qgvgx"]
+[ext_resource type="Texture2D" uid="uid://co5itiobaax62" path="res://resources/locations/swamp/swamp.png" id="2_xokmf"]
+[ext_resource type="Texture2D" uid="uid://1smwquyacpvc" path="res://resources/locations/swamp/swamp_walls.png" id="3_e6cud"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_qgvgx")
+shader_parameter/albedo = null
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/uv1_scale = Vector3(2, 2, 2)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null
+shader_parameter/texture_albedo = ExtResource("2_xokmf")
+shader_parameter/texture_albedo_walls = ExtResource("3_e6cud")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cif31dwn40ijr"]
+
+[ext_resource type="PackedScene" uid="uid://beix17xryfwek" path="res://resources/objects/persistent/eyes/freeme/eye_freeme.glb" id="1"]
+
+[node name="eye_freeme" instance=ExtResource("1")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(5.47401e-08, 3.09683e-08, -0.162039, 0.986784)

@@ -1,0 +1,95 @@
+[gd_scene load_steps=14 format=3 uid="uid://v4i7sdpojh5e"]
+
+[ext_resource type="Script" path="res://src/objects/dreams/DreamAdapter.cs" id="1_7ww04"]
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/dream_adapters/drain_adapter/drain_adapter_static_body.tscn" id="1_rvytt"]
+[ext_resource type="PackedScene" uid="uid://cym8rjgnfv6jw" path="res://scenes/persistent/portals/portal.tscn" id="2_3wvye"]
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/dream_adapters/drain_adapter/door.tscn" id="4_h21sg"]
+[ext_resource type="Script" path="res://src/objects/dreams/DreamAdapterDoorModelController.cs" id="5_1jv50"]
+[ext_resource type="Script" path="res://src/utils/NodeToBoneConnector.cs" id="6_86wh7"]
+[ext_resource type="PackedScene" path="res://resources/objects/persistent/dream_adapters/drain_adapter/visual_plug.tscn" id="7_nl7eq"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_66l0p"]
+animation = &"open"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jcwu2"]
+animation = &"close"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p7qkf"]
+animation = &"init"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_ngy2c"]
+xfade_time = 0.1
+input_0/name = "closed"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "open"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+input_2/name = "close"
+input_2/auto_advance = false
+input_2/break_loop_at_end = false
+input_2/reset = true
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_cauqi"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_p7qkf")
+nodes/Animation/position = Vector2(-260, 180)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_66l0p")
+"nodes/Animation 2/position" = Vector2(-380, 300)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_jcwu2")
+"nodes/Animation 3/position" = Vector2(-240, 400)
+nodes/state/node = SubResource("AnimationNodeTransition_ngy2c")
+nodes/state/position = Vector2(40, 160)
+node_connections = [&"output", 0, &"state", &"state", 0, &"Animation", &"state", 1, &"Animation 2", &"state", 2, &"Animation 3"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_544jv"]
+height = 0.23
+radius = 1.5
+
+[node name="CircleSquareAdapter" type="Node3D" node_paths=PackedStringArray("portal", "doorModel")]
+script = ExtResource("1_7ww04")
+portal = NodePath("Portal")
+doorModel = NodePath("door")
+
+[node name="drain_adapter_static_body" parent="." instance=ExtResource("1_rvytt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="Portal" parent="." instance=ExtResource("2_3wvye")]
+transform = Transform3D(1.56565, 0, 3.33739e-14, 0, 1.56565, 0, -3.33739e-14, 0, 1.56565, 0, 0, 2.95531)
+
+[node name="door" parent="." node_paths=PackedStringArray("skeleton3D") instance=ExtResource("4_h21sg")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1.5)
+script = ExtResource("5_1jv50")
+skeleton3D = NodePath("Armature_001/Skeleton3D")
+
+[node name="Skeleton3D" parent="door/Armature_001" index="0"]
+bones/0/position = Vector3(0, 0, 0.27988)
+
+[node name="Cylinder_004" parent="door/Armature_001/Skeleton3D" index="0"]
+transform = Transform3D(1, -1.89883e-14, -1.52829e-14, -1.52829e-14, 0, -1, 1.89883e-14, 1, 0, 5.00899e-09, 1.63643e-07, 0.27988)
+
+[node name="AnimationTree" type="AnimationTree" parent="door"]
+tree_root = SubResource("AnimationNodeBlendTree_cauqi")
+anim_player = NodePath("../AnimationPlayer")
+parameters/state/current_state = "closed"
+parameters/state/transition_request = ""
+parameters/state/current_index = 0
+
+[node name="DoorBody" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.25393)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_544jv")
+
+[node name="DoorCollisionConnector" type="Node3D" parent="." node_paths=PackedStringArray("node", "skeleton")]
+script = ExtResource("6_86wh7")
+node = NodePath("../DoorBody")
+skeleton = NodePath("../door/Armature_001/Skeleton3D")
+boneName = "Bone"
+
+[node name="visual_plug" parent="." instance=ExtResource("7_nl7eq")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 1.33073)
+
+[editable path="door"]

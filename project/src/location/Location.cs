@@ -7,5 +7,7 @@ namespace Game
     {
         [Export]
         public Array<NodePath> PlayerSpawners = new Array<NodePath>();
+        [Export]
+        public DreamsManager dreamsManager;
     }
 }

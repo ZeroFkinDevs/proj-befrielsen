@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dagm07uqes3sw"]
 
-[ext_resource type="Script" path="res://src/player/tools/SceneUnwrapper.cs" id="1_hqqfc"]
+[ext_resource type="Script" path="res://src/utils/SceneUnwrapper.cs" id="1_hqqfc"]
 [ext_resource type="PackedScene" uid="uid://cxwtvk2csoxmi" path="res://resources/locations/swamp/lighter/ligher.tscn" id="2_6lnxm"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="3_0oy4x"]
 [ext_resource type="Script" path="res://src/utils/BoneConnector.cs" id="3_4uv6p"]
@@ -25,6 +25,8 @@ light_energy = 2.0
 light_size = 0.566
 light_specular = 0.0
 shadow_enabled = true
+shadow_bias = 0.457
+shadow_normal_bias = 0.457
 distance_fade_enabled = true
 distance_fade_begin = 20.0
 distance_fade_shadow = 5.0

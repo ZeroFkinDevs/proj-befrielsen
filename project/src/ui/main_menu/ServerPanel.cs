@@ -10,22 +10,32 @@ namespace Game.UI
 		public Label InfoLabel;
 		[Export]
 		public Control LoadButtonsContainer;
+		[Export]
+		public Button NewWorldButton;
 
-		public void _on_button_pressed()
+		public void OnNewWorldButtonPressed()
 		{
 			Host(null);
 		}
 
-		public void Host(string saveFilePath)
+		public bool Host(string saveFilePath)
 		{
 			var res = ServerNode.Host(saveFilePath);
 			if (res) InfoLabel.Text = "Сервер запущен";
 			else InfoLabel.Text = "Не удалось запустить сервер, скорее всего он уже запущен";
+			return res;
 		}
 
 		public override void _Ready()
 		{
 			base._Ready();
+
+			NewWorldButton.Pressed += OnNewWorldButtonPressed;
+
+			SetupSavesFiles();
+		}
+		public void SetupSavesFiles()
+		{
 			var files = ServerNode.locationLoader.GetSavedLocationsFiles();
 			if (files.Count > 0)
 			{

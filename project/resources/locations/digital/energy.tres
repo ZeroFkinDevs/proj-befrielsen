@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://ch0o4ua01ltfn"]
+
+[ext_resource type="Texture2D" uid="uid://bx1f4cn8ybg4k" path="res://resources/locations/digital/computer_room_b168b84a9b22ac772bd9279628aa6f50_1.png" id="1_jhhgs"]
+[ext_resource type="Texture2D" uid="uid://bto3g1ulvuycv" path="res://resources/locations/digital/computer_room_b168b84a9b22ac772bd9279628aa6f50.jpg" id="2_kxqry"]
+
+[resource]
+resource_name = "energy"
+transparency = 4
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 3.3)
+albedo_texture = ExtResource("1_jhhgs")
+roughness = 0.5
+emission_enabled = true
+emission_texture = ExtResource("2_kxqry")
+texture_filter = 2

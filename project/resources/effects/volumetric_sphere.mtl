@@ -1,0 +1,12 @@
+# Blender 4.0.2 MTL File: 'volumetric_sphere.blend'
+# www.blender.org
+
+newmtl Material.001
+Ns 177.459885
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+illum 2
+map_Kd test_layered_effect/sphere_test/effect_1_layer_3_0000.png
+map_d test_layered_effect/sphere_test/effect_1_layer_3_0000.png

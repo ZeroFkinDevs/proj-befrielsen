@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=47 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/player/RayInteractor.cs" id="4_ftn5o"]
 [ext_resource type="Script" path="res://src/player/ObjectGrabber.cs" id="5_101rh"]
 [ext_resource type="PackedScene" uid="uid://cm0f138qnggxl" path="res://scenes/persistent/player/dude_model.tscn" id="5_kgqkn"]
+[ext_resource type="Script" path="res://src/objects/npc/dialogs/PlayerChattingMember.cs" id="5_owedh"]
 [ext_resource type="Script" path="res://src/utils/HookesConnector.cs" id="6_gdb6h"]
 [ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="6_kfxo3"]
 [ext_resource type="Script" path="res://src/player/FingersManager.cs" id="7_qxsfq"]
@@ -28,6 +29,7 @@
 [ext_resource type="Script" path="res://src/player/inventory/InventoryFingersPlaceRegion.cs" id="19_n4m57"]
 [ext_resource type="Texture2D" uid="uid://byasll5a7c2yl" path="res://resources/ui/icons/fingers_region.png" id="20_n0yo3"]
 [ext_resource type="Theme" uid="uid://civ31we8rg0qk" path="res://resources/ui/ui.tres" id="24_mgy1o"]
+[ext_resource type="Script" path="res://src/player/ui/chatting/ChattingTabs.cs" id="30_u0ory"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
@@ -35,6 +37,9 @@ margin = 0.414
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_xsaoj"]
 height = 0.682644
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e14p6"]
+radius = 2.40201
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e7p5q"]
 radius = 0.845437
@@ -96,7 +101,7 @@ size = Vector3(0.08, 0.166753, 0.092745)
 [sub_resource type="ViewportTexture" id="ViewportTexture_g17h4"]
 viewport_path = NodePath("Camera3D/PlayerModelRenderer/SubViewport")
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber", "livingStateManager")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "chattingMember", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber", "livingStateManager")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
 floor_constant_speed = true
@@ -109,6 +114,7 @@ Gravity = 25.0
 Speed = 0.15
 Camera = NodePath("Camera3D")
 playerUI = NodePath("UI")
+chattingMember = NodePath("PlayerChattingMember")
 ModelSmoothConnector = NodePath("puppet/SmoothTranslator")
 tmpStorage = NodePath("TmpStorage")
 objectInstantiator = NodePath("ObjectInstantiator")
@@ -120,7 +126,7 @@ script = ExtResource("14_j8e2n")
 
 [node name="ObjectInstantiator" type="Node3D" parent="."]
 script = ExtResource("18_0dw4w")
-SpawnId = "playerObjectSpawner"
+SpawnId = "player_object_spawner"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
@@ -133,6 +139,16 @@ shape = SubResource("CylinderShape3D_xsaoj")
 script = ExtResource("2_ru2q0")
 MaxStatesCount = 10
 tmpStorage = NodePath("../TmpStorage")
+
+[node name="PlayerChattingMember" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("5_owedh")
+player = NodePath("..")
+Code = "player"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerChattingMember"]
+shape = SubResource("SphereShape3D_e14p6")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.671634, -0.165665)
@@ -240,10 +256,11 @@ player = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PropsPusher"]
 shape = SubResource("CapsuleShape3D_x1dyq")
 
-[node name="ToolsManager" type="Node3D" parent="." node_paths=PackedStringArray("inventoryContainer")]
+[node name="ToolsManager" type="Node3D" parent="." node_paths=PackedStringArray("inventoryContainer", "rayInteractor")]
 transform = Transform3D(0.462569, -0.886583, 1.25101e-07, 9.27259e-08, -9.27255e-08, -1, 0.886583, 0.462569, 3.93171e-08, 0.0883649, 0.563922, -0.663721)
 script = ExtResource("8_yuepf")
 inventoryContainer = NodePath("../InventoryManager/ToolsInventoryContainer")
+rayInteractor = NodePath("../Camera3D/RayInteractor")
 BoneName = "arm_r_tool"
 
 [node name="InventoryManager" type="Node3D" parent="." node_paths=PackedStringArray("player", "toolsManager", "InventoryContainer", "ToolsInventoryContainer")]
@@ -458,6 +475,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("24_mgy1o")
 script = ExtResource("8_v0c8m")
 player = NodePath("..")
@@ -471,6 +489,29 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_g17h4")
 
+[node name="TabContainer" type="TabContainer" parent="UI" node_paths=PackedStringArray("playerUI")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.816
+anchor_right = 0.339
+anchor_bottom = 1.0
+offset_top = 0.231995
+offset_right = -0.528015
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+current_tab = 0
+tab_focus_mode = 0
+script = ExtResource("30_u0ory")
+playerUI = NodePath("..")
+
+[node name="Button" type="Button" parent="UI/TabContainer"]
+layout_mode = 2
+text = "asd"
+metadata/_tab_index = 0
+
 [node name="Cursor" type="Control" parent="UI" node_paths=PackedStringArray("playerUI", "rayInteractor", "textureRect", "descriptionLabel")]
 layout_mode = 2
 anchors_preset = 0
@@ -478,6 +519,7 @@ offset_left = 576.0
 offset_top = 324.0
 offset_right = 576.0
 offset_bottom = 324.0
+mouse_filter = 2
 script = ExtResource("9_bqwsj")
 playerUI = NodePath("..")
 cursorIconsBank = ExtResource("10_hrgru")
@@ -492,6 +534,7 @@ offset_top = -28.765
 offset_right = 98.815
 offset_bottom = 98.235
 scale = Vector2(0.44, 0.44)
+mouse_filter = 2
 texture = ExtResource("8_8afli")
 
 [node name="Label" type="Label" parent="UI/Cursor"]
@@ -500,6 +543,7 @@ offset_left = -72.0
 offset_top = 18.0
 offset_right = 73.0
 offset_bottom = 41.0
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 10
 text = "text"
 horizontal_alignment = 1
@@ -507,10 +551,10 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_lock_ = true

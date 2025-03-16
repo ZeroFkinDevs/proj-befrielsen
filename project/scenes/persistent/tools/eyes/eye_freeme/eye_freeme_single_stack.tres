@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dfkbgxehm45hh"]
+
+[ext_resource type="Resource" uid="uid://b2tbk1ac8eejh" path="res://scenes/persistent/tools/eyes/eye_freeme/eye_freeme_item.tres" id="1_blixk"]
+[ext_resource type="Script" path="res://src/objects/item/ItemStack.cs" id="2_an052"]
+
+[resource]
+script = ExtResource("2_an052")
+ItemRes = ExtResource("1_blixk")
+Quantity = 1

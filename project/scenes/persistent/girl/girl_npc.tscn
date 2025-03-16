@@ -1,0 +1,158 @@
+[gd_scene load_steps=19 format=3 uid="uid://cgeb785y45ti5"]
+
+[ext_resource type="Script" path="res://src/objects/npc/controllers/NpcCharacterUnit.cs" id="1_v7dxf"]
+[ext_resource type="PackedScene" uid="uid://xirxu668save" path="res://scenes/persistent/girl/girl_model.tscn" id="2_hdyt8"]
+[ext_resource type="PackedScene" uid="uid://pfcgpftfu1he" path="res://scenes/persistent/girl/girl_locked_model.tscn" id="3_adnym"]
+[ext_resource type="Script" path="res://src/player/tools/TmpStorage.cs" id="3_auyr5"]
+[ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="4_slhkc"]
+[ext_resource type="Script" path="res://src/objects/npc/movements/NpcWalkingController.cs" id="5_53uln"]
+[ext_resource type="Script" path="res://src/objects/npc/brains/PlayerFollowerBrain.cs" id="6_5fn1e"]
+[ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="6_w7sxj"]
+[ext_resource type="Script" path="res://src/objects/npc/memory/NpcMemory.cs" id="8_c1dyk"]
+[ext_resource type="Script" path="res://src/objects/npc/brains/GirlLockedBrain.cs" id="8_xt361"]
+[ext_resource type="Script" path="res://src/objects/npc/dialogs/SubtitlesUnit.cs" id="11_1lwq4"]
+[ext_resource type="Script" path="res://src/objects/audio/SoundPlayer.cs" id="11_2d55x"]
+[ext_resource type="Script" path="res://src/objects/npc/dialogs/GirlChattingMember.cs" id="11_3ybvn"]
+[ext_resource type="Script" path="res://src/utils/NodeToBoneConnector.cs" id="11_fjpnh"]
+[ext_resource type="FontFile" uid="uid://qvxptxhqv20b" path="res://resources/ui/AcPlus_IBM_BIOS.ttf" id="11_rbugc"]
+[ext_resource type="Script" path="res://src/utils/area/BodyDetectionArea.cs" id="11_tngt7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_to1s7"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f7806"]
+radius = 3.60132
+
+[node name="GirlNpc" type="CharacterBody3D" node_paths=PackedStringArray("_livingStateManager", "_objectInstantiator", "_currentBrain", "_movementUnit", "_memory", "_characterModel")]
+collision_layer = 512
+collision_mask = 513
+script = ExtResource("1_v7dxf")
+_livingStateManager = NodePath("LivingState")
+_objectInstantiator = NodePath("ObjectInstantiator")
+_currentBrain = NodePath("LockedBrain")
+_movementUnit = NodePath("WalkingUnit")
+_memory = NodePath("Memory")
+_characterModel = NodePath("girl_locked_model")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.526763, 0, -0.850012, 0, 1, 0, 0.850012, 0, 0.526763, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_to1s7")
+
+[node name="girl_model" parent="." instance=ExtResource("2_hdyt8")]
+visible = false
+
+[node name="Skeleton3D" parent="girl_model/girl_bones" index="0"]
+bones/0/position = Vector3(0.00344629, 1.01753, -0.0317425)
+bones/0/rotation = Quaternion(-0.0138502, -0.0140381, -0.661759, 0.749457)
+bones/2/rotation = Quaternion(-0.00131275, 0.000113321, 0.140264, 0.990113)
+bones/3/rotation = Quaternion(-4.03022e-09, 1.62212e-07, -0.0308413, 0.999524)
+bones/5/rotation = Quaternion(-0.00437373, -0.0101419, 0.00322098, 0.999934)
+bones/7/rotation = Quaternion(0.800242, -0.0221708, 0.01172, 0.599152)
+bones/8/rotation = Quaternion(0.544894, -0.0779802, -0.251899, 0.795963)
+bones/9/rotation = Quaternion(-0.0392858, 0.386009, 0.673668, 0.628987)
+bones/10/rotation = Quaternion(0.361097, 0.701811, 0.069133, 0.610156)
+bones/13/rotation = Quaternion(0.164918, 0.81511, 0.40344, 0.38162)
+bones/15/rotation = Quaternion(-0.791284, 0.0192259, 0.0085393, 0.611087)
+bones/16/rotation = Quaternion(-0.614042, -0.225285, -0.0456176, 0.755061)
+bones/17/rotation = Quaternion(0.578199, -0.570149, 0.464497, 0.353353)
+bones/18/rotation = Quaternion(-0.269732, -0.150603, 0.0599279, 0.949195)
+bones/22/rotation = Quaternion(0.00831166, -0.264033, 0.233459, 0.935796)
+bones/25/rotation = Quaternion(-0.643736, 0.219226, 0.233332, 0.695054)
+bones/26/rotation = Quaternion(0.00121173, -0.00327832, -0.388582, 0.921408)
+bones/27/rotation = Quaternion(-0.0205986, 0.00775924, 0.427212, 0.903884)
+bones/29/rotation = Quaternion(-0.686342, 0.0744365, 0.0716689, 0.719901)
+bones/30/rotation = Quaternion(-0.000740249, 0.00222755, 0.0561418, 0.99842)
+bones/31/rotation = Quaternion(-0.0377077, -0.0131163, -0.486987, 0.872496)
+bones/32/position = Vector3(-0.13682, 0.160731, -0.148039)
+bones/33/position = Vector3(0.35346, 0.154952, 0.120626)
+bones/35/position = Vector3(-0.764844, 0, 6.78312e-10)
+
+[node name="Cube_006" parent="girl_model/girl_bones/Skeleton3D" index="0"]
+transform = Transform3D(0.0908561, -0.0134847, -0.00222127, 0.0135682, 0.0907907, 0.00381512, 0.00163504, -0.00410071, 0.0917721, -0.321009, 1.82172, -0.0672549)
+
+[node name="girl_locked_model" parent="." instance=ExtResource("3_adnym")]
+
+[node name="TmpStorage" type="Node3D" parent="."]
+script = ExtResource("3_auyr5")
+
+[node name="LivingState" type="Node3D" parent="." node_paths=PackedStringArray("tmpStorage")]
+script = ExtResource("4_slhkc")
+MaxStatesCount = 1
+tmpStorage = NodePath("../TmpStorage")
+
+[node name="ObjectInstantiator" type="Node3D" parent="."]
+script = ExtResource("6_w7sxj")
+SpawnId = "girl_object_spawner"
+
+[node name="WalkingUnit" type="Node3D" parent="." node_paths=PackedStringArray("npc")]
+script = ExtResource("5_53uln")
+npc = NodePath("..")
+IsActive = false
+
+[node name="Memory" type="Node3D" parent="."]
+script = ExtResource("8_c1dyk")
+
+[node name="Brain" type="Node3D" parent="." node_paths=PackedStringArray("playerCheckArea")]
+script = ExtResource("6_5fn1e")
+playerCheckArea = NodePath("Area3D")
+
+[node name="Area3D" type="Area3D" parent="Brain"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Brain/Area3D"]
+shape = SubResource("SphereShape3D_f7806")
+
+[node name="LockedBrain" type="Node3D" parent="." node_paths=PackedStringArray("playerCheckArea", "nodeToBoneConnector")]
+script = ExtResource("8_xt361")
+playerCheckArea = NodePath("Area3D")
+nodeToBoneConnector = NodePath("r_bone_connector")
+
+[node name="Area3D" type="Area3D" parent="LockedBrain"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("11_tngt7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LockedBrain/Area3D"]
+shape = SubResource("SphereShape3D_f7806")
+
+[node name="RightHandObjectContainer" type="Node3D" parent="LockedBrain"]
+
+[node name="r_bone_connector" type="Node3D" parent="LockedBrain"]
+script = ExtResource("11_fjpnh")
+boneName = "hand_r_object"
+
+[node name="Chatting" type="Node3D" parent="."]
+
+[node name="GirlChattingMember" type="Area3D" parent="Chatting" node_paths=PackedStringArray("soundPlayer", "npcBrain", "subtitlesUnit")]
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("11_3ybvn")
+soundPlayer = NodePath("../../AudioStreamPlayer3D")
+npcBrain = NodePath("../../LockedBrain")
+subtitlesUnit = NodePath("../Node3D")
+Code = "sheril"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chatting/GirlChattingMember"]
+shape = SubResource("SphereShape3D_f7806")
+
+[node name="Node3D" type="Node3D" parent="Chatting" node_paths=PackedStringArray("label")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.072642, 1.32653, -1.00124)
+script = ExtResource("11_1lwq4")
+label = NodePath("Label3D")
+
+[node name="Label3D" type="Label3D" parent="Chatting/Node3D"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+visible = false
+layers = 1024
+font = ExtResource("11_rbugc")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57631, 0)
+unit_size = 8.0
+max_distance = 10.0
+attenuation_filter_cutoff_hz = 9300.0
+script = ExtResource("11_2d55x")
+
+[editable path="girl_model"]

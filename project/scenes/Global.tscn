@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmj7cujy3qm3y"]
-
-[ext_resource type="Script" path="res://src/Global.cs" id="1_k36y0"]
-[ext_resource type="PackedScene" uid="uid://di36115wfkt1b" path="res://scenes/swamp/swamp_location.tscn" id="2_wpvd7"]
-
-[node name="Global" type="Node"]
-script = ExtResource("1_k36y0")
-LocationScene = ExtResource("2_wpvd7")

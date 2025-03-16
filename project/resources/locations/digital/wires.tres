@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://6ihj0t81aukm"]
+
+[ext_resource type="Texture2D" uid="uid://4ogd8ajdowcw" path="res://resources/locations/digital/computer_room_wires.png" id="1_7fvo8"]
+[ext_resource type="Texture2D" uid="uid://pug8v32h67fk" path="res://resources/locations/digital/computer_room_wires_emsn.png" id="2_dbpq7"]
+
+[resource]
+resource_name = "wires"
+cull_mode = 2
+albedo_texture = ExtResource("1_7fvo8")
+roughness = 0.5
+emission_enabled = true
+emission_texture = ExtResource("2_dbpq7")
+texture_filter = 2

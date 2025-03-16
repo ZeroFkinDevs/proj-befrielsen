@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://byg4y2kxdy2v1"]
+
+[ext_resource type="Script" path="res://src/utils/SceneUnwrapper.cs" id="1_xa3fg"]
+[ext_resource type="PackedScene" uid="uid://cif31dwn40ijr" path="res://resources/objects/persistent/eyes/freeme/eye_freeme.tscn" id="2_2n2or"]
+[ext_resource type="Script" path="res://src/objects/effects/ModelWithFreeBone.cs" id="3_h4q5n"]
+[ext_resource type="Script" path="res://src/utils/SmoothConnectTransform.cs" id="4_y13yr"]
+[ext_resource type="Script" path="res://src/objects/Prop.cs" id="5_dbhqm"]
+[ext_resource type="Resource" uid="uid://c5qg7orkdxk2v" path="res://scenes/persistent/tools/eyes/eye_digital/eye_digital_single_storage.tres" id="6_6h5en"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7vwxk"]
+radius = 0.217171
+
+[node name="eye_freeme_prop" type="Node3D"]
+script = ExtResource("1_xa3fg")
+
+[node name="eye_freeme" parent="." instance=ExtResource("2_2n2or")]
+script = ExtResource("3_h4q5n")
+BoneName = "brain"
+TargetOffset = Vector3(0, -0.44, 0)
+
+[node name="SmoothConnector" type="Node3D" parent="." node_paths=PackedStringArray("Object", "Target")]
+script = ExtResource("4_y13yr")
+Object = NodePath("../eye_freeme")
+Target = NodePath("../PropBody")
+
+[node name="PropBody" type="RigidBody3D" parent="." node_paths=PackedStringArray("ModelSmoothConnector")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("5_dbhqm")
+ModelSmoothConnector = NodePath("../SmoothConnector")
+itemsStorage = ExtResource("6_6h5en")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PropBody"]
+shape = SubResource("SphereShape3D_7vwxk")

@@ -56,7 +56,7 @@ namespace Game
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
         public void RecieveOpenInventory()
         {
-            toolsManager.SetTool(null);
+            toolsManager.Enabled = false;
             isLookingInventory = true;
 
             player.model.SetHandsContinousState("look");
@@ -77,7 +77,7 @@ namespace Game
             InventoryContainer.Visible = false;
             ToolsInventoryContainer.Visible = false;
 
-            toolsManager.SetupCurrentItem();
+            toolsManager.Enabled = true;
         }
         #endregion
     }

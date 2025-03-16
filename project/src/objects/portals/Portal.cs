@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using Game.Utils;
+using System.Diagnostics;
 
 namespace Game
 {
@@ -19,19 +20,12 @@ namespace Game
         [Export]
         public SubViewport Viewport;
         [Export]
-        public int CullLayer;
+        public int CullLayer = 2;
 
         Dictionary<string, Player> playerPuppets = new Dictionary<string, Player>();
 
         public override void _Ready()
         {
-            // Plane.MaterialOverride = Plane.MaterialOverride.Duplicate() as Material;
-            // var shaderMaterial = Plane.MaterialOverride as ShaderMaterial;
-            // // shaderMaterial.TakeOverPath();
-            // var viewportTex = new ViewportTexture();
-            // viewportTex.ViewportPath = GetPathTo(Viewport);
-            // shaderMaterial.SetShaderParameter("texture_albedo", viewportTex);
-
             Plane.SetLayerMaskValue(1, false);
             Plane.SetLayerMaskValue(CullLayer, true);
             Disable();
@@ -42,10 +36,16 @@ namespace Game
             PlayerPuppetArea.BodyExited += OnPlayerExited;
         }
 
+        public void SetCullMask(int newMask)
+        {
+            Plane.SetLayerMaskValue(CullLayer, false);
+            CullLayer = newMask;
+            Plane.SetLayerMaskValue(CullLayer, true);
+        }
+
         public override void _Process(double delta)
         {
-            UpdateCameraPosition();
-            UpdatePlayerPuppets();
+            DoUpdates();
         }
         public override void _PhysicsProcess(double delta)
         {
@@ -54,6 +54,9 @@ namespace Game
 
         public void DoUpdates()
         {
+            if (OtherPortal == null) return;
+            if (!Visible) return;
+
             UpdateCameraPosition();
             UpdateBodies();
             UpdatePlayerPuppets();
@@ -142,15 +145,18 @@ namespace Game
             var curViewport = GetViewport();
             var curCamera = GetViewport().GetCamera3D();
             if (curCamera == null) return;
+            if (OtherPortal == null) return;
 
             var movedToOtherPortal = TeleportTransform(curCamera.GlobalTransform);
 
             Camera.GlobalTransform = movedToOtherPortal;
             Camera.Fov = curCamera.Fov;
+            Camera.Far = curCamera.Far;
 
             Camera.CullMask = curCamera.CullMask;
             Camera.SetCullMaskValue(OtherPortal.CullLayer, false);
-            Camera.SetCullMaskValue(11, false);
+            Camera.SetCullMaskValue(CullLayer, false);
+            Camera.SetCullMaskValue(11, false); // player puppets
 
             Viewport.Size = new Vector2I((int)curViewport.GetVisibleRect().Size.X / 2, (int)curViewport.GetVisibleRect().Size.Y / 2);
             Viewport.Msaa3D = curViewport.Msaa3D;
@@ -177,13 +183,11 @@ namespace Game
                 var localPos = ToLocal(body.GlobalPosition);
                 var posOffset = Vector3.Zero;
 
-                foreach (var child in body.GetChildren(true))
+                if (body is IProvidingTeleportPoint providingTeleportPoint)
                 {
-                    if (child is Camera3D camera)
-                    {
-                        localPos = ToLocal(camera.GlobalPosition);
-                        posOffset = body.ToLocal(camera.GlobalPosition);
-                    }
+                    var point = providingTeleportPoint.GetTeleportPoint();
+                    localPos = ToLocal(point);
+                    posOffset = body.ToLocal(point);
                 }
 
                 if (body.HasMeta("portal_pos"))
@@ -274,6 +278,20 @@ namespace Game
                                 }
                             }
                         }
+                        var checlbodies = body.GetChildrenRecursively();
+                        checlbodies.Add(body);
+                        foreach (var node in checlbodies)
+                        {
+                            if (node is ITeleportableTransform teleportableTransform)
+                            {
+                                teleportableTransform.RecieveTransformTeleportation(TeleportTransform);
+                            }
+                            if (node is ITeleportablePoint teleportablePoint)
+                            {
+                                teleportablePoint.RecievePointTeleportation(TeleportPoint);
+                            }
+                        }
+
                         continue;
                     }
                 }

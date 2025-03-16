@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://2sxqsci084dv"
+path="res://.godot/imported/volumetric_sphere.obj-f2f3e8c3f8e0aefd6406e27c8d609428.mesh"
+
+[deps]
+
+files=["res://.godot/imported/volumetric_sphere.obj-f2f3e8c3f8e0aefd6406e27c8d609428.mesh"]
+
+source_file="res://resources/effects/volumetric_sphere.obj"
+dest_files=["res://.godot/imported/volumetric_sphere.obj-f2f3e8c3f8e0aefd6406e27c8d609428.mesh", "res://.godot/imported/volumetric_sphere.obj-f2f3e8c3f8e0aefd6406e27c8d609428.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

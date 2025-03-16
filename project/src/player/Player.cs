@@ -2,10 +2,11 @@ using System;
 using Godot;
 using Game.Utils;
 using System.Collections;
+using Game.Dialog;
 
 namespace Game
 {
-	public partial class Player : CharacterBody3D, IUser, ILiving
+	public partial class Player : CharacterBody3D, IUser, ILiving, IProvidingTeleportPoint
 	{
 		public enum ControlGroupEnum
 		{
@@ -33,6 +34,8 @@ namespace Game
 		public Camera3D Camera;
 		[Export]
 		public PlayerUI playerUI;
+		[Export]
+		public PlayerChattingMember chattingMember;
 		[Export]
 		public SmoothConnectTransform ModelSmoothConnector;
 		[Export]
@@ -75,13 +78,19 @@ namespace Game
 				playerUI.Visible = false;
 				Controllable = false;
 			}
+			if (Multiplayer.IsServer())
+			{
+				playerUI.Visible = false;
+			}
 			SetupCamera();
 			LastGlobalPosition = GlobalPosition;
 		}
 
+		public bool Current => Controllable && !IsPuppet;
+
 		public void SetupCamera()
 		{
-			Camera.Current = Controllable && !IsPuppet;
+			Camera.Current = Current;
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -253,6 +262,11 @@ namespace Game
 		public void QueueFreeRecieve()
 		{
 			QueueFree();
+		}
+
+		public Vector3 GetTeleportPoint()
+		{
+			return Camera.GlobalPosition;
 		}
 	}
 }

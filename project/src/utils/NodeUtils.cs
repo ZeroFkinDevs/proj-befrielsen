@@ -35,6 +35,13 @@ namespace Game.Utils
             var path = node.AdaptMultiplayerPath(node.GetPath());
             return path;
         }
+        public static NodePath GetCommonMultiplayerPath(this Node node)
+        {
+            var path = node.GetPath();
+            path = ((string)path).Replace("/Client/", "/");
+            path = ((string)path).Replace("/SubViewport/Server/", "/");
+            return path;
+        }
         public static T GetMultiplayerNode<[MustBeVariant] T>(this Node thisNode, NodePath path) where T : Node
         {
             path = thisNode.AdaptMultiplayerPath(path);

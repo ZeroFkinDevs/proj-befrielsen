@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://jlpkx0uwp52f"]
+
+[ext_resource type="Texture2D" uid="uid://trdtnct8w8v8" path="res://resources/locations/digital/computer_room_1c07011901bf6d0cdf13941d215423d3_9.png" id="1_malkp"]
+[ext_resource type="Texture2D" uid="uid://csneyn8jav6n6" path="res://resources/locations/digital/computer_room_1c07011901bf6d0cdf13941d215423d3.jpg" id="2_7v6yp"]
+
+[resource]
+resource_name = "energy_bridge"
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 3.3)
+albedo_texture = ExtResource("1_malkp")
+roughness = 0.5
+emission_enabled = true
+emission_texture = ExtResource("2_7v6yp")
+texture_filter = 2

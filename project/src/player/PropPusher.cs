@@ -15,7 +15,8 @@ namespace Game
 			if (player.Controllable) PushCycle(delta);
 		}
 
-		public void PushCycle(double delta){
+		public void PushCycle(double delta)
+		{
 			if (_timer > 0.0f)
 			{
 				_timer -= (float)delta;
@@ -26,8 +27,9 @@ namespace Game
 				_timer = 0.2f;
 			}
 		}
-		
-		public void CheckPush(){
+
+		public void CheckPush()
+		{
 			var bodies = GetOverlappingBodies();
 			foreach (var body in bodies)
 			{
