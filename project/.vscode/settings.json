@@ -24,6 +24,11 @@
       "folderPath": "project\\src\\utils\\",
       "color": "foldercolorizer.color_cc9966",
       "badge": "🔩"
+    },
+    {
+      "folderPath": "project\\src\\objects\\portals\\",
+      "color": "foldercolorizer.color_cc99ff",
+      "badge": "🕳️"
     }
   ]
 }

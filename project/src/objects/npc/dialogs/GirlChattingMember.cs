@@ -40,12 +40,16 @@ namespace Game.Dialog
                 {
                     member.ResponsesCollection.SetForMember(this, new List<ChattingResponse>{
                         new ChattingResponse("give_me_digital_eye", "дай мне глаз комнаты с компами", async ()=>{
+                            ClearResponses();
                             await SayYes();
                             await girlBrain.RequestToGiveProp("res://scenes/persistent/tools/eyes/eye_digital/eye_digital_item.tres");
+                            TryExecuteNode("_greet");
                         }),
                         new ChattingResponse("give_me_freeme_eye", "дай мне глаз от твоей клетки", async ()=>{
+                            ClearResponses();
                             await SayYes();
                             await girlBrain.RequestToGiveProp("res://scenes/persistent/tools/eyes/eye_freeme/eye_freeme_item.tres");
+                            TryExecuteNode("_greet");
                         }),
                     });
                 });
@@ -86,6 +90,15 @@ namespace Game.Dialog
             subtitlesUnit.PlaySubtitlesForTask(text, task);
             GD.Print(text);
             return task;
+        }
+
+        public void ClearResponses()
+        {
+            ChattingMembers.ForEachMember((member) =>
+                {
+                    member.ResponsesCollection.SetForMember(this, null);
+                }
+            );
         }
 
         private void OnMemberAdded(IChattingMember member)

@@ -70,7 +70,7 @@ namespace Game.Dialog
             var response = ResponsesCollection.GetByCode(code);
             if (response != null)
             {
-                response.Execute();
+                ResponsesCollection.ExecuteResponse(response);
             }
         }
 

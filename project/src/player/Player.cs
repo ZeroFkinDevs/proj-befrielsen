@@ -109,6 +109,10 @@ namespace Game
 						if (!mesh.GetLayerMaskValue(11)) mesh.SetLayerMaskValue(11, true);
 					}
 				}
+				if (Input.IsActionJustPressed("server_view"))
+				{
+					TurnOnServerView();
+				}
 			}
 
 			// controls
@@ -267,6 +271,20 @@ namespace Game
 		public Vector3 GetTeleportPoint()
 		{
 			return Camera.GlobalPosition;
+		}
+
+		public void TurnOnServerView()
+		{
+			if (GetNode("/root/Main/SubViewport/Server") == null) return;
+			if (GetNode("/root/Main/UI/TextureRect") == null) return;
+			var view = GetNode<Control>("/root/Main/UI/TextureRect");
+			view.Visible = true;
+			RpcId(1, MethodName.RecieveTurnOnServerView);
+		}
+		[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+		public void RecieveTurnOnServerView()
+		{
+			Camera.Current = true;
 		}
 	}
 }

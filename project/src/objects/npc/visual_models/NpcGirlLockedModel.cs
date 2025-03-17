@@ -65,6 +65,7 @@ namespace Game
 			SetState("action_state", "release");
 			await WaitForAnimationToFinish("locked_talk_release");
 			SetState("action_state", "default");
+			SetState("base_state", "ready_to_talk");
 		}
 
 		public override void OnAnimationFinished(StringName animationName)
@@ -92,6 +93,8 @@ namespace Game
 
 		public void LookAtTarget(float delta)
 		{
+			if (LookTarget.Length() == 0.0f) return;
+
 			float targetWeight = CanLookAtTarget ? 1.0f : 0.0f;
 			LookTargetWeight = Mathf.Lerp(LookTargetWeight, targetWeight, 0.1f);
 
@@ -99,7 +102,18 @@ namespace Game
 			var neckPose = GetBoneGlobalPose(NeckBoneId);
 
 			var trans = GetBoneGlobalPose(HeadBoneId);
-			var targetBasis = new Basis(new Quaternion(trans.LookingAt(LookTarget, neckPose.Basis.Y.Lerp(Vector3.Up, 0.5f)).RotatedLocal(Vector3.Up, -Mathf.Pi / 2.0f).Basis).Normalized());
+			var parent = GetParent<Node3D>();
+			var headUpTransform = headInitPose;
+			headUpTransform.Basis = parent.Basis;
+			var modifiedTarget = headUpTransform.AffineInverse() * LookTarget;
+			modifiedTarget.Z = Mathf.Min(0.2f, modifiedTarget.Z);
+			modifiedTarget = modifiedTarget * headUpTransform.AffineInverse();
+
+			var targetBasis = trans.Basis;
+			if (targetWeight > 0.0f)
+			{
+				targetBasis = new Basis(new Quaternion(trans.LookingAt(modifiedTarget, neckPose.Basis.Y.Lerp(Vector3.Up, 0.5f)).RotatedLocal(Vector3.Up, -Mathf.Pi / 2.0f).Basis).Normalized());
+			}
 			trans.Basis = new Basis(new Quaternion(trans.Basis).Normalized()).Slerp(targetBasis, 0.05f);
 			var skeletonRelativeTrans = (skeleton3D.GlobalTransform.AffineInverse() * trans);
 			skeletonRelativeTrans.Origin = headInitPose.Origin;

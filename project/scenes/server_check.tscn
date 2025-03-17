@@ -1,25 +1,28 @@
-[gd_scene load_steps=20 format=3 uid="uid://dba88xnme7bjk"]
+[gd_scene load_steps=21 format=3 uid="uid://fqkd0yumhdu5"]
 
-[ext_resource type="PackedScene" uid="uid://bvjwwppbx8r6r" path="res://scenes/persistent/player/player.tscn" id="1_a5rwg"]
-[ext_resource type="PackedScene" uid="uid://d3r5ljjf2hhvb" path="res://scenes/multiplayer/PlayersManager.tscn" id="2_27dx1"]
-[ext_resource type="Script" path="res://src/multiplayer/Server.cs" id="2_eog3n"]
-[ext_resource type="Script" path="res://src/multiplayer/Client.cs" id="3_epd2y"]
-[ext_resource type="PackedScene" uid="uid://dmopieqsqsnq8" path="res://scenes/multiplayer/LocationLoader.tscn" id="4_o14ho"]
-[ext_resource type="Script" path="res://src/ui/main_menu/ButtonShortcuts.cs" id="5_13d81"]
-[ext_resource type="Script" path="res://src/ui/main_menu/DefaultPortLabel.cs" id="5_rpt4h"]
-[ext_resource type="Script" path="res://src/ui/main_menu/ServerPanel.cs" id="5_wfr22"]
-[ext_resource type="FontFile" uid="uid://b0ye61uomc58p" path="res://resources/ui/ofont.ru_Xenia.ttf" id="6_0ac58"]
-[ext_resource type="Script" path="res://src/ui/main_menu/MainMenu.cs" id="7_q5qtw"]
-[ext_resource type="Texture2D" uid="uid://dh4q0fo6bx1vv" path="res://resources/ui/lulz/bg1.png" id="8_5su46"]
-[ext_resource type="Script" path="res://src/ui/main_menu/ClientPanel.cs" id="8_koygl"]
-[ext_resource type="Texture2D" uid="uid://cdoqjc6a8s1r2" path="res://resources/ui/lulz/nature_guy.png" id="8_sfp5s"]
-[ext_resource type="Texture2D" uid="uid://dvybxniniopdu" path="res://resources/ui/lulz/meat.png" id="9_hjaqa"]
-[ext_resource type="Texture2D" uid="uid://bkgsrep0igv7d" path="res://resources/ui/lulz/funny_guy.png" id="11_tkka5"]
+[ext_resource type="Script" path="res://src/multiplayer/Server.cs" id="1_bs00v"]
+[ext_resource type="PackedScene" uid="uid://d3r5ljjf2hhvb" path="res://scenes/multiplayer/PlayersManager.tscn" id="2_eoypg"]
+[ext_resource type="PackedScene" uid="uid://bvjwwppbx8r6r" path="res://scenes/persistent/player/player.tscn" id="3_8wyj5"]
+[ext_resource type="PackedScene" uid="uid://dmopieqsqsnq8" path="res://scenes/multiplayer/LocationLoader.tscn" id="4_0ntap"]
+[ext_resource type="Script" path="res://src/multiplayer/Client.cs" id="5_a37t6"]
+[ext_resource type="FontFile" uid="uid://b0ye61uomc58p" path="res://resources/ui/ofont.ru_Xenia.ttf" id="6_88rud"]
+[ext_resource type="Script" path="res://src/ui/main_menu/MainMenu.cs" id="7_sg07m"]
+[ext_resource type="Texture2D" uid="uid://dh4q0fo6bx1vv" path="res://resources/ui/lulz/bg1.png" id="8_jtsyv"]
+[ext_resource type="Texture2D" uid="uid://cdoqjc6a8s1r2" path="res://resources/ui/lulz/nature_guy.png" id="9_36orq"]
+[ext_resource type="Texture2D" uid="uid://dvybxniniopdu" path="res://resources/ui/lulz/meat.png" id="10_b8ai3"]
+[ext_resource type="Texture2D" uid="uid://bkgsrep0igv7d" path="res://resources/ui/lulz/funny_guy.png" id="11_i3rai"]
+[ext_resource type="Script" path="res://src/ui/main_menu/ButtonShortcuts.cs" id="12_rhtbc"]
+[ext_resource type="Script" path="res://src/ui/main_menu/DefaultPortLabel.cs" id="13_teb7h"]
+[ext_resource type="Script" path="res://src/ui/main_menu/ServerPanel.cs" id="14_5via6"]
+[ext_resource type="Script" path="res://src/ui/main_menu/ClientPanel.cs" id="15_ij3t5"]
 
 [sub_resource type="World3D" id="World3D_a5m2x"]
 
 [sub_resource type="Theme" id="Theme_qjc7e"]
-default_font = ExtResource("6_0ac58")
+default_font = ExtResource("6_88rud")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fqao8"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4mai"]
 content_margin_left = 32.0
@@ -40,28 +43,28 @@ expand_margin_bottom = 12.0
 [node name="SubViewport" type="SubViewport" parent="."]
 own_world_3d = true
 world_3d = SubResource("World3D_a5m2x")
-size = Vector2i(2, 2)
+size = Vector2i(720, 480)
 
 [node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("locationLoader", "playersManager")]
-script = ExtResource("2_eog3n")
+script = ExtResource("1_bs00v")
 locationLoader = NodePath("LocationLoader")
 playersManager = NodePath("Players")
 
-[node name="Players" parent="SubViewport/Server" node_paths=PackedStringArray("ServerNode") instance=ExtResource("2_27dx1")]
-PlayerScene = ExtResource("1_a5rwg")
+[node name="Players" parent="SubViewport/Server" node_paths=PackedStringArray("ServerNode") instance=ExtResource("2_eoypg")]
+PlayerScene = ExtResource("3_8wyj5")
 ServerNode = NodePath("..")
 
-[node name="LocationLoader" parent="SubViewport/Server" instance=ExtResource("4_o14ho")]
+[node name="LocationLoader" parent="SubViewport/Server" instance=ExtResource("4_0ntap")]
 
 [node name="Client" type="Node" parent="." node_paths=PackedStringArray("locationLoader", "playersManager")]
-script = ExtResource("3_epd2y")
+script = ExtResource("5_a37t6")
 locationLoader = NodePath("LocationLoader")
 playersManager = NodePath("Players")
 
-[node name="Players" parent="Client" instance=ExtResource("2_27dx1")]
-PlayerScene = ExtResource("1_a5rwg")
+[node name="Players" parent="Client" instance=ExtResource("2_eoypg")]
+PlayerScene = ExtResource("3_8wyj5")
 
-[node name="LocationLoader" parent="Client" instance=ExtResource("4_o14ho")]
+[node name="LocationLoader" parent="Client" instance=ExtResource("4_0ntap")]
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -73,6 +76,19 @@ grow_vertical = 2
 mouse_filter = 1
 theme = SubResource("Theme_qjc7e")
 
+[node name="TextureRect" type="TextureRect" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.478
+anchor_right = 1.0
+anchor_bottom = 0.547
+offset_left = 0.343994
+offset_bottom = -16.456
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_fqao8")
+
 [node name="MainMenu" type="Control" parent="UI" node_paths=PackedStringArray("clientPanel", "serverPanel")]
 layout_mode = 1
 anchors_preset = 15
@@ -81,7 +97,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-script = ExtResource("7_q5qtw")
+script = ExtResource("7_sg07m")
 clientPanel = NodePath("CenterContainer/MultiplayerForm/ClientPanel")
 serverPanel = NodePath("CenterContainer/MultiplayerForm/ServerPanel")
 
@@ -89,8 +105,8 @@ serverPanel = NodePath("CenterContainer/MultiplayerForm/ServerPanel")
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 1.002
-offset_bottom = -0.296082
+anchor_bottom = 1.0
+offset_bottom = 1.0
 mouse_filter = 2
 color = Color(0.870088, 0.447957, 0.316602, 1)
 
@@ -98,12 +114,9 @@ color = Color(0.870088, 0.447957, 0.316602, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 1.008
-offset_left = -1.0
-offset_top = -3.0
+anchor_bottom = 1.0
 offset_right = -1.0
-offset_bottom = -0.184021
-texture = ExtResource("8_5su46")
+texture = ExtResource("8_jtsyv")
 expand_mode = 1
 flip_h = true
 
@@ -118,7 +131,7 @@ offset_right = -0.256042
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_sfp5s")
+texture = ExtResource("9_36orq")
 expand_mode = 1
 flip_h = true
 
@@ -132,7 +145,7 @@ offset_left = -0.40802
 offset_top = 0.128001
 offset_right = -0.112
 offset_bottom = -1.52588e-05
-texture = ExtResource("9_hjaqa")
+texture = ExtResource("10_b8ai3")
 expand_mode = 1
 
 [node name="alfred" type="TextureRect" parent="UI/MainMenu"]
@@ -145,7 +158,7 @@ anchor_bottom = 1.0
 offset_left = 0.191956
 offset_top = -0.0480042
 offset_right = 0.536011
-texture = ExtResource("11_tkka5")
+texture = ExtResource("11_i3rai")
 expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenu"]
@@ -153,10 +166,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1.0
-offset_top = 3.0
 offset_right = -1.0
-offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -297,7 +307,7 @@ layout_mode = 2
 
 [node name="ButtonShortcuts" type="Control" parent="UI/MainMenu/CenterContainer/MultiplayerForm"]
 layout_mode = 2
-script = ExtResource("5_13d81")
+script = ExtResource("12_rhtbc")
 Bindings = {
 "Key1": NodePath("../ServerPanel/VBoxContainer/NewWorldButton"),
 "Key2": NodePath("../ClientPanel/VBoxContainer/HBoxContainer/JoinButton")
@@ -405,7 +415,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "дефолтный порт: 9001"
 horizontal_alignment = 1
-script = ExtResource("5_rpt4h")
+script = ExtResource("13_teb7h")
 
 [node name="InfoLabel3" type="Label" parent="UI/MainMenu/CenterContainer/MultiplayerForm/InfoPanel/VBoxContainer"]
 layout_mode = 2
@@ -428,7 +438,7 @@ text = "[TAB] - Инвентарь
 [node name="ServerPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ServerNode", "InfoLabel", "LoadButtonsContainer", "NewWorldButton")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m4mai")
-script = ExtResource("5_wfr22")
+script = ExtResource("14_5via6")
 ServerNode = NodePath("../../../../../SubViewport/Server")
 InfoLabel = NodePath("VBoxContainer/InfoLabel")
 LoadButtonsContainer = NodePath("VBoxContainer/LoadButtonsContainer")
@@ -461,7 +471,7 @@ horizontal_alignment = 1
 [node name="ClientPanel" type="PanelContainer" parent="UI/MainMenu/CenterContainer/MultiplayerForm" node_paths=PackedStringArray("ClientNode", "IpAddressInput", "HideMenu", "InfoLabel", "JoinButton")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m4mai")
-script = ExtResource("8_koygl")
+script = ExtResource("15_ij3t5")
 ClientNode = NodePath("../../../../../Client")
 IpAddressInput = NodePath("VBoxContainer/HBoxContainer/IpAddressInput")
 HideMenu = NodePath("../../..")

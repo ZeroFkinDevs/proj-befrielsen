@@ -12,7 +12,7 @@ namespace Game
 
 		public override void _PhysicsProcess(double delta)
 		{
-			if (player.Controllable) PushCycle(delta);
+			if (player.Current) PushCycle(delta);
 		}
 
 		public void PushCycle(double delta)

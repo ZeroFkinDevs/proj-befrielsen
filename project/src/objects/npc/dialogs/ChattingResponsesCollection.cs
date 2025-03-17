@@ -16,6 +16,7 @@ namespace Game.Dialog
 
         public void SetForMember(IChattingMember member, List<ChattingResponse> responses)
         {
+            if (responses == null) responses = new List<ChattingResponse>();
             ResponsesMap[member.Code] = responses;
             OnUpdate?.Invoke();
         }
@@ -45,6 +46,11 @@ namespace Game.Dialog
                 }
             }
             return null;
+        }
+        public void ExecuteResponse(ChattingResponse response)
+        {
+            response.Execute();
+            OnUpdate?.Invoke();
         }
         public List<string> GetMembersCodes()
         {

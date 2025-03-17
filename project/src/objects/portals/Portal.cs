@@ -317,6 +317,7 @@ namespace Game
 
         public Transform3D TeleportTransform(Transform3D trans)
         {
+            if (OtherPortal == null) return trans;
             var bodyTransRelativeToThisPortal = GlobalTransform.AffineInverse() * trans;
             var movedToOtherPortal = OtherPortal.GlobalTransform.RotatedLocal(Vector3.Up, Mathf.Pi) * bodyTransRelativeToThisPortal;
             trans = movedToOtherPortal;
@@ -325,6 +326,7 @@ namespace Game
 
         public Vector3 TeleportPoint(Vector3 point)
         {
+            if (OtherPortal == null) return point;
             Transform3D trans = GlobalTransform.Translated(point);
             trans = TeleportTransform(trans);
             point = trans.Origin - OtherPortal.GlobalPosition;
@@ -362,6 +364,10 @@ namespace Game
             puppet.SetMeta("dont_teleport", true);
             puppet.SetMeta("is_puppet", true);
             puppet.IsPuppet = true;
+            puppet.SetCollisionLayerValue(1, false);
+            puppet.Visible = false;
+            var sync = puppet.GetNode("MultiplayerSynchronizer");
+            if (sync != null) sync.QueueFree();
             puppet.Camera.Current = false;
             AddChild(puppet);
             playerPuppets[player.GetPath()] = puppet;
@@ -369,6 +375,10 @@ namespace Game
         }
         public void RemovePuppet(Player player)
         {
+            if (OtherPortal != null)
+            {
+                if (OtherPortal.playerPuppets.ContainsKey(player.GetPath())) return;
+            }
             if (playerPuppets.ContainsKey(player.GetPath()))
             {
                 var puppet = playerPuppets[player.GetPath()];
@@ -386,8 +396,7 @@ namespace Game
         public void PlayerExited(Player player)
         {
             if (player.HasMeta("dont_teleport")) return;
-            if (player.HasMeta("grab_after_teleport")) player.RemoveMeta("grab_after_teleport");
-            RemovePuppet(player);
+            CallDeferred("RemovePuppet", player);
         }
         public void OnPlayerEntered(Node3D body)
         {

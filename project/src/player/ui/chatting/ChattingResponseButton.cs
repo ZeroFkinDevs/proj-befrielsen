@@ -15,6 +15,11 @@ namespace Game
 		{
 			response = res;
 			Text = response.Text;
+
+			var (ability, message) = response.CheckAbility();
+			if (!ability) Disabled = true;
+			Text += $" {message}";
+
 			AddThemeFontSizeOverride("font_size", 12);
 			FocusMode = FocusModeEnum.None;
 		}

@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://1smwquyacpvc" path="res://resources/locations/swamp/swamp_walls.png" id="3_e6cud"]
 
 [resource]
+resource_local_to_scene = false
+resource_name = ""
 render_priority = 0
 shader = ExtResource("1_qgvgx")
 shader_parameter/albedo = null
