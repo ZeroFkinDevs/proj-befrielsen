@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=46 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
@@ -34,9 +34,6 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsvr5"]
 custom_solver_bias = 0.093
 margin = 0.414
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_xsaoj"]
-height = 0.682644
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_e14p6"]
 radius = 2.40201
@@ -130,10 +127,6 @@ SpawnId = "player_object_spawner"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.620834, -0.233155)
-shape = SubResource("CylinderShape3D_xsaoj")
 
 [node name="livingStateManager" type="Node3D" parent="." node_paths=PackedStringArray("tmpStorage")]
 script = ExtResource("2_ru2q0")

@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using Game.Utils;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Game
 {
@@ -314,11 +315,17 @@ namespace Game
                 // GD.Print(otherGrabber.GlobalTransform.Origin - trans.Origin);
             }
         }
-
+        public bool CheckIfTransformTeleportable(Transform3D trans)
+        {
+            var bodyTransRelativeToThisPortal = GlobalTransform.AffineInverse() * trans;
+            if (bodyTransRelativeToThisPortal.Origin.Length() > 50.0f) return false;
+            return true;
+        }
         public Transform3D TeleportTransform(Transform3D trans)
         {
             if (OtherPortal == null) return trans;
             var bodyTransRelativeToThisPortal = GlobalTransform.AffineInverse() * trans;
+            if (bodyTransRelativeToThisPortal.Origin.Length() > 50.0f) return trans;
             var movedToOtherPortal = OtherPortal.GlobalTransform.RotatedLocal(Vector3.Up, Mathf.Pi) * bodyTransRelativeToThisPortal;
             trans = movedToOtherPortal;
             return trans;
@@ -335,16 +342,27 @@ namespace Game
 
         public void UpdatePlayerPuppets()
         {
-            foreach (var path in playerPuppets.Keys)
+            foreach (var path in playerPuppets.Keys.ToList())
             {
                 var player = GetNode<Player>(path);
                 var puppet = playerPuppets[path];
+                if (player == null)
+                {
+                    playerPuppets.Remove(path);
+                    puppet.QueueFree();
+                    continue;
+                }
                 UpdatePuppet(player, puppet);
             }
         }
         public void UpdatePuppet(Player player, Player puppet)
         {
-            // if (!puppet.Visible) return;
+            if (player == null) return;
+            if (!CheckIfTransformTeleportable(player.GlobalTransform))
+            {
+                RemovePuppet(player);
+                return;
+            }
             puppet.GlobalTransform = TeleportTransform(player.GlobalTransform);
             puppet.Camera.GlobalTransform = TeleportTransform(player.Camera.GlobalTransform);
         }
