@@ -2,6 +2,16 @@
   "version": "2.0.0",
   "configurations": [
     {
+      "name": "Play",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "C:/Users/hermit/gamedev/godot-vsk-override-projection-4.3/bin/godot.windows.editor.x86_64.mono.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false
+    },
+    {
       "name": "Play in Editor",
       "type": "godot-mono",
       "mode": "playInEditor",

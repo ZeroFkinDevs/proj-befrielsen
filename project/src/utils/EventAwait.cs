@@ -105,7 +105,7 @@ namespace Game.Utils
                 tcs.SetResult(true);
                 tcs = null;
             }
-            OnDisconnectAction?.Invoke(OnFinished);
+            OnDisconnectAction(OnFinished);
         }
     }
 }

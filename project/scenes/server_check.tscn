@@ -45,9 +45,8 @@ own_world_3d = true
 world_3d = SubResource("World3D_a5m2x")
 size = Vector2i(720, 480)
 
-[node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("locationLoader", "playersManager")]
+[node name="Server" type="Node" parent="SubViewport" node_paths=PackedStringArray("playersManager")]
 script = ExtResource("1_bs00v")
-locationLoader = NodePath("LocationLoader")
 playersManager = NodePath("Players")
 
 [node name="Players" parent="SubViewport/Server" node_paths=PackedStringArray("ServerNode") instance=ExtResource("2_eoypg")]
@@ -56,9 +55,8 @@ ServerNode = NodePath("..")
 
 [node name="LocationLoader" parent="SubViewport/Server" instance=ExtResource("4_0ntap")]
 
-[node name="Client" type="Node" parent="." node_paths=PackedStringArray("locationLoader", "playersManager")]
+[node name="Client" type="Node" parent="." node_paths=PackedStringArray("playersManager")]
 script = ExtResource("5_a37t6")
-locationLoader = NodePath("LocationLoader")
 playersManager = NodePath("Players")
 
 [node name="Players" parent="Client" instance=ExtResource("2_eoypg")]

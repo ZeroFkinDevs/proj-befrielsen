@@ -1,4 +1,5 @@
 using System;
+using Game.Utils;
 using Godot;
 
 namespace Game
@@ -33,7 +34,7 @@ namespace Game
         }
         public void BroadcastItemStacks()
         {
-            inventoryManager.player.tmpStorage.BroadcastArrayOfResources(storage.ItemsStacks, "stack", this, MethodName.RecieveItems, null);
+            this.GetResourcesBroadcaster().BroadcastArrayOfResources(storage.ItemsStacks, this, MethodName.RecieveItems, null);
         }
 
         public void AddItemStacks(Godot.Collections.Array<ItemStack> stacks)

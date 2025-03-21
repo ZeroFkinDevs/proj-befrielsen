@@ -4,6 +4,18 @@ namespace Game.Utils
 {
     public static class NodeUtils
     {
+        public static WorldContainer GetWorldContainer(this Node node)
+        {
+            return node.GetMultiplayerNode<WorldContainer>("/root/Main/Client/WorldContainer");
+        }
+        public static ResourcesManager GetResourcesManager(this Node node)
+        {
+            return node.GetWorldContainer().resourcesManager;
+        }
+        public static ResourcesBroadcaster GetResourcesBroadcaster(this Node node)
+        {
+            return node.GetResourcesManager().Broadcaster;
+        }
         public static void PutChildrenInArray(this Node node, Godot.Collections.Array<Node> arr)
         {
             foreach (var child in node.GetChildren())

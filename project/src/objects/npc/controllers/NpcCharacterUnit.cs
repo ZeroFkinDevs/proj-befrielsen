@@ -16,7 +16,6 @@ namespace Game
 		[Export]
 		public ObjectInstantiator _objectInstantiator;
 		public ObjectInstantiator objectInstantiator => _objectInstantiator;
-		public TmpStorage tmpStorage => livingStateManager.tmpStorage;
 
 		// brain
 		#region Brain

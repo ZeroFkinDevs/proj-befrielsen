@@ -35,7 +35,7 @@ namespace Game
             UpdateFinger(idx);
             if (player.Controllable)
             {
-                player.objectInstantiator.RequestInstantiate(player.tmpStorage, deadFingerScene, this, MethodName.DropFingerProp);
+                player.objectInstantiator.RequestInstantiate(deadFingerScene, this, MethodName.DropFingerProp);
             }
         }
         public void DropFingerProp(Node node)

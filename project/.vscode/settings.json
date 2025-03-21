@@ -29,6 +29,11 @@
       "folderPath": "project\\src\\objects\\portals\\",
       "color": "foldercolorizer.color_cc99ff",
       "badge": "🕳️"
+    },
+    {
+      "folderPath": "project\\src\\multiplayer\\",
+      "color": "foldercolorizer.color_6666cc",
+      "badge": "👯‍♀️"
     }
   ]
 }

@@ -12,15 +12,17 @@ namespace Game.UI
 		public Control LoadButtonsContainer;
 		[Export]
 		public Button NewWorldButton;
+		[Export]
+		public LineEdit WorldNameInput;
 
 		public void OnNewWorldButtonPressed()
 		{
-			Host(null);
+			Host(WorldNameInput.Text, true);
 		}
 
-		public bool Host(string saveFilePath)
+		public bool Host(string saveFilePath, bool createNew = false)
 		{
-			var res = ServerNode.Host(saveFilePath);
+			var res = ServerNode.Host(saveFilePath, createNew);
 			if (res) InfoLabel.Text = "Сервер запущен";
 			else InfoLabel.Text = "Не удалось запустить сервер, скорее всего он уже запущен";
 			return res;
@@ -51,7 +53,7 @@ namespace Game.UI
 				LoadButtonsContainer.AddChild(loadButton);
 				loadButton.Pressed += void () =>
 				{
-					Host(filepath);
+					Host(filepath, false);
 				};
 			}
 		}

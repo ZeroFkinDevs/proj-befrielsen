@@ -39,8 +39,6 @@ namespace Game
 		[Export]
 		public SmoothConnectTransform ModelSmoothConnector;
 		[Export]
-		public TmpStorage tmpStorage;
-		[Export]
 		public ObjectInstantiator objectInstantiator;
 		[Export]
 		public ObjectGrabber grabber;
@@ -62,7 +60,6 @@ namespace Game
 		{
 			var id = int.Parse(Name);
 			SetMultiplayerAuthority(id);
-			tmpStorage.SetMultiplayerAuthority(id);
 			objectInstantiator.SpawnId += id;
 		}
 		public override void _Ready()

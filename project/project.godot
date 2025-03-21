@@ -15,10 +15,6 @@ run/main_scene="res://scenes/dev.tscn"
 config/features=PackedStringArray("4.3", "C#")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Global="*res://scenes/Global.tscn"
-
 [dotnet]
 
 project/assembly_name="ProjBefrielsen"

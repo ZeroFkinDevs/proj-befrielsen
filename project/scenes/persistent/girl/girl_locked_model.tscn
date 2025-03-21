@@ -57,7 +57,6 @@ input_3/break_loop_at_end = false
 input_3/reset = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wbpw7"]
-graph_offset = Vector2(-403.581, 7.23212)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_qtbj1")
 nodes/Animation/position = Vector2(-220, 140)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_1nnih")
@@ -93,7 +92,6 @@ bones/5/rotation = Quaternion(0.113073, -0.0467897, -0.418319, 0.900019)
 bones/7/rotation = Quaternion(0.816142, -0.112499, 0.180041, 0.53744)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/rotation = Quaternion(0.203702, -0.652549, -0.171051, 0.709526)
-bones/8/scale = Vector3(1, 1, 1)
 bones/9/rotation = Quaternion(0.307652, 0.520048, 0.191904, 0.773352)
 bones/10/rotation = Quaternion(-0.515656, 0.774064, -0.0608053, 0.362252)
 bones/10/scale = Vector3(1, 1, 1)
@@ -101,7 +99,6 @@ bones/11/rotation = Quaternion(0.127672, 0.0249923, 0.180637, 0.974908)
 bones/11/scale = Vector3(1, 1, 1)
 bones/12/rotation = Quaternion(0.0187967, -0.00897649, 0.465429, 0.88484)
 bones/13/rotation = Quaternion(0.501981, -0.859702, 0.0227348, 0.0917056)
-bones/13/scale = Vector3(1, 1, 1)
 bones/14/rotation = Quaternion(0.157684, 0.0109901, 0.26454, 0.951332)
 bones/15/rotation = Quaternion(-0.786269, 0.0765518, 0.0709407, 0.609006)
 bones/15/scale = Vector3(1, 1, 1)
@@ -135,10 +132,9 @@ bones/35/position = Vector3(-1, 0, -2.51824e-08)
 bones/36/position = Vector3(-0.494258, 0.585077, 0.287414)
 bones/37/position = Vector3(-0.502565, 0.592714, -0.435859)
 bones/37/rotation = Quaternion(0.894689, -0.223455, -0.180108, -0.342287)
-bones/37/scale = Vector3(1, 1, 1)
 
 [node name="Cube_006" parent="girl_bones/Skeleton3D" index="0"]
-transform = Transform3D(0.0795876, -0.0458138, -0.00291823, 0.0457541, 0.0796384, -0.00242831, 0.00374032, 0.000650244, 0.0917998, -1.03902, 1.16943, -0.0410784)
+transform = Transform3D(0.0795876, -0.0458139, -0.00291826, 0.0457541, 0.0796384, -0.00242831, 0.00374034, 0.000650227, 0.0917998, -1.03902, 1.16943, -0.0410785)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource("AnimationNodeBlendTree_wbpw7")

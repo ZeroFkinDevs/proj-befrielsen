@@ -73,8 +73,8 @@ skeleton3D = NodePath("Armature/Skeleton3D")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/rotation = Quaternion(-0.5, 0.5, 0.5, -0.5)
-bones/2/position = Vector3(0.020418, 0.116809, -0.348558)
-bones/2/rotation = Quaternion(-0.503983, 0.497038, -0.517083, 0.481228)
+bones/2/position = Vector3(0.0204181, -0.0615609, -0.345625)
+bones/2/rotation = Quaternion(-0.483191, 0.516634, -0.537235, 0.459342)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="5"]
 tree_root = SubResource("AnimationNodeBlendTree_3ppt7")

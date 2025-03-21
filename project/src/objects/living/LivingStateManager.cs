@@ -1,4 +1,5 @@
 using System;
+using Game.Utils;
 using Godot;
 using Godot.Collections;
 
@@ -8,8 +9,6 @@ namespace Game
     {
         [Export]
         public int MaxStatesCount;
-        [Export]
-        public TmpStorage tmpStorage;
         [Export]
         public Array<LivingStateResource> livingStates;
 
@@ -42,9 +41,9 @@ namespace Game
             if (livingStates.Contains(stateRes))
             {
                 var idx = livingStates.IndexOf(stateRes);
-                tmpStorage.BroadcastArrayOfResources(
+                this.GetResourcesBroadcaster().BroadcastArrayOfResources(
                     new Array<LivingStateResource> { stateRes },
-                    "livingStateChange", this,
+                    this,
                     MethodName.RecieveLivingStateChange,
                     new Array<string> { idx.ToString() });
             }

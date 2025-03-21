@@ -68,7 +68,7 @@ namespace Game
                         {
                             var packedScene = GD.Load<PackedScene>(itemStack.ItemRes.PropScenePath);
                             ConsumeOne();
-                            player.objectInstantiator.RequestInstantiate(player.tmpStorage, packedScene, player.grabber, ObjectGrabber.MethodName.GrabPropInstance);
+                            player.objectInstantiator.RequestInstantiate(packedScene, player.grabber, ObjectGrabber.MethodName.GrabPropInstance);
                         }
                     }
                 }

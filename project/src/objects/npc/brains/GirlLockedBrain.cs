@@ -126,7 +126,7 @@ namespace Game
 			{
 				if (Multiplayer.IsServer())
 				{
-					npc.objectInstantiator.RequestInstantiateProp(npc.tmpStorage, propItem, this, MethodName.TakeProp);
+					npc.objectInstantiator.RequestInstantiateProp(propItem, this, MethodName.TakeProp);
 				}
 			});
 		}

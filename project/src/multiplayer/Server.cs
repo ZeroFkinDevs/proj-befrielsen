@@ -21,7 +21,7 @@ namespace Game
 
 		}
 
-		public bool Host(string worldName = null)
+		public bool Host(string worldName = null, bool createNew = false)
 		{
 			if (Started) return false;
 
@@ -30,13 +30,14 @@ namespace Game
 			if (check == Error.Ok)
 			{
 				Multiplayer.MultiplayerPeer = peer;
-				if (worldName == null)
-				{
-					worldContainer.CreateWorld(worldName);
-				}
-				else
+				if (worldName != null && worldContainer.HasWorld(worldName) && !createNew)
 				{
 					worldContainer.LoadWorld(worldName);
+				}
+				if (createNew)
+				{
+					if (worldName == null) worldName = "new world";
+					worldContainer.CreateWorld(worldName);
 				}
 				Started = true;
 			}

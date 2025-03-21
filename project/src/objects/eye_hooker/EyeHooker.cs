@@ -158,7 +158,7 @@ namespace Game
                 if (currentToolItem is EyeToolItemResource eyeTool)
                 {
                     tool.toolsManager.inventoryContainer.ConsumeItem(eyeTool, 1);
-                    objectInstantiator.RequestInstantiateProp(tool.toolsManager.player.tmpStorage, currentToolItem, this, MethodName.TakeEye);
+                    objectInstantiator.RequestInstantiateProp(currentToolItem, this, MethodName.TakeEye);
                 }
             }
         }

@@ -19,7 +19,7 @@ namespace Game
 
         public void ServerGetOrCreateDream(PackedScene scene, Node3D cbNode, StringName cbMethod)
         {
-            this.RequestInstantiate(locationLoader.tmpStorage, scene, cbNode, cbMethod);
+            this.RequestInstantiate(scene, cbNode, cbMethod);
         }
         public DreamContainer FindDreamContainerByCode(string dreamCode)
         {

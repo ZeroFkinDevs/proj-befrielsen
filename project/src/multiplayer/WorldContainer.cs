@@ -7,15 +7,7 @@ using Godot.Collections;
 
 namespace Game
 {
-    public interface IWorldContainer
-    {
-        public void LoadWorldFromFolder(string worldFolderName);
-        public void LoadWorld(string worldName);
-        public Array<string> GetWorldsList();
-        public Task DownloadWorld();
-    }
-
-    public partial class WorldContainer : Node3D, IWorldContainer
+    public partial class WorldContainer : Node3D
     {
         private ResourcesManager _resourcesManager;
         public ResourcesManager resourcesManager => _resourcesManager;
@@ -29,22 +21,47 @@ namespace Game
         public PackedScene defaultScene;
 
         public string WorldName = "";
+        private string worldFileName = "world.tscn";
 
-        public void LoadWorldFromFolder(string worldFolderName)
+        public async Task LoadWorldFromFolder(string worldFolderName)
         {
-            WorldName = worldFolderName.Split("-")[0];
+            var args = OS.GetCmdlineArgs();
+
+            var parts = worldFolderName.Split("-").ToList();
+            parts.RemoveAt(parts.Count - 1);
+            WorldName = String.Join("-", parts);
             _resourcesManager = ResourcesManager.CreateFromFolder(this, worldFolderName);
-            // 
+
+            if (Multiplayer.IsServer())
+            {
+                _resourcesManager.OnBeforeResourceSend += (string res) =>
+                {
+                    if (res == worldFileName) WriteLocation();
+                };
+                if (!_resourcesManager.HasResource(worldFileName))
+                {
+                    _resourcesManager.ServerRequestSaveResource(defaultScene, worldFileName);
+                }
+            }
+            else
+            {
+                await _resourcesManager.RequestAwaitDownloadContent();
+            }
+
+            var scene = _resourcesManager.LoadResource<PackedScene>(worldFileName);
+            LocationInstance = scene.Instantiate<Location>();
+            LocationContainer.AddChild(LocationInstance);
         }
 
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void SaveWorld()
         {
             WriteLocation();
-            // 
         }
+
         public void RequestSaveWorld()
         {
-
+            RpcId(1, MethodName.SaveWorld);
         }
 
         public void CreateWorld(string worldName)
@@ -56,23 +73,51 @@ namespace Game
 
         public void WriteLocation()
         {
-
+            var scenePack = new PackedScene();
+            scenePack.Pack(LocationInstance);
+            _resourcesManager.ServerRequestSaveResource(scenePack, worldFileName);
         }
 
         public void LoadWorld(string worldName)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO:
         }
 
         public Array<string> GetWorldsList()
         {
-            return new Array<string>();
+            return new Array<string>(); // TODO:
         }
 
-        public Task DownloadWorld()
+        public bool HasWorld(string worldName)
         {
-            throw new NotImplementedException();
+            return false; // TODO:
         }
 
+
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RequestServerFolderName()
+        {
+            RpcId(Multiplayer.GetRemoteSenderId(), MethodName.RecieveServerFolderName, _resourcesManager.FolderName);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RecieveServerFolderName(string name)
+        {
+            OnFolderNameRecieved?.Invoke(name);
+        }
+        public event Action<string> OnFolderNameRecieved;
+        public async Task<string> FetchServerFolderName()
+        {
+            RpcId(1, MethodName.RequestServerFolderName);
+            return await new EventAwait<string>()
+                .OnConnect(f => OnFolderNameRecieved += f)
+                .OnDisconnect(f => OnFolderNameRecieved -= f)
+                .Await();
+        }
+
+        public async Task DownloadWorld()
+        {
+            var folderName = await FetchServerFolderName();
+            await LoadWorldFromFolder(folderName);
+        }
     }
 }

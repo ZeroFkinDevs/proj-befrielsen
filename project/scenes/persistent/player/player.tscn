@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://bvjwwppbx8r6r"]
+[gd_scene load_steps=45 format=3 uid="uid://bvjwwppbx8r6r"]
 
 [ext_resource type="Script" path="res://src/player/Player.cs" id="1_h8rfx"]
 [ext_resource type="Script" path="res://src/objects/living/LivingStateManager.cs" id="2_ru2q0"]
@@ -24,7 +24,6 @@
 [ext_resource type="Resource" uid="uid://bn2t7oen1bjav" path="res://scenes/persistent/player/cursor_icons_bank.tres" id="10_hrgru"]
 [ext_resource type="Script" path="res://src/player/PlayerModelRenderer.cs" id="10_rrwe5"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryPlaceRegion.cs" id="11_pp7et"]
-[ext_resource type="Script" path="res://src/player/tools/TmpStorage.cs" id="14_j8e2n"]
 [ext_resource type="Script" path="res://src/player/tools/ObjectInstantiator.cs" id="18_0dw4w"]
 [ext_resource type="Script" path="res://src/player/inventory/InventoryFingersPlaceRegion.cs" id="19_n4m57"]
 [ext_resource type="Texture2D" uid="uid://byasll5a7c2yl" path="res://resources/ui/icons/fingers_region.png" id="20_n0yo3"]
@@ -98,7 +97,7 @@ size = Vector3(0.08, 0.166753, 0.092745)
 [sub_resource type="ViewportTexture" id="ViewportTexture_g17h4"]
 viewport_path = NodePath("Camera3D/PlayerModelRenderer/SubViewport")
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "chattingMember", "ModelSmoothConnector", "tmpStorage", "objectInstantiator", "grabber", "livingStateManager")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model", "inventoryManager", "Camera", "playerUI", "chattingMember", "ModelSmoothConnector", "objectInstantiator", "grabber", "livingStateManager")]
 collision_layer = 2
 wall_min_slide_angle = 0.0471239
 floor_constant_speed = true
@@ -113,13 +112,9 @@ Camera = NodePath("Camera3D")
 playerUI = NodePath("UI")
 chattingMember = NodePath("PlayerChattingMember")
 ModelSmoothConnector = NodePath("puppet/SmoothTranslator")
-tmpStorage = NodePath("TmpStorage")
 objectInstantiator = NodePath("ObjectInstantiator")
 grabber = NodePath("Camera3D/ObjectGrabber")
 livingStateManager = NodePath("livingStateManager")
-
-[node name="TmpStorage" type="Node3D" parent="."]
-script = ExtResource("14_j8e2n")
 
 [node name="ObjectInstantiator" type="Node3D" parent="."]
 script = ExtResource("18_0dw4w")
@@ -128,10 +123,9 @@ SpawnId = "player_object_spawner"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wsvr5")
 
-[node name="livingStateManager" type="Node3D" parent="." node_paths=PackedStringArray("tmpStorage")]
+[node name="livingStateManager" type="Node3D" parent="."]
 script = ExtResource("2_ru2q0")
 MaxStatesCount = 10
-tmpStorage = NodePath("../TmpStorage")
 
 [node name="PlayerChattingMember" type="Area3D" parent="." node_paths=PackedStringArray("player")]
 collision_layer = 512
