@@ -8,7 +8,7 @@ namespace Game
 		public bool Connected = false;
 
 		[Export]
-		public LocationLoader locationLoader;
+		public WorldContainer worldContainer;
 		[Export]
 		public PlayersManager playersManager;
 
@@ -33,19 +33,12 @@ namespace Game
 				Multiplayer.MultiplayerPeer = peer;
 			}
 
-			Multiplayer.ConnectedToServer += void () =>
+			Multiplayer.ConnectedToServer += async void () =>
 			{
 				Connected = true;
 				GD.Print("CLIENT: connected to server!");
-
-				locationLoader.RequestInstantiateServerScene();
-				Action onLocLoaded = null;
-				onLocLoaded = void () =>
-				{
-					playersManager.RequestPlayerSpawn();
-					locationLoader.OnLocationLoaded -= onLocLoaded;
-				};
-				locationLoader.OnLocationLoaded += onLocLoaded;
+				await worldContainer.DownloadWorld();
+				playersManager.RequestPlayerSpawn();
 			};
 			Multiplayer.ServerDisconnected += void () =>
 			{

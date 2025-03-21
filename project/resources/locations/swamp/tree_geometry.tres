@@ -4,8 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://cu77i4lbeisw" path="res://resources/locations/swamp/tree_1/tree_1_tree_1.png" id="2_hnaw5"]
 
 [resource]
-resource_local_to_scene = false
-resource_name = ""
 render_priority = 0
 shader = ExtResource("1_20fmb")
 shader_parameter/albedo = null

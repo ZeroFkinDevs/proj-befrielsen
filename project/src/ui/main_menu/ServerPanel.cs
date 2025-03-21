@@ -36,7 +36,7 @@ namespace Game.UI
 		}
 		public void SetupSavesFiles()
 		{
-			var files = ServerNode.locationLoader.GetSavedLocationsFiles();
+			var files = ServerNode.worldContainer.GetWorldsList();
 			if (files.Count > 0)
 			{
 				var label = new Label();

@@ -26,11 +26,11 @@ namespace Game
 			var peerId = Multiplayer.GetRemoteSenderId();
 			var player = PlayerScene.Instantiate<Node3D>();
 			player.Name = peerId.ToString();
-			var spawners = ServerNode.locationLoader.LocationInstance.PlayerSpawners;
+			var spawners = ServerNode.worldContainer.LocationInstance.PlayerSpawners;
 			AddChild(player);
 			if (spawners.Count > 0)
 			{
-				var pos = ServerNode.locationLoader.LocationInstance.GetMultiplayerNode<Node3D>(spawners[0]).GlobalPosition;
+				var pos = ServerNode.worldContainer.LocationInstance.GetMultiplayerNode<Node3D>(spawners[0]).GlobalPosition;
 				player.RpcId(peerId, Player.MethodName.RecievePosition, pos);
 			}
 		}

@@ -7,7 +7,7 @@ namespace Game
 {
     public partial class DreamAdapter : Node3D
     {
-        public LocationLoader locationLoader { get { return this.GetMultiplayerNode<LocationLoader>("/root/Main/Client/LocationLoader"); } }
+        public WorldContainer worldContainer { get { return this.GetMultiplayerNode<WorldContainer>("/root/Main/Client/WorldContainer"); } }
         [Export]
         public Portal portal;
         [Export]
@@ -19,7 +19,7 @@ namespace Game
 
         public override void _Ready()
         {
-            Owner = locationLoader.LocationInstance;
+            Owner = worldContainer.LocationInstance;
             SetEditableInstance(this, true);
 
             if (OtherAdapter != null)
@@ -30,9 +30,9 @@ namespace Game
 
         public void ServerConnectToDream(PackedScene dreamScene)
         {
-            if (locationLoader.LocationInstance != null)
+            if (worldContainer.LocationInstance != null)
             {
-                locationLoader.LocationInstance.dreamsManager.ServerGetOrCreateDream(dreamScene, this, MethodName.RecieveDreamContainer);
+                worldContainer.LocationInstance.dreamsManager.ServerGetOrCreateDream(dreamScene, this, MethodName.RecieveDreamContainer);
             }
         }
 

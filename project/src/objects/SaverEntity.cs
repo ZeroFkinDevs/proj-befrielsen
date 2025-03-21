@@ -6,7 +6,7 @@ namespace Game
 {
 	public partial class SaverEntity : Node3D, IInteractable
 	{
-		public LocationLoader locationLoader { get { return this.GetMultiplayerNode<LocationLoader>("/root/Main/Client/LocationLoader"); } }
+		public WorldContainer worldContainer { get { return this.GetMultiplayerNode<WorldContainer>("/root/Main/Client/WorldContainer"); } }
 		public float reloadTime = 0.0f;
 		public bool reloading { get { return reloadTime > 0.0f; } }
 		public InteractionTypeEnum InteractionType => !reloading ? InteractionTypeEnum.TOUCH : InteractionTypeEnum.NONE;
@@ -16,7 +16,7 @@ namespace Game
 		public void Interact(IUser user)
 		{
 			reloadTime = 1.0f;
-			locationLoader.RequestSaveLocation();
+			worldContainer.RequestSaveWorld();
 		}
 		public override void _Process(double delta)
 		{

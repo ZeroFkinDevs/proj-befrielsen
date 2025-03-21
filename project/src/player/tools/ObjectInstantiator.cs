@@ -7,7 +7,7 @@ namespace Game
 {
     public partial class ObjectInstantiator : Node3D
     {
-        public LocationLoader locationLoader { get { return this.GetMultiplayerNode<LocationLoader>("/root/Main/Client/LocationLoader"); } }
+        public WorldContainer locationLoader { get { return this.GetMultiplayerNode<WorldContainer>("/root/Main/Client/LocationLoader"); } }
         [Export]
         public string SpawnId = "prop";
         public MultiplayerSpawner spawner;

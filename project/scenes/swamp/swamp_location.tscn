@@ -1,8 +1,7 @@
-[gd_scene load_steps=43 format=3 uid="uid://di36115wfkt1b"]
+[gd_scene load_steps=41 format=3 uid="uid://di36115wfkt1b"]
 
 [ext_resource type="Script" path="res://src/location/Location.cs" id="1_rvnvd"]
 [ext_resource type="PackedScene" uid="uid://b8k5dvbyre3dk" path="res://scenes/swamp/swamp_geometry.tscn" id="3_h4bbn"]
-[ext_resource type="PackedScene" uid="uid://cym8rjgnfv6jw" path="res://scenes/persistent/portals/portal.tscn" id="4_mscds"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_1/tree_1_static_body.tscn" id="4_wpwhh"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_2/tree_2_static_body.tscn" id="5_114nx"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/tree_3/tree_3_static_body.tscn" id="6_75fxr"]
@@ -25,7 +24,6 @@
 [ext_resource type="PackedScene" uid="uid://bfa3r5f05xrfc" path="res://resources/locations/swamp/lock/lock_static_body.tscn" id="22_p3pcr"]
 [ext_resource type="PackedScene" path="res://resources/locations/swamp/dungeon_enter/dungeon_enter_door_rigid_body.tscn" id="22_q7kby"]
 [ext_resource type="Script" path="res://src/objects/locations/swamp/DoorLock.cs" id="24_vq4jk"]
-[ext_resource type="PackedScene" uid="uid://bwbep4il1eebf" path="res://resources/locations/dungeon_leash/geometry/room_1_static_body.tscn" id="25_52ntw"]
 [ext_resource type="PackedScene" uid="uid://b0ded0rt61awf" path="res://scenes/persistent/eye_hooker/eye_hooker.tscn" id="28_63x5m"]
 [ext_resource type="PackedScene" uid="uid://fhfdt4uh6s5s" path="res://scenes/dreams/girl_cell/girl_cell.tscn" id="29_3sg6b"]
 [ext_resource type="Script" path="res://src/utils/NpcInteractReroute.cs" id="30_bawpi"]
@@ -283,41 +281,16 @@ transform = Transform3D(0.964058, -0.265691, 0, 0.265691, 0.964058, 0, 0, 0, 1, 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="slope"]
 shape = SubResource("BoxShape3D_s7pjl")
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0559, -6.16645, 23.4386)
+[node name="EyeHookerContainer" parent="." instance=ExtResource("28_63x5m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.46081, -3.99893, 23.473)
 
-[node name="lighter5" parent="Node3D" instance=ExtResource("16_0v5sm")]
-transform = Transform3D(-0.14579, 0, -0.989316, 0, 1, 0, 0.989316, 0, -0.14579, 5.13022, 2.35439, -1.43054)
-
-[node name="room_1_static_body" parent="Node3D" instance=ExtResource("25_52ntw")]
-
-[node name="lighter" parent="Node3D" instance=ExtResource("16_0v5sm")]
-transform = Transform3D(0.0853299, 0, 0.996353, 0, 1, 0, -0.996353, 0, 0.0853299, -0.952462, 2.05818, 1.64691)
-
-[node name="lighter6" parent="Node3D" instance=ExtResource("16_0v5sm")]
-transform = Transform3D(-0.349848, 0, -0.936807, 0, 1, 0, 0.936807, 0, -0.349848, -1.65764, 3.1948, -3.37011)
-
-[node name="Portal2" parent="Node3D" instance=ExtResource("4_mscds")]
-process_physics_priority = 1
-transform = Transform3D(1.667, 0, 0, 0, 1.667, 0, 0, 0, 1.667, 1.86891, 1.48669, 4.69883)
-CullLayer = 3
-
-[node name="eye_hooker" parent="." instance=ExtResource("28_63x5m")]
-transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -8.46081, -3.99893, 23.473)
-
-[node name="eye_hooker_with_controller" parent="eye_hooker" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="EyeHooker" parent="eye_hooker" index="1" node_paths=PackedStringArray("dreamAdapter")]
+[node name="EyeHooker" parent="EyeHookerContainer" index="1" node_paths=PackedStringArray("dreamAdapter")]
 dreamAdapter = NodePath("../../CircleSquareAdapter")
 
-[node name="eye_hooker2" parent="." instance=ExtResource("28_63x5m")]
-transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -11.4811, -3.99893, 23.3363)
+[node name="EyeHookerContainer2" parent="." instance=ExtResource("28_63x5m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4811, -3.99893, 23.3363)
 
-[node name="eye_hooker_with_controller" parent="eye_hooker2" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="EyeHooker" parent="eye_hooker2" index="1" node_paths=PackedStringArray("dreamAdapter")]
+[node name="EyeHooker" parent="EyeHookerContainer2" index="1" node_paths=PackedStringArray("dreamAdapter")]
 dreamAdapter = NodePath("../../CircleSquareAdapter2")
 
 [node name="eye_freeme_prop" parent="." instance=ExtResource("30_x2d3p")]
@@ -400,6 +373,6 @@ parameters/looping = true
 [editable path="anomaly_cube_prop4/anomaly_cube"]
 [editable path="anomaly_cube_prop5"]
 [editable path="anomaly_cube_prop5/anomaly_cube"]
-[editable path="eye_hooker"]
-[editable path="eye_hooker2"]
+[editable path="EyeHookerContainer"]
+[editable path="EyeHookerContainer2"]
 [editable path="StaticBody3D2/collider_1"]

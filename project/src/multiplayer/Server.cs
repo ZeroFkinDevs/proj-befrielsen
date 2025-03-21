@@ -7,7 +7,7 @@ namespace Game
 		public bool Started = false;
 
 		[Export]
-		public LocationLoader locationLoader;
+		public WorldContainer worldContainer;
 		[Export]
 		public PlayersManager playersManager;
 
@@ -21,7 +21,7 @@ namespace Game
 
 		}
 
-		public bool Host(string saveFilePath)
+		public bool Host(string worldName = null)
 		{
 			if (Started) return false;
 
@@ -30,13 +30,13 @@ namespace Game
 			if (check == Error.Ok)
 			{
 				Multiplayer.MultiplayerPeer = peer;
-				if (saveFilePath == null)
+				if (worldName == null)
 				{
-					locationLoader.InstantiateDefaultScene();
+					worldContainer.CreateWorld(worldName);
 				}
 				else
 				{
-					locationLoader.LoadLocation(saveFilePath);
+					worldContainer.LoadWorld(worldName);
 				}
 				Started = true;
 			}
