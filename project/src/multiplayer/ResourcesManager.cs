@@ -10,9 +10,9 @@ namespace Game
 {
     public partial class ResourcesManager : Node3D
     {
-        public string FolderName = "";
-        public string SavesDir = "user://tmp/";
-        public string DirectoryPath { get { return SavesDir + FolderName + "/"; } }
+        public string VolumeName = "";
+        public string VolumesDir = "user://tmp/";
+        public string DirectoryPath { get { return VolumesDir + VolumeName + "/"; } }
 
         [Export]
         public Array<string> LoadedResourcesFiles = new Array<string>();
@@ -28,13 +28,15 @@ namespace Game
         public static ResourcesManager CreateFromFolder(Node parentNode, string folderName)
         {
             var _resourcesManager = new ResourcesManager();
-            _resourcesManager.FolderName = folderName;
+            _resourcesManager.VolumeName = folderName;
             _resourcesManager.Name = "ResourcesManager";
+            _resourcesManager.Ready += _resourcesManager.RequestRemoveUnusedVolumes;
             parentNode.AddChild(_resourcesManager);
             _resourcesManager.Broadcaster = ResourcesBroadcaster.CreateWithResourcesManager(_resourcesManager);
             return _resourcesManager;
         }
 
+        // сохранения ресурса для серверной логики
         public string ServerRequestSaveResource(Resource resource, string name = null)
         {
             var resAccess = new ResourcesAccess();
@@ -142,13 +144,14 @@ namespace Game
             PeerDownloadedContent?.Invoke(peerId);
         }
 
-        // посылает серверу текущие загруженные ресурсы, чтобы тот отправил недостающие
+        // для RPC
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void RequestDownloadContent()
         {
             RequestAwaitDownloadContent();
         }
 
+        // посылает серверу текущие загруженные ресурсы, чтобы тот отправил недостающие
         public async Task RequestAwaitDownloadContent()
         {
             RpcId(1, MethodName.ServerSendMissingContent, LoadedResourcesFiles);
@@ -203,6 +206,37 @@ namespace Game
                         dirAccess.Remove(filename);
                     }
                 }
+            }
+        }
+
+        public Array<string> GetVolumes()
+        {
+            var dir = DirAccess.Open(VolumesDir);
+            return new Array<string>(dir.GetDirectories());
+        }
+        public void RequestRemoveUnusedVolumes()
+        {
+            RpcId(1, MethodName.ServerRequestRemoveVolumes, GetVolumes());
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void ServerRequestRemoveVolumes(Array<string> volumes)
+        {
+            var peerId = Multiplayer.GetRemoteSenderId();
+            volumes.Remove(VolumeName);
+            RpcId(peerId, MethodName.RecieveVolumesToRemove, volumes);
+        }
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void RecieveVolumesToRemove(Array<string> volumes)
+        {
+            var dir = DirAccess.Open(VolumesDir);
+            foreach (var volume in volumes)
+            {
+                var volumeDir = DirAccess.Open(VolumesDir + volume);
+                foreach (var file in volumeDir.GetFiles())
+                {
+                    volumeDir.Remove(file);
+                }
+                dir.Remove(volume);
             }
         }
     }

@@ -25,8 +25,6 @@ namespace Game
 
         public async Task LoadWorldFromFolder(string worldFolderName)
         {
-            var args = OS.GetCmdlineArgs();
-
             var parts = worldFolderName.Split("-").ToList();
             parts.RemoveAt(parts.Count - 1);
             WorldName = String.Join("-", parts);
@@ -97,7 +95,7 @@ namespace Game
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void RequestServerFolderName()
         {
-            RpcId(Multiplayer.GetRemoteSenderId(), MethodName.RecieveServerFolderName, _resourcesManager.FolderName);
+            RpcId(Multiplayer.GetRemoteSenderId(), MethodName.RecieveServerFolderName, _resourcesManager.VolumeName);
         }
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void RecieveServerFolderName(string name)
